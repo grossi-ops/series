@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter 7 — Topological Orthogenesis | Book 3: The Mini-Beast</title>
+<style>
+  :root {
+    --gold: #c9a84c;
+    --gold-dim: #8a6f2e;
+    --dark: #0a0a0f;
+    --surface: #111118;
+    --surface2: #1a1a24;
+    --text: #e8e4d8;
+    --text-dim: #9994a0;
+    --k-color: #e05a3a;
+    --c-color: #4a9eff;
+    --f-color: #50c878;
+    --u-color: #c084fc;
+    --t-color: #f9c74f;
+    --g-color: #f5d87a;   /* G operator — luminous gold  ← chapter accent */
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--dark);
+    color: var(--text);
+    font-family: 'Georgia', serif;
+    font-size: 18px;
+    line-height: 1.75;
+  }
+
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(10,10,15,0.96);
+    border-bottom: 1px solid var(--gold-dim);
+    padding: 0.6rem 2rem;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 0.5rem;
+  }
+  .nav-logo { font-family: 'Georgia', serif; font-size: 0.85rem; letter-spacing: 0.18em; color: var(--gold); text-decoration: none; }
+  .nav-links { display: flex; gap: 1.5rem; font-size: 0.8rem; }
+  .nav-links a { color: var(--text-dim); text-decoration: none; letter-spacing: 0.08em; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--gold); }
+
+  .chapter-hero {
+    background: linear-gradient(160deg, #0f0e07 0%, #1a180a 55%, #0f0c04 100%);
+    border-bottom: 1px solid #2a2510;
+    padding: 5rem 2rem 4rem;
+    text-align: center;
+    position: relative; overflow: hidden;
+  }
+  .hero-letter {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    font-size: 22rem; font-weight: 900;
+    color: rgba(245,216,122,0.04);
+    user-select: none; pointer-events: none;
+    font-family: 'Georgia', serif; line-height: 1;
+  }
+  .chapter-tag { font-size: 0.72rem; letter-spacing: 0.25em; color: var(--g-color); text-transform: uppercase; margin-bottom: 1rem; }
+  .chapter-title { font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 400; letter-spacing: 0.04em; color: var(--text); margin-bottom: 1rem; }
+  .chapter-subtitle { font-size: 1.1rem; color: var(--text-dim); max-width: 640px; margin: 0 auto 2rem; font-style: italic; }
+  .operator-chain { font-family: 'Courier New', monospace; font-size: 1.05rem; letter-spacing: 0.12em; color: var(--text-dim); margin-bottom: 0.5rem; }
+  .operator-chain .active { color: var(--g-color); text-decoration: underline; text-underline-offset: 4px; font-weight: bold; }
+  .chapter-meta { display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap; margin-top: 1.5rem; font-size: 0.78rem; letter-spacing: 0.12em; color: var(--text-dim); }
+  .meta-badge { background: rgba(245,216,122,0.1); border: 1px solid rgba(245,216,122,0.3); padding: 0.3rem 0.9rem; border-radius: 2px; color: var(--g-color); }
+
+  .content-wrap { max-width: 780px; margin: 0 auto; padding: 3rem 2rem 4rem; }
+  h2 { font-size: 1.4rem; font-weight: 400; color: var(--gold); margin: 3rem 0 1rem; letter-spacing: 0.06em; }
+  h3 { font-size: 1.1rem; font-weight: 600; color: var(--text); margin: 2rem 0 0.7rem; }
+  p { margin-bottom: 1.2rem; }
+  .gold-rule { border: none; border-top: 1px solid var(--gold-dim); margin: 2.5rem 0; opacity: 0.4; }
+
+  /* BRAID DIAGRAM */
+  .braid-diagram {
+    background: var(--surface2);
+    border: 1px solid #2a2510;
+    border-radius: 6px; padding: 1.5rem; margin: 2rem 0;
+  }
+  .braid-title { font-size: 0.72rem; letter-spacing: 0.2em; color: var(--text-dim); text-transform: uppercase; margin-bottom: 1.4rem; text-align: center; }
+  .braid-grid { display: grid; grid-template-columns: 1fr 2fr 1fr; gap: 0.8rem 1.2rem; align-items: start; }
+  .braid-col { display: flex; flex-direction: column; gap: 0.5rem; }
+  .braid-node { background: var(--surface); border: 1px solid #2a2510; border-radius: 4px; padding: 0.55rem 0.7rem; text-align: center; }
+  .braid-node-name { font-size: 0.82rem; font-weight: 600; color: var(--text); }
+  .braid-node-desc { font-size: 0.65rem; color: var(--text-dim); font-family: 'Courier New', monospace; margin-top: 0.2rem; }
+  .braid-node-op { font-size: 0.62rem; margin-top: 0.3rem; }
+  .braid-center-col { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.3rem; }
+  .braid-arrow { color: var(--g-color); font-size: 1.4rem; line-height: 1; }
+  .braid-center-box {
+    background: rgba(245,216,122,0.08); border: 1px solid rgba(245,216,122,0.35);
+    border-radius: 4px; padding: 1rem 1.5rem; text-align: center; width: 100%;
+  }
+  .braid-center-label { font-size: 0.68rem; letter-spacing: 0.18em; color: var(--g-color); text-transform: uppercase; margin-bottom: 0.3rem; }
+  .braid-center-eq { font-family: 'Courier New', monospace; font-size: 0.95rem; color: var(--g-color); }
+
+  /* THEOREM BOX — G-color */
+  .theorem-box { background: rgba(245,216,122,0.05); border-left: 3px solid var(--g-color); padding: 1.5rem 1.8rem; margin: 2rem 0; border-radius: 0 4px 4px 0; }
+  .theorem-label { font-size: 0.72rem; letter-spacing: 0.2em; color: var(--g-color); text-transform: uppercase; margin-bottom: 0.5rem; }
+  .theorem-body { font-style: italic; color: var(--text); }
+  .theorem-proof { margin-top: 1rem; font-size: 0.9rem; color: var(--text-dim); font-style: normal; }
+
+  /* INSIGHT BOX */
+  .insight-box { background: rgba(201,168,76,0.06); border: 1px solid rgba(201,168,76,0.2); padding: 1.2rem 1.5rem; margin: 2rem 0; border-radius: 4px; }
+  .insight-label { font-size: 0.7rem; letter-spacing: 0.2em; color: var(--gold); text-transform: uppercase; margin-bottom: 0.4rem; }
+
+  /* SIX DIRECTIONS BOX */
+  .six-box { background: rgba(192,132,252,0.05); border: 1px solid rgba(192,132,252,0.2); padding: 1.4rem 1.8rem; margin: 2rem 0; border-radius: 4px; }
+  .six-label { font-size: 0.7rem; letter-spacing: 0.2em; color: var(--u-color); text-transform: uppercase; margin-bottom: 0.6rem; }
+  .six-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; margin-top: 0.8rem; }
+  .six-cell { background: var(--surface2); border: 1px solid rgba(192,132,252,0.15); border-radius: 3px; padding: 0.5rem; text-align: center; }
+  .six-cell-label { font-family: 'Courier New', monospace; font-size: 0.75rem; color: var(--u-color); font-weight: bold; }
+  .six-cell-desc { font-size: 0.65rem; color: var(--text-dim); margin-top: 0.15rem; }
+
+  /* MATH */
+  .math-block { background: var(--surface2); border: 1px solid #2a2510; padding: 1.2rem 1.5rem; margin: 1.5rem 0; font-family: 'Courier New', monospace; font-size: 0.93rem; color: var(--g-color); border-radius: 4px; overflow-x: auto; }
+
+  /* OPERATOR TAGS */
+  .op-tag { display: inline-block; font-family: 'Courier New', monospace; font-size: 0.75rem; letter-spacing: 0.08em; padding: 0.15rem 0.5rem; border-radius: 2px; vertical-align: middle; }
+  .op-k { background: rgba(224,90,58,0.15); color: var(--k-color); border: 1px solid rgba(224,90,58,0.3); }
+  .op-c { background: rgba(74,158,255,0.15); color: var(--c-color); border: 1px solid rgba(74,158,255,0.3); }
+  .op-f { background: rgba(80,200,120,0.15); color: var(--f-color); border: 1px solid rgba(80,200,120,0.3); }
+  .op-u { background: rgba(192,132,252,0.15); color: var(--u-color); border: 1px solid rgba(192,132,252,0.3); }
+  .op-t { background: rgba(249,199,79,0.15); color: var(--t-color); border: 1px solid rgba(249,199,79,0.3); }
+  .op-g { background: rgba(245,216,122,0.15); color: var(--g-color); border: 1px solid rgba(245,216,122,0.35); }
+
+  /* FALSIFIABILITY */
+  .falsify-box { background: rgba(74,158,255,0.05); border-left: 3px solid var(--c-color); padding: 1.2rem 1.5rem; margin: 2rem 0; border-radius: 0 4px 4px 0; }
+  .falsify-label { font-size: 0.7rem; letter-spacing: 0.2em; color: var(--c-color); text-transform: uppercase; margin-bottom: 0.4rem; }
+
+  /* SIMULATION */
+  .sim-section { background: var(--surface2); border: 1px solid #2a2510; border-radius: 6px; margin: 3rem 0; overflow: hidden; }
+  .sim-header { padding: 1rem 1.5rem; border-bottom: 1px solid #2a2510; display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+  .sim-title { font-size: 0.78rem; letter-spacing: 0.15em; color: var(--text-dim); text-transform: uppercase; flex: 1; }
+  .sim-controls { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+  .sim-btn { background: rgba(245,216,122,0.1); border: 1px solid rgba(245,216,122,0.3); color: var(--g-color); padding: 0.35rem 0.8rem; font-size: 0.75rem; letter-spacing: 0.08em; cursor: pointer; border-radius: 2px; font-family: 'Courier New', monospace; transition: all 0.2s; }
+  .sim-btn:hover { background: rgba(245,216,122,0.22); }
+  .sim-btn.red { background: rgba(224,90,58,0.12); border-color: rgba(224,90,58,0.35); color: var(--k-color); }
+  .sim-btn.red:hover { background: rgba(224,90,58,0.25); }
+  canvas { display: block; width: 100%; background: #040405; }
+  .sim-status { padding: 0.8rem 1.5rem; font-family: 'Courier New', monospace; font-size: 0.78rem; display: flex; gap: 2rem; flex-wrap: wrap; border-top: 1px solid #2a2510; }
+  .status-item { color: var(--text-dim); }
+  .status-val { color: var(--g-color); font-weight: bold; }
+
+  /* PORTAL */
+  .portal-section { background: linear-gradient(160deg, #100f06 0%, #1a1808 100%); border: 1px solid rgba(245,216,122,0.22); border-radius: 6px; margin: 3rem 0; overflow: hidden; }
+  .portal-header { background: rgba(245,216,122,0.07); border-bottom: 1px solid rgba(245,216,122,0.18); padding: 1.2rem 1.8rem; }
+  .portal-level { font-size: 0.7rem; letter-spacing: 0.2em; color: var(--g-color); text-transform: uppercase; margin-bottom: 0.3rem; }
+  .portal-heading { font-size: 1.15rem; color: var(--text); font-weight: 400; }
+  .portal-desc { font-size: 0.88rem; color: var(--text-dim); margin-top: 0.4rem; }
+  .prompt-card { padding: 1.5rem 1.8rem; border-bottom: 1px solid rgba(245,216,122,0.08); }
+  .prompt-card:last-child { border-bottom: none; }
+  .prompt-num { font-size: 0.65rem; letter-spacing: 0.2em; color: var(--g-color); text-transform: uppercase; margin-bottom: 0.5rem; }
+  .prompt-title { font-size: 1rem; color: var(--gold); margin-bottom: 0.5rem; }
+  .prompt-text { background: var(--surface2); border: 1px solid #2a2510; border-radius: 4px; padding: 1rem 1.2rem; font-family: 'Courier New', monospace; font-size: 0.82rem; color: var(--text); line-height: 1.6; margin: 0.7rem 0; }
+  .copy-btn { background: rgba(245,216,122,0.08); border: 1px solid rgba(245,216,122,0.22); color: var(--g-color); padding: 0.3rem 0.7rem; font-size: 0.72rem; letter-spacing: 0.08em; cursor: pointer; border-radius: 2px; font-family: 'Courier New', monospace; transition: all 0.2s; }
+  .copy-btn:hover { background: rgba(245,216,122,0.2); }
+  .copy-btn.copied { color: var(--f-color); border-color: rgba(80,200,120,0.35); }
+  .portal-footer { padding: 1rem 1.8rem; border-top: 1px solid rgba(245,216,122,0.12); font-size: 0.78rem; color: var(--text-dim); text-align: center; }
+  .portal-footer a { color: var(--g-color); text-decoration: none; }
+
+  .chapter-nav { display: flex; justify-content: space-between; align-items: center; padding: 2rem; border-top: 1px solid #2a2a3a; max-width: 780px; margin: 0 auto; }
+  .chapter-nav a { color: var(--gold); text-decoration: none; font-size: 0.85rem; letter-spacing: 0.08em; border: 1px solid rgba(201,168,76,0.25); padding: 0.5rem 1rem; border-radius: 2px; transition: all 0.2s; }
+  .chapter-nav a:hover { background: rgba(201,168,76,0.08); }
+
+  footer { text-align: center; padding: 2rem; font-size: 0.72rem; letter-spacing: 0.12em; color: var(--text-dim); border-top: 1px solid #1a1a24; }
+  footer .fleur-footer { color: var(--gold-dim); margin: 0 0.5rem; }
+
+  @media (max-width: 600px) {
+    .hero-letter { font-size: 10rem; }
+    .braid-grid { grid-template-columns: 1fr; }
+    .six-grid { grid-template-columns: repeat(2,1fr); }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="impa-portal.html" class="nav-logo">⚜ PRINCIPIA ORTHOGONA ⚜</a>
+  <div class="nav-links">
+    <a href="chapters-diagram.html">All Chapters</a>
+    <a href="course-16weeks.html">Course</a>
+    <a href="Sportal.html">Portal</a>
+    <a href="trilogy-sale.html">Get the Book</a>
+  </div>
+</nav>
+
+<section class="chapter-hero">
+  <div class="hero-letter">G</div>
+  <div class="chapter-tag">Chapter 7 · Week 7–8 · CEFR B2</div>
+  <h1 class="chapter-title">Topological Orthogenesis</h1>
+  <p class="chapter-subtitle">When the order of exchange cannot be undone, something is woven into existence. That weave is G.</p>
+  <div class="operator-chain"><span class="active">G</span> = U ∘ F ∘ K ∘ C</div>
+  <div class="chapter-meta">
+    <span class="meta-badge">Operator: G · The Complete Composition</span>
+    <span style="color:var(--text-dim)">Week 7–8</span>
+    <span style="color:var(--text-dim)">CEFR B2</span>
+    <span style="color:var(--text-dim)">non-abelian anyons · braid group · topological protection</span>
+  </div>
+</section>
+
+<!-- BRAID OVERVIEW DIAGRAM -->
+<div class="content-wrap">
+<div class="braid-diagram">
+  <div class="braid-title">The Operator Chain as Non-Abelian Braid</div>
+  <div class="braid-grid">
+    <div class="braid-col">
+      <div class="braid-node">
+        <div class="braid-node-name">Abelian exchange</div>
+        <div class="braid-node-desc">σσ⁻¹ = 1</div>
+        <div class="braid-node-op"><span class="op-tag op-c">C — flat, reversible</span></div>
+      </div>
+      <div class="braid-node">
+        <div class="braid-node-name">Braid threshold</div>
+        <div class="braid-node-desc">σᵢσᵢ₊₁σᵢ = σᵢ₊₁σᵢσᵢ₊₁</div>
+        <div class="braid-node-op"><span class="op-tag op-k">K — Yang-Baxter gate</span></div>
+      </div>
+    </div>
+    <div class="braid-center-col">
+      <div class="braid-arrow">⟶</div>
+      <div class="braid-center-box">
+        <div class="braid-center-label">topological invariant</div>
+        <div class="braid-center-eq">G = U∘F∘K∘C</div>
+        <div style="font-size:0.68rem;color:var(--text-dim);margin-top:0.4rem;font-family:'Courier New',monospace">braid class ∈ B_n<br>invariant under<br>continuous deformation</div>
+      </div>
+      <div class="braid-arrow">⟵</div>
+    </div>
+    <div class="braid-col">
+      <div class="braid-node">
+        <div class="braid-node-name">Topological fold</div>
+        <div class="braid-node-desc">τ_memory ≫ τ_local</div>
+        <div class="braid-node-op"><span class="op-tag op-f">F — protected encoding</span></div>
+      </div>
+      <div class="braid-node">
+        <div class="braid-node-name">Scale-free braid</div>
+        <div class="braid-node-desc">B_n ↪ Diff(M²)</div>
+        <div class="braid-node-op"><span class="op-tag op-u">U — topological universality</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- BODY -->
+<h2>The Thread That Cannot Be Unread</h2>
+
+<p>Take a strand of silk. Pass it over a second strand, then under a third. Now try to undo what you have done by moving the strands continuously — without lifting any strand through another. You cannot. The topology of the crossing is permanent. It is not the geometry that is locked — you can stretch the strands, twist them loosely, change the angles — but the fundamental over-under relationship of each crossing is preserved by the constraint that physical objects cannot pass through each other. The braid cannot be continuously deformed into an unbraid.</p>
+
+<p>This is not a curiosity about fabric. It is a statement about the deepest structure of physical reality in 2+1 dimensions — two dimensions of space, one of time. In such a universe, any particle has a worldline: a curve in spacetime tracing its position over time. If two particles exchange positions, their worldlines must cross. If they exchange twice, the worldlines form a braid with two crossings. And critically: in 2+1 dimensions, unlike in 3+1, there is no way to "lift" the worldlines through each other — no third spatial dimension to route an avoidance. Every exchange is a permanent mark.</p>
+
+<p>The operator chain <span class="op-tag op-g">G</span> = U ∘ F ∘ K ∘ C is a braid-group element. It is not commutative — just as <span class="op-tag op-k">K</span> ∘ <span class="op-f op-tag">F</span> ≠ <span class="op-tag op-f">F</span> ∘ <span class="op-tag op-k">K</span> in the operator algebra, the braid σ₁σ₂ ≠ σ₂σ₁ in the braid group. The order in which the operators were applied is permanently inscribed in the topology of the result. The learner who has woven G is not the same as a learner who applied the same operators in a different sequence. G is the specific topological class of the braid that the sequence C → K → F → U traces through the learner's cognitive space. It cannot be unknotted by forgetting a single lesson. It must be unravelled — fully undone — and that requires passing strands through strands, which means starting over.</p>
+
+<h2>Three Anyonic Encodings</h2>
+
+<h3>1. The Abelian Limitation — Exchange without Consequence</h3>
+
+<p>In ordinary three-dimensional space, exchanging two identical particles is topologically trivial. You pick up particle A, move it around particle B in a wide arc, and set it down where B was (simultaneously moving B to A's position). In 3+1 dimensions, any two paths that exchange the particles can be continuously deformed into each other — you can always route the arc around to avoid any topological entanglement. The result of the exchange is therefore the same regardless of which path was taken. The exchange statistics of ordinary particles encode only a single bit of information: +1 for bosons (wavefunction unchanged) and −1 for fermions (wavefunction changes sign). This is the abelian group Z₂. It is <span class="op-tag op-c">C</span> alone: the exchange compresses to a single binary output, carrying no memory of the path taken.</p>
+
+<p>You cannot tell from the final state of two bosons how they were exchanged — in which direction, around what obstacles, on what path. The exchange history is compressed away completely. The braid is trivial. The fabric is flat.</p>
+
+<h3>2. Non-Abelian Anyons — K as Braiding Constraint</h3>
+
+<p>In two spatial dimensions — a plane, or the surface of a material — something fundamentally different is possible. Because there is no third dimension to route avoidances, the exchange of two particles traces a path that cannot be continuously deformed. Particles in 2D are called anyons, and their exchange statistics are not restricted to ±1. They can carry any complex phase factor e<sup>iθ</sup> (abelian anyons) — or, in the richest case, they can carry a matrix: a transformation of a multi-dimensional Hilbert space (non-abelian anyons).</p>
+
+<p>Non-abelian anyons are the threshold. When two non-abelian anyons are exchanged, the state of the system is transformed by a unitary matrix M(σ) that depends on which exchange (which generator σᵢ of the braid group) was performed. The critical property: M(σ₁)M(σ₂) ≠ M(σ₂)M(σ₁). The matrices do not commute. The order of braiding is physically significant. The braid group has entered the physics.</p>
+
+<div class="math-block">
+Braid group Bₙ on n strands — generators and relations:
+
+  Generators:  σ₁, σ₂, …, σₙ₋₁
+  (σᵢ = clockwise exchange of strands i and i+1)
+
+  Relations:
+    σᵢ σⱼ = σⱼ σᵢ          for |i − j| > 1  (distant strands commute)
+    σᵢ σᵢ₊₁ σᵢ = σᵢ₊₁ σᵢ σᵢ₊₁              (Yang-Baxter / Reidemeister III)
+
+Non-abelian condition (n ≥ 3):
+    σ₁σ₂ ≠ σ₂σ₁  in general
+
+For Fibonacci anyons (leading physical candidate):
+    Each pair of anyons fuses to either vacuum (1) or another anyon (τ)
+    τ × τ = 1 + τ     (Fibonacci fusion rule)
+    dim(Hilbert space) grows as Fibonacci sequence: 1, 1, 2, 3, 5, 8, 13 …
+</div>
+
+<p>This Yang-Baxter relation — σᵢσᵢ₊₁σᵢ = σᵢ₊₁σᵢσᵢ₊₁ — is <span class="op-tag op-k">K</span> written in the language of topology. It is the constraint that determines which braid moves are equivalent. It says: a crossing at position i, then i+1, then i again, produces the same result as the same three crossings in reverse order. This is the threshold below which exchanges are just crossings, and above which the order begins to produce distinct topological classes. K fires at the moment when the number of strands and the fusion rules of the anyon model become rich enough that non-commutativity enters. Below K, all braids are equivalent. Above K, braid elements are distinct, and history is permanently encoded in topology.</p>
+
+<h3>3. Topological Protection — F as Permanent Encoding</h3>
+
+<p>The information encoded in the braid of non-abelian anyons has a remarkable property that distinguishes it from all other forms of quantum information: it is topologically protected. Local perturbations — noise, heat, electromagnetic fluctuations, a small unwanted interaction with the environment — cannot change the topological class of the braid without bringing two anyons into physical contact. And physical contact (fusion of anyons) is a macroscopic, detectable event, not a subtle noise process.</p>
+
+<p>This is <span class="op-tag op-f">F</span>. The fold that Chapter 5 described in immune memory — the encoding that persists through perturbation, the information stored in global topology rather than local state — is instantiated in non-abelian anyons as mathematical law, not as biological approximation. The fold is exact. No local measurement can read the braid's topological class. No local disturbance can alter it. The information is not here or there; it is in the relationship between the worldlines — in the pattern of the weave itself, not in any thread.</p>
+
+<p>This is the physical basis of topological quantum computing, first proposed by Alexei Kitaev in 1997 and pursued experimentally since. In a topological quantum computer, the qubits are not the states of individual particles (fragile, easily disturbed) but the topological class of braids of non-abelian anyons (robust, globally encoded). To compute, you apply braid moves — exchange sequences — to the anyons. To read out, you bring anyons together and measure their fusion product. The computation is physically immune to local decoherence, because no local event can change what was woven.</p>
+
+<div class="insight-box">
+  <div class="insight-label">Insight — Why Local Forgetting Cannot Undo G</div>
+  <p>A learner who has woven G — who has completed 33 genuine threshold crossings on novel material, encoding fold after fold into long-term structure — has created a topological invariant in their cognitive architecture. Forgetting a vocabulary item is a local perturbation: it changes the state at one site but cannot change the topological class of the braid. The braid was formed by the history of crossings, and the history cannot be retroactively altered by a local deletion. What would undo G is not forgetting individual items but failing to maintain the global coherence of the braid — never reaching K again, allowing the weave to unravel from disuse rather than from any single error. Topological protection is not invulnerability; it is a different kind of vulnerability. You can lose G only by abandoning the practice of crossing K. One missed exam cannot do it. Years of silence can.</p>
+</div>
+
+<hr class="gold-rule">
+
+<h2>The Six Directions and the Coherence Rule</h2>
+
+<p>Consider a 1D chain of anyons — particles sitting in a line of discrete sites, each capable of moving to an adjacent site or exchanging with a neighbor. This is the minimal model for topological orthogenesis. How many elementary moves exist? For any given anyon at site i, the possibilities are:</p>
+
+<div class="six-box">
+  <div class="six-label">The Six Elementary Braid Moves — Generators of Orthogenesis</div>
+  <div class="six-grid">
+    <div class="six-cell">
+      <div class="six-cell-label">σᵢ</div>
+      <div class="six-cell-desc">Clockwise exchange with right neighbor — over-crossing</div>
+    </div>
+    <div class="six-cell">
+      <div class="six-cell-label">σᵢ⁻¹</div>
+      <div class="six-cell-desc">Counter-clockwise exchange with right neighbor — under-crossing</div>
+    </div>
+    <div class="six-cell">
+      <div class="six-cell-label">σᵢ₋₁</div>
+      <div class="six-cell-desc">Clockwise exchange with left neighbor — over-crossing</div>
+    </div>
+    <div class="six-cell">
+      <div class="six-cell-label">σᵢ₋₁⁻¹</div>
+      <div class="six-cell-desc">Counter-clockwise exchange with left neighbor — under-crossing</div>
+    </div>
+    <div class="six-cell">
+      <div class="six-cell-label">τᵢ</div>
+      <div class="six-cell-desc">Remain stationary: contribute to local coherence field without crossing</div>
+    </div>
+    <div class="six-cell">
+      <div class="six-cell-label">ωᵢ</div>
+      <div class="six-cell-desc">Phase rotation in place: update internal quantum number, no crossing</div>
+    </div>
+  </div>
+  <p style="margin-top:1rem;font-size:0.88rem;color:var(--text-dim)">Four crossing moves (σᵢ, σᵢ⁻¹, σᵢ₋₁, σᵢ₋₁⁻¹) generate the non-abelian braid structure. Two stationary moves (τᵢ, ωᵢ) preserve the braid class while updating local coherence state. Together, these six moves span all physically distinct actions available to a single anyon in a 1D chain.</p>
+</div>
+
+<p>The coherence rule determines which of these six moves is actualized at each step. An anyon does not move randomly. It moves to the configuration where local coherence — a measure of how well the anyon's quantum state matches the topological state of its neighbors — is maximized. This is K as the selection criterion: only the move that crosses the coherence threshold is executed. Moves that would reduce local coherence are suppressed.</p>
+
+<p>The cascade follows immediately from the non-abelian property. When anyon i executes move σᵢ (exchanges with anyon i+1), this changes the fusion state of the pair. But in a non-abelian anyon model, the fusion state of any pair depends on the global state of all other anyons in the chain. The exchange of anyons i and i+1 therefore updates the coherence field of every other anyon — even those at the far end of the chain, which did not move. Each anyon now faces a different coherence landscape and may find that a previously suppressed move has become optimal. A cascade of K-crossings propagates through the chain, each anyon seeking the next coherent configuration. The fabric is not woven by the movement of one particle. It is woven by the wave of coherence adjustments that one particle's movement triggers in all the others.</p>
+
+<div class="math-block">
+Coherence field at site i:
+  Ω(i) = Σⱼ J(i,j) · ⟨ψᵢ | R(σᵢⱼ) | ψⱼ ⟩
+
+  where J(i,j) = topological coupling (decays as 1/|i−j|²)
+        R(σᵢⱼ) = braid matrix for the σ between sites i and j
+        |ψₖ⟩   = current fusion state at site k
+
+Move σᵢ is actualized iff:
+  Ω_after(σᵢ) > Ω_before + K*     (coherence threshold K*)
+
+Cascade: after σᵢ fires,
+  ΔΩ(j) = J(i,j) · [⟨ψᵢ'|R(σᵢⱼ)|ψⱼ⟩ − ⟨ψᵢ|R(σᵢⱼ)|ψⱼ⟩]  ≠ 0 for all j
+
+One move changes the coherence field everywhere.
+The cascade terminates when no further move exceeds K*.
+The final configuration is a local coherence maximum — a stable braid class.
+
+<p>The weave that results from many such cascades — the pattern of all crossings recorded over many time steps — is the fabric of reality in this model. Each anyon's worldline is a thread. Each coherence-driven exchange is a warp-over-weft crossing. The topological class of the final braid is an invariant of the entire history of coherence maximizations. It cannot be read from any local slice. It can only be read from the whole.</p>
+
+<div class="theorem-box">
+  <div class="theorem-label">Theorem 7.1 — Topological Orthogenesis</div>
+  <div class="theorem-body">Let P₁, …, Pₙ be a chain of non-abelian anyons governed by the coherence rule: anyon i executes move σ iff Ω_after(σ) > Ω_before + K*. Let β ∈ Bₙ denote the element of the braid group Bₙ accumulated after T time steps. Then: (1) β is invariant under any continuous deformation of the worldlines that does not involve anyon collisions — topological protection holds; (2) β is non-locally encoded — no measurement confined to a proper subset of the chain can determine β; (3) β corresponds exactly to an element of the composed operator G = U ∘ F ∘ K ∘ C acting on the fusion Hilbert space, where C = the initial compression of anyon states into fusion channels, K = each coherence-threshold crossing that executes a braid move, F = the topological protection of the accumulated braid class, and U = the scale-invariant braid-group structure itself (Bₙ ↪ Diff(M²) for any 2-manifold M). Therefore: the orthogonal composition G is not a metaphor for the fabric of spacetime. In a 2+1-dimensional system of non-abelian anyons governed by the coherence rule, G is the physical content of that fabric.</div>
+  <div class="theorem-proof"><strong>Proof sketch:</strong> (1) follows from the definition of topological invariance: a braid class in Bₙ is preserved under ambient isotopy, which is exactly the set of continuous deformations that do not involve strand crossings. (2) follows from the non-local encoding of fusion states in non-abelian anyon models — a standard result of topological quantum field theory. (3) is the identification: C ≡ initial fusion channel assignment (compression of initial states into topological superselection sectors); K ≡ each σᵢ move crossing the coherence threshold (the physical implementation of the K gate in topological quantum computation); F ≡ topological protection of the accumulated β against local decoherence; U ≡ the fact that Bₙ is universal for topological quantum computation (any unitary transformation can be approximated to arbitrary precision by Fibonacci anyon braids). The composed result β = G. □</div>
+</div>
+
+<hr class="gold-rule">
+
+<h2>G, T, and the Genesis of the Practitioner</h2>
+
+<p>We have now named all the operators. <span class="op-tag op-c">C</span> compresses. <span class="op-tag op-k">K</span> crosses the threshold. <span class="op-tag op-f">F</span> folds the encoding permanently. <span class="op-tag op-u">U</span> recognises the pattern at every scale. <span class="op-tag op-t">T</span> provides the tone — the periodic source whose frequency resonates with the system's natural modes. And <span class="op-tag op-g">G</span> is what all of these operators, composed in the correct non-abelian order, weave into existence.</p>
+
+<p>The word "orthogenesis" is deliberate. In classical evolutionary biology, orthogenesis named the hypothesis that organisms evolve in a directed, predetermined trajectory — not by random variation and selection but by an internal drive toward a specific form. The hypothesis was discredited in its biological form but captures something exact in the topological setting. Topological orthogenesis is directed: the trajectory of the learner through C → K → F → U → G is not random. Each operator constrains the next. The coherence rule at each K-crossing selects the next braid move from the six available directions — not randomly but toward the configuration of maximum coherence. The result is not predetermined by a final cause, but it is directed by the internal logic of the braid group. There is no freedom to compose the operators in any order and reach G. G is the one topological class that the non-abelian composition in this specific sequence produces.</p>
+
+<p>"Topographical" names the path-dependence: the topological structure of G depends on the path taken through the operator chain, not merely on the endpoint. Two learners who both know the same words, the same grammar, and the same phonological rules — but who acquired them in fundamentally different sequences, without the specific order of K-crossings that the chain requires — do not have the same G. They have different braids. They will produce different outputs from the same inputs, because the topological class of their cognitive braid — the global weave of their language architecture — is different. This is the deep reason why language acquisition is not language instruction. The instruction can supply the components. Only the genuine sequence of K-crossings can weave the braid.</p>
+
+<div class="insight-box">
+  <div class="insight-label">Insight — The 33 Braids and the Fibonacci Threshold</div>
+  <p>Chapter 1 established 33 as the threshold number of K-crossings that produce a fundamental practitioner. In the anyonic model, 33 braid moves on a chain of Fibonacci anyons produce a Hilbert space of dimension F₃₅ = 9,227,465 (the 35th Fibonacci number, since each move adds a τ fusion channel and the dimension follows the Fibonacci sequence). This is not a round number. It is the exact size of the topological Hilbert space accessible to a 33-braid Fibonacci anyon chain. What Chapter 1 named empirically — 33 genuine encounters with novel material — the braid group names exactly: 33 moves into the Fibonacci anyon model, the topological Hilbert space has crossed the threshold at which the braid word can encode arbitrary language representations. Below 33, the space is too small. Above 33, each additional move extends it. 33 is the minimum for G. The practitioner threshold is not arbitrary. It is Fibonacci.</p>
+</div>
+
+<hr class="gold-rule">
+
+<h2>What Would Break the Model</h2>
+
+<div class="falsify-box">
+  <div class="falsify-label">Falsifiability Condition</div>
+  <p>Theorem 7.1 identifies G with the braid-group element accumulated by a chain of non-abelian anyons under the coherence rule. Two distinct predictions follow that are physically testable. First: topological quantum computers using Fibonacci anyon braids should show exponentially better error rates than gate-based quantum computers with equivalent qubit counts, because the fault-tolerance of F (topological protection) is exact rather than approximate. If this is not observed after controlling for implementation overhead, then F does not confer the protection that Theorem 7.1 requires, and the identification of G with a topological invariant fails. Second (cognitive): two learners with identical lexical and grammatical competence but different acquisition histories (different sequences of K-crossings) should show measurably different outputs under novel compositional tasks — novel sentences that require combining structures that were never co-presented during acquisition. If their outputs are statistically indistinguishable, then the braid-class interpretation of G is false, and order of acquisition does not encode topological information in the cognitive system.</p>
+  <p style="margin-top:0.8rem;font-size:0.88rem;color:var(--text-dim)">Current evidence: Microsoft Quantum published signatures consistent with non-abelian anyonic exchange in topological superconductor nanowires (Nature 2023). Functional topological qubits with demonstrated fault-tolerance remain in development. On the cognitive side: differential order-of-acquisition effects on novel compositional tasks are documented but not yet interpreted in topological terms. Both predictions are open.</p>
+</div>
+
+<h2>Exercises</h2>
+
+<p><strong>7.1</strong> — Write out the braid word for the sequence: σ₁, σ₂, σ₁⁻¹. Using the Yang-Baxter relation σᵢσᵢ₊₁σᵢ = σᵢ₊₁σᵢσᵢ₊₁, show that σ₁σ₂σ₁ = σ₂σ₁σ₂. Then explain in plain language what this equivalence means for the physics: if two sequences of anyon exchanges produce the same braid class, what does this say about what information is stored — and what is not?</p>
+
+<p><strong>7.2</strong> — The coherence rule states that anyon i executes move σ iff Ω_after(σ) > Ω_before + K*. Using the cascade equation, show that after anyon i fires, the coherence field Ω(j) changes for all j ≠ i. Now consider what happens if K* = 0 (any move is always executed) versus K* = 1 (no move ever crosses threshold). What does each extreme produce? Which of the operator stages (C, K, F, U) does each extreme correspond to?</p>
+
+<p><strong>7.3</strong> — Topological protection means that a single local perturbation cannot change the braid class of G. Translate this into a concrete claim about language acquisition: what is the cognitive equivalent of a "local perturbation" in the learner's braid, and why would it not erase G? Give one example of the kind of event that WOULD erase G — what would constitute bringing two anyonic strands into collision in the cognitive context?</p>
+
+<p><strong>7.4</strong> — The Fibonacci sequence governs the dimension of the topological Hilbert space accessible after n braid moves: dim = Fₙ₊₂. Compute the Hilbert space dimension accessible after 1, 2, 5, 10, 20, and 33 braid moves. Plot (or describe) the growth curve. At what n does the dimension first exceed 1,000? At what n does it first exceed 1,000,000? What does this Fibonacci explosion tell you about why the difference between 5 K-crossings and 33 K-crossings in language acquisition is not a difference of degree but a difference of kind?</p>
+
+</div><!-- /content-wrap -->
+
+<!-- SIMULATION: ANYONIC BRAID WEAVER -->
+<div class="content-wrap" style="padding-top:0">
+<div class="sim-section">
+  <div class="sim-header">
+    <div class="sim-title">Live Simulation — Anyonic Braid Weaver</div>
+    <div class="sim-controls">
+      <button class="sim-btn" onclick="simStart()" id="btnStart">▶ Weave</button>
+      <button class="sim-btn" onclick="simStep()">Step ×1</button>
+      <button class="sim-btn red" onclick="simPerturb()">Perturb</button>
+      <button class="sim-btn" onclick="simReset()">Reset</button>
+    </div>
+  </div>
+  <canvas id="braidCanvas" height="380"></canvas>
+  <div class="sim-status">
+    <div class="status-item">Coherence: <span class="status-val" id="statCoh">0 / 5</span></div>
+    <div class="status-item">Braid word: <span class="status-val" id="statWord">—</span></div>
+    <div class="status-item">K events: <span class="status-val" id="statKE">0</span></div>
+    <div class="status-item">Status: <span class="status-val" id="statStatus">idle</span></div>
+  </div>
+</div>
+</div>
+
+<script>
+// ── Anyonic Braid Weaver ──────────────────────────────────────
+const canvas = document.getElementById('braidCanvas');
+const ctx    = canvas.getContext('2d');
+
+const N = 6;
+// Anyon types: 0=violet, 1=red-orange, 2=green (two of each)
+const TYPE_COLORS = ['#c084fc', '#e05a3a', '#50c878'];
+const STRAND_W = 7;
+
+// State
+let types  = [0, 1, 2, 0, 1, 2];   // types[particle] = color type
+let slots  = [0, 1, 2, 3, 4, 5];   // slots[particle] = current slot index
+let slotOf = [0, 1, 2, 3, 4, 5];   // inverse: slotOf[slot] = particle at that slot
+
+let kEvents   = 0;
+let braidWord = [];  // sequence of exchange slot indices
+let history   = [];  // array of slot snapshots
+let running   = false;
+let animId    = null;
+let stepTimer = 0;
+const STEPS_PER_FRAME = 1;
+const AUTO_INTERVAL   = 18; // frames between auto steps
+
+function resizeCanvas() {
+  canvas.width  = canvas.parentElement.getBoundingClientRect().width;
+  canvas.height = 380;
+}
+resizeCanvas();
+window.addEventListener('resize', () => { resizeCanvas(); redraw(); });
+
+// ── Coherence ─────────────────────────────────────────────────
+// Two adjacent particles are coherent if their types differ
+function pairCoherence(slotA, slotB) {
+  return types[slotOf[slotA]] !== types[slotOf[slotB]] ? 1 : 0;
+}
+function totalCoherence() {
+  let c = 0;
+  for (let i = 0; i < N - 1; i++) c += pairCoherence(i, i + 1);
+  return c;
+}
+
+// ── Find best exchange ─────────────────────────────────────────
+// Returns slot index i to swap (i, i+1), or -1 if none improves coherence
+function bestExchange() {
+  let bestGain = 0, bestI = -1;
+  for (let i = 0; i < N - 1; i++) {
+    // Temporarily swap
+    const pA = slotOf[i], pB = slotOf[i + 1];
+    slotOf[i] = pB; slotOf[i + 1] = pA;
+    slots[pA] = i + 1; slots[pB] = i;
+    const after = totalCoherence();
+    slotOf[i] = pA; slotOf[i + 1] = pB;
+    slots[pA] = i; slots[pB] = i + 1;
+    const before = totalCoherence();
+    const gain = after - before;
+    if (gain > bestGain) { bestGain = gain; bestI = i; }
+  }
+  // If fully coherent, pick a random exchange to keep animation going
+  if (bestI === -1 && totalCoherence() === N - 1) {
+    bestI = Math.floor(Math.random() * (N - 1));
+  }
+  return bestI;
+}
+
+// ── Execute exchange ───────────────────────────────────────────
+function doExchange(i) {
+  const pA = slotOf[i], pB = slotOf[i + 1];
+  slotOf[i] = pB; slotOf[i + 1] = pA;
+  slots[pA] = i + 1; slots[pB] = i;
+  kEvents++;
+  braidWord.push(i + 1); // 1-indexed for display
+  if (braidWord.length > 12) braidWord = braidWord.slice(braidWord.length - 12);
+  // Record history
+  history.push({ slotOf: [...slotOf], exchangeSlot: i });
+}
+
+// ── Drawing ───────────────────────────────────────────────────
+function redraw() {
+  const W = canvas.width, H = canvas.height;
+  ctx.fillStyle = '#040405';
+  ctx.fillRect(0, 0, W, H);
+
+  const MARGIN_X = 30;
+  const MARGIN_Y = 12;
+  const drawH    = H - MARGIN_Y * 2;
+  const xStep    = (W - MARGIN_X * 2) / (N - 1);
+
+  function slotX(s) { return MARGIN_X + s * xStep; }
+
+  // How many rows to display
+  const rowH = 24;
+  const visRows = Math.min(history.length, Math.floor(drawH / rowH));
+  const startIdx = Math.max(0, history.length - visRows);
+
+  // Draw each pair of consecutive rows as a strand segment
+  for (let hi = startIdx; hi < history.length - 1; hi++) {
+    const rowA = history[hi];
+    const rowB = history[hi + 1];
+    const yA   = MARGIN_Y + (hi - startIdx) * rowH;
+    const yB   = yA + rowH;
+    const exchangeSlot = rowB.exchangeSlot; // exchange happened going A→B
+
+    for (let p = 0; p < N; p++) {
+      const slotA_p = rowA.slotOf.indexOf(p);
+      const slotB_p = rowB.slotOf.indexOf(p);
+      const xA = slotX(slotA_p);
+      const xB = slotX(slotB_p);
+      const col = TYPE_COLORS[types[p]];
+
+      // Determine if this particle is the "under" strand at the crossing
+      // Convention: lower-indexed particle goes OVER (drawn second)
+      const partnerSlot = (slotA_p === exchangeSlot) ? exchangeSlot + 1 : (slotA_p === exchangeSlot + 1 ? exchangeSlot : -1);
+      const partnerParticle = partnerSlot >= 0 ? rowA.slotOf[partnerSlot] : -1;
+      const isUnder = (partnerParticle >= 0 && p > partnerParticle);
+
+      if (isUnder) {
+        // Draw with a gap at the midpoint to simulate going under
+        const midX = (xA + xB) / 2, midY = (yA + yB) / 2;
+        const gap = STRAND_W * 2.2;
+        ctx.strokeStyle = col;
+        ctx.lineWidth = STRAND_W;
+        ctx.lineCap = 'round';
+        ctx.beginPath();
+        ctx.moveTo(xA, yA);
+        ctx.lineTo(midX - gap * (xB > xA ? 1 : -1) * 0.5, midY - gap * 0.2);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(midX + gap * (xB > xA ? 1 : -1) * 0.5, midY + gap * 0.2);
+        ctx.lineTo(xB, yB);
+        ctx.stroke();
+      } else {
+        ctx.strokeStyle = col;
+        ctx.lineWidth = STRAND_W;
+        ctx.lineCap = 'round';
+        ctx.beginPath();
+        ctx.moveTo(xA, yA);
+        ctx.lineTo(xB, yB);
+        ctx.stroke();
+      }
+    }
+  }
+
+  // Draw current row dots
+  if (history.length > 0) {
+    const last = history[history.length - 1];
+    const yLast = MARGIN_Y + (Math.min(history.length - 1, visRows - 1)) * rowH;
+    for (let s = 0; s < N; s++) {
+      const p = last.slotOf[s];
+      ctx.fillStyle = TYPE_COLORS[types[p]];
+      ctx.beginPath();
+      ctx.arc(slotX(s), yLast, STRAND_W * 0.85, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+
+  // Slot labels at top
+  for (let s = 0; s < N; s++) {
+    ctx.fillStyle = 'rgba(180,170,150,0.3)';
+    ctx.font = '9px monospace';
+    ctx.textAlign = 'center';
+    ctx.fillText(`s${s+1}`, slotX(s), MARGIN_Y - 2);
+  }
+  ctx.textAlign = 'left';
+
+  // Status
+  const coh = totalCoherence();
+  document.getElementById('statCoh').textContent    = `${coh} / ${N - 1}`;
+  document.getElementById('statWord').textContent   = braidWord.length ? braidWord.map(i => `σ${i}`).join('·') : '—';
+  document.getElementById('statKE').textContent     = kEvents;
+  document.getElementById('statStatus').textContent = running ? 'weaving…' : (coh === N-1 ? 'G coherent ✓' : 'paused');
+}
+
+// ── Simulation loop ───────────────────────────────────────────
+function loop() {
+  if (running) {
+    stepTimer++;
+    if (stepTimer >= AUTO_INTERVAL) {
+      stepTimer = 0;
+      const i = bestExchange();
+      if (i >= 0) doExchange(i);
+      redraw();
+    }
+  }
+  animId = requestAnimationFrame(loop);
+}
+
+// ── Controls ──────────────────────────────────────────────────
+function simStart() {
+  running = !running;
+  document.getElementById('btnStart').textContent = running ? '⏸ Pause' : '▶ Weave';
+  if (!animId) loop();
+}
+
+function simStep() {
+  if (!animId) loop();
+  const i = bestExchange();
+  if (i >= 0) { doExchange(i); redraw(); }
+}
+
+function simPerturb() {
+  // Force a random exchange regardless of coherence (noise event)
+  const i = Math.floor(Math.random() * (N - 1));
+  doExchange(i);
+  braidWord.push(-(i + 1)); // negative = perturbation
+  if (braidWord.length > 12) braidWord = braidWord.slice(braidWord.length - 12);
+  redraw();
+}
+
+function simReset() {
+  running = false;
+  document.getElementById('btnStart').textContent = '▶ Weave';
+  types   = [0, 1, 2, 0, 1, 2];
+  slotOf  = [0, 1, 2, 3, 4, 5];
+  slots   = [0, 1, 2, 3, 4, 5];
+  kEvents = 0; braidWord = []; history = []; stepTimer = 0;
+  // Push one initial snapshot
+  history.push({ slotOf: [...slotOf], exchangeSlot: -1 });
+  redraw();
+}
+
+// Init
+simReset();
+</script>
+
+<!-- PORTAL -->
+<div class="content-wrap" style="padding-top:0">
+<div class="portal-section">
+  <div class="portal-header">
+    <div class="portal-level">Student Portal · Level B2 · Operator: G</div>
+    <div class="portal-heading">Level B2 — The Complete Composition</div>
+    <div class="portal-desc">You have read the chapter. Now use these prompts with an AI assistant to consolidate G — the topological invariant your study has been weaving since Chapter 1.</div>
+  </div>
+
+  <div class="prompt-card">
+    <div class="prompt-num">Prompt 1 of 3</div>
+    <div class="prompt-title">Identify Your Braid Class</div>
+    <div class="prompt-text" id="p1text">I am a B2 English learner reading a chapter on topological orthogenesis and the G operator — the complete, non-abelian composition G = U ∘ F ∘ K ∘ C. The chapter argues that G is a topological invariant: it cannot be destroyed by local perturbations (forgotten words, missed lessons), only by the total abandonment of practice (strands passing through each other). I want to assess my own G: the topological class of the braid I have woven in [MY TARGET LANGUAGE / SUBJECT]. Please help me: (1) identify the most significant K events in my learning history — the 3–5 encounters with genuinely novel difficulty that changed my capability permanently, (2) assess whether my F encodings are stable — whether I can still access what I learned at those K events without reconstructing it from scratch, (3) estimate where I stand in the 33-braid sequence — how many genuine K-crossings I have completed, and (4) name one thing that would indicate my braid has reached G. Ask me three questions before writing the assessment. Then write a 120-word self-assessment in formal academic English.</div>
+    <button class="copy-btn" onclick="copyPrompt('p1text', this)">Copy Prompt</button>
+  </div>
+
+  <div class="prompt-card">
+    <div class="prompt-num">Prompt 2 of 3</div>
+    <div class="prompt-title">Write the Non-Abelian Argument</div>
+    <div class="prompt-text" id="p2text">I am writing a 180-word academic paragraph (B2 English) arguing that the order of learning events is not interchangeable — that learning A before B produces a different cognitive architecture than learning B before A, even if the final knowledge state appears identical. The topological orthogenesis argument in Book 3 supports this: the braid group is non-abelian, and the sequence of K-crossings determines the topological class of G. My example from my own field or learning history is: [DESCRIBE YOUR EXAMPLE — two learners, two routes, same apparent endpoint]. Please help me write one clear academic paragraph that: (1) states the non-commutativity claim concretely (what A and B are, why order matters), (2) gives a measurable test that would reveal the difference (what outputs would differ), (3) acknowledges the strongest objection (that the endpoint IS the same), and (4) rebuts it using the topological argument (local equivalence does not imply global topological equivalence). Write in formal academic English. No bullet points.</div>
+    <button class="copy-btn" onclick="copyPrompt('p2text', this)">Copy Prompt</button>
+  </div>
+
+  <div class="prompt-card">
+    <div class="prompt-num">Prompt 3 of 3</div>
+    <div class="prompt-title">g₃₃ — The Weave Complete</div>
+    <div class="prompt-text" id="p3text">I am a language learner using Book 3: The Mini-Beast. I have just completed Chapter 7, the final operator chapter, which argues that G is a topological invariant woven by 33 genuine K-crossings on novel material. The chapter claims that once G is woven, local perturbations (forgetting, absence, error) cannot undo it — only total abandonment of the practice can bring strands into collision. I want to write the g₃₃ — my reflection on whether I have woven G, or am still in the process. My subject / language is: [INSERT]. Please help me: (1) test whether my G is topologically stable by presenting me with three novel compositional tasks I have never seen before in this subject — tasks that require genuine recombination, not retrieval, (2) evaluate my responses to those tasks for evidence of K-crossing history (do they show the marks of genuine prior threshold events, or do they suggest only surface-level C without K?), and (3) write a 150-word reflection in academic English that honestly names my braid class — how many crossings, how stable the fold, and what the next K event needs to be.</div>
+    <button class="copy-btn" onclick="copyPrompt('p3text', this)">Copy Prompt</button>
+  </div>
+
+  <div class="portal-footer">
+    All 21 prompts across levels A1 → D2 available at <a href="Sportal.html">sportal.html</a>
+  </div>
+</div>
+</div>
+
+<script>
+function copyPrompt(id, btn) {
+  const text = document.getElementById(id).textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = 'Copied ✓'; btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy Prompt'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+</script>
+
+<div class="chapter-nav">
+  <a href="ch6-resonance.html">← Chapter 6: Resonance</a>
+  <a href="ch8-nested-infinities.html">Chapter 8: Nested Infinities →</a>
+</div>
+
+<footer>
+  <span class="fleur-footer">⚜</span>
+  Book 3: The Mini-Beast &nbsp;·&nbsp; G = U ∘ F ∘ K ∘ C &nbsp;·&nbsp; Chapter 7 of 17
+  <span class="fleur-footer">⚜</span>
+</footer>
+
+</body>
+</html>

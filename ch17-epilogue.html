@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Ch 17 · Epilogue — Book 3: The Mini-Beast</title>
+<style>
+:root {
+  --bg0:#000008; --bg1:#03000f; --bg2:#060018;
+  --surf:#0c0824; --surf2:#130e30;
+  --c:#4a9eff; --k:#e05a3a; --f:#50c878; --u:#c084fc; --g:#f59e0b;
+  --text:#e8e4ff; --sub:#9b93cc; --mut:#4a4278; --dim:#2a2455;
+  --acc:#c084fc; --acc2:#d8b4fe; --acc3:#ede9fe;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:linear-gradient(160deg,var(--bg0) 0%,var(--bg1) 45%,var(--bg2) 100%);
+  min-height:100vh;color:var(--text);font-family:'Georgia',serif;line-height:1.74;
+}
+
+/* Star field behind header */
+body::before{
+  content:'';position:fixed;inset:0;
+  background:radial-gradient(1px 1px at 15% 20%,rgba(255,255,255,.6) 0%,transparent 100%),
+    radial-gradient(1px 1px at 72% 8%,rgba(255,255,255,.5) 0%,transparent 100%),
+    radial-gradient(1.5px 1.5px at 88% 35%,rgba(192,132,252,.7) 0%,transparent 100%),
+    radial-gradient(1px 1px at 32% 65%,rgba(74,158,255,.5) 0%,transparent 100%),
+    radial-gradient(1px 1px at 55% 80%,rgba(80,200,120,.5) 0%,transparent 100%),
+    radial-gradient(1.5px 1.5px at 8% 55%,rgba(245,158,11,.6) 0%,transparent 100%),
+    radial-gradient(1px 1px at 94% 72%,rgba(224,90,58,.4) 0%,transparent 100%);
+  pointer-events:none;z-index:0;
+}
+body > *{position:relative;z-index:1}
+
+header{
+  border-bottom:1px solid var(--dim);padding:1.1rem 2rem;
+  display:flex;align-items:center;gap:1rem;
+  background:rgba(0,0,5,.55);backdrop-filter:blur(8px);
+  position:sticky;top:0;z-index:100;
+}
+.series-tag{font-size:.75rem;color:var(--mut);letter-spacing:.13em;text-transform:uppercase}
+.ch-label{font-size:.88rem;color:var(--sub)}
+.op-chips{display:flex;gap:.32rem;margin-left:auto;align-items:center}
+.chip{font-size:.67rem;padding:.14rem .42rem;border-radius:99px;font-family:monospace;
+  font-weight:700;letter-spacing:.04em;border:1px solid currentColor}
+.chip-c{color:var(--c);border-color:var(--c);background:rgba(74,158,255,.07)}
+.chip-k{color:var(--k);border-color:var(--k);background:rgba(224,90,58,.07)}
+.chip-f{color:var(--f);border-color:var(--f);background:rgba(80,200,120,.07)}
+.chip-u{color:var(--u);border-color:var(--u);background:rgba(192,132,252,.07)}
+.chip-g{color:var(--g);border-color:var(--g);background:rgba(245,158,11,.1)}
+.op-sep{color:var(--mut);font-size:.82rem}
+
+/* ── HERO ── */
+.hero{
+  text-align:center;padding:5rem 2rem 3.5rem;
+  background:radial-gradient(ellipse 55% 42% at 50% 40%,rgba(192,132,252,.12) 0%,transparent 70%);
+}
+.hero-sym{
+  font-size:clamp(5rem,13vw,9rem);
+  background:linear-gradient(135deg,var(--c),var(--k),var(--f),var(--u),var(--g));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+  font-family:monospace;line-height:1;
+  filter:drop-shadow(0 0 40px rgba(192,132,252,.5));
+}
+.hero-title{font-size:clamp(1.35rem,3.2vw,2.2rem);color:var(--acc2);margin:.7rem 0 .35rem}
+.hero-sub{font-size:.97rem;color:var(--sub);max-width:580px;margin:0 auto}
+.level-badge{
+  display:inline-block;margin-top:1.1rem;padding:.28rem .85rem;border-radius:4px;
+  background:rgba(192,132,252,.1);border:1px solid var(--dim);
+  font-size:.78rem;letter-spacing:.08em;color:var(--acc3)
+}
+
+main{max-width:860px;margin:0 auto;padding:2rem 2rem 4rem}
+section{margin-bottom:3.5rem}
+h2{
+  font-size:1.38rem;color:var(--acc2);margin-bottom:1rem;
+  padding-bottom:.38rem;border-bottom:1px solid rgba(192,132,252,.18)
+}
+h3{font-size:1.06rem;color:var(--acc);margin:1.3rem 0 .5rem}
+p{margin-bottom:.95rem}
+
+.math-block{
+  background:var(--surf);border:1px solid var(--dim);border-radius:8px;
+  padding:1.15rem 1.4rem;margin:1.1rem 0;font-family:monospace;
+  border-left:3px solid var(--acc);
+}
+.mlabel{font-size:.72rem;color:var(--mut);letter-spacing:.08em;margin-bottom:.42rem}
+.eq{color:var(--acc2);font-size:1.04rem}
+.eq-note{color:var(--mut);font-size:.84rem;margin-top:.35rem}
+
+/* operator summary cards */
+.op-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1rem;margin:1.2rem 0}
+.op-card{
+  background:var(--surf);border:1px solid var(--dim);border-radius:10px;
+  padding:1.1rem 1.2rem;border-left:3px solid var(--card-col);
+}
+.op-card-label{font-size:.72rem;font-family:monospace;letter-spacing:.08em;
+  color:var(--card-col);margin-bottom:.35rem}
+.op-card-title{font-size:.97rem;color:var(--text);font-weight:600;margin-bottom:.3rem}
+.op-card-body{font-size:.84rem;color:var(--sub)}
+
+/* iteration table */
+.iter-table{width:100%;border-collapse:collapse;font-size:.86rem;margin:1rem 0}
+.iter-table th{
+  background:var(--surf2);color:var(--acc2);padding:.52rem .82rem;
+  text-align:left;border-bottom:1px solid var(--dim);font-weight:600
+}
+.iter-table td{padding:.48rem .82rem;border-bottom:1px solid rgba(192,132,252,.08);vertical-align:top}
+.iter-table tr:hover td{background:rgba(192,132,252,.03)}
+
+/* chain display */
+.chain-display{
+  display:flex;align-items:center;justify-content:center;gap:.5rem;
+  flex-wrap:wrap;padding:1.2rem;margin:1rem 0;
+  background:var(--surf);border:1px solid var(--dim);border-radius:8px;
+  font-family:monospace;font-size:1.1rem;
+}
+.chain-op{padding:.3rem .7rem;border-radius:6px;border:1px solid currentColor;font-weight:700}
+.chain-sep{color:var(--mut);font-size:1rem}
+
+/* interactive */
+.interactive{
+  background:var(--surf);border:1px solid var(--dim);border-radius:12px;
+  padding:1.4rem;margin:1.8rem 0;
+}
+.interactive h3{
+  border-bottom:1px solid rgba(192,132,252,.18);padding-bottom:.42rem;
+  margin-bottom:.9rem;margin-top:0
+}
+.ctrl-row{display:flex;gap:.7rem;flex-wrap:wrap;align-items:center;margin-bottom:.9rem}
+.ctrl-btn{
+  padding:.4rem .9rem;border-radius:6px;border:1px solid var(--dim);
+  background:var(--surf2);color:var(--acc2);cursor:pointer;font-size:.82rem;
+  transition:all .2s;font-family:Georgia,serif;
+}
+.ctrl-btn:hover,.ctrl-btn.active{background:rgba(192,132,252,.18);border-color:var(--acc)}
+canvas{display:block;border-radius:8px;width:100%;max-width:820px}
+.canvas-caption{font-size:.75rem;color:var(--mut);text-align:center;margin-top:.45rem}
+
+/* coda */
+.coda{
+  text-align:center;padding:3rem 2rem;
+  background:radial-gradient(ellipse 60% 50% at 50% 50%,rgba(192,132,252,.08) 0%,transparent 70%);
+  border-top:1px solid rgba(192,132,252,.18);border-bottom:1px solid rgba(192,132,252,.18);
+  margin:2.5rem 0;border-radius:12px;
+}
+.coda-equation{
+  font-family:monospace;font-size:1.35rem;
+  background:linear-gradient(90deg,var(--c),var(--k),var(--f),var(--u),var(--g));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  margin-bottom:.8rem;
+}
+.coda-text{font-size:.97rem;color:var(--sub);max-width:520px;margin:0 auto}
+
+/* prompts */
+.prompt-card{
+  background:var(--surf);border:1px solid var(--dim);border-radius:8px;
+  padding:1.1rem 1.4rem;margin:.75rem 0;
+}
+.prompt-num{font-size:.71rem;font-family:monospace;color:var(--acc);letter-spacing:.08em;margin-bottom:.28rem}
+.prompt-text{font-size:.93rem;color:var(--text)}
+.prompt-tag{font-size:.7rem;color:var(--sub);margin-top:.35rem}
+
+/* nav */
+.chapter-nav{
+  display:flex;justify-content:space-between;align-items:center;
+  margin-top:3.5rem;padding:1.1rem 0;
+  border-top:1px solid rgba(192,132,252,.18);flex-wrap:wrap;gap:.75rem;
+}
+.chapter-nav a{
+  color:var(--acc2);text-decoration:none;font-size:.87rem;
+  padding:.37rem .72rem;border-radius:6px;border:1px solid rgba(192,132,252,.22);
+  transition:all .2s;
+}
+.chapter-nav a:hover{background:rgba(192,132,252,.1);border-color:var(--acc)}
+.chapter-nav .center{color:var(--mut);font-size:.8rem;text-align:center}
+
+/* tooltip */
+.tooltip{
+  position:absolute;pointer-events:none;
+  background:rgba(12,8,36,.92);border:1px solid var(--dim);border-radius:8px;
+  padding:.6rem .85rem;font-size:.8rem;color:var(--text);
+  max-width:180px;line-height:1.45;z-index:10;display:none;
+}
+.tt-title{font-weight:700;color:var(--acc2);margin-bottom:.2rem;font-family:monospace}
+.tt-eq{font-family:monospace;font-size:.76rem;color:var(--acc);margin:.15rem 0}
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <div class="series-tag">Book 3 · The Mini-Beast</div>
+    <div class="ch-label">Chapter 17 — Epilogue: The Living Book</div>
+  </div>
+  <div class="op-chips">
+    <span class="chip chip-c">C</span><span class="op-sep">∘</span>
+    <span class="chip chip-k">K</span><span class="op-sep">∘</span>
+    <span class="chip chip-f">F</span><span class="op-sep">∘</span>
+    <span class="chip chip-u">U</span><span class="op-sep">=</span>
+    <span class="chip chip-g">G</span>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="hero-sym">x*</div>
+  <div class="hero-title">The Living Book</div>
+  <div class="hero-sub">You have iterated the operator G seventeen times. By the Banach Fixed-Point Theorem, you have converged. The book is your fixed point — and you are the book's.</div>
+  <div class="level-badge">Epilogue · D2 · The End &amp; The Beginning</div>
+</div>
+
+<main>
+
+<!-- 17.1 -->
+<section>
+  <h2>17.1 The Fixed Point You Have Become</h2>
+  <p>You began Chapter 1 as x₀ — an initial condition: a researcher who writes, but who has not yet applied the operator chain systematically. Over seventeen chapters, the operator G = U∘F∘K∘C has been applied to your thinking again and again. By the Banach Fixed-Point Theorem (Chapter 12), since G is a contraction on the space of argumentative strategies, the sequence x₀, G(x₀), G²(x₀), … converges to a unique fixed point x*.</p>
+
+  <div class="math-block">
+    <div class="mlabel">THE READER AS ITERATION</div>
+    <div class="eq">x* = lim<sub>n→∞</sub> G<sup>n</sup>(x₀)</div>
+    <div class="eq-note">x₀ = initial writing practice; G = one chapter's operator; x* = you, now.</div>
+    <div style="margin-top:.6rem" class="eq">G(x*) = x*</div>
+    <div class="eq-note">The fixed-point property: applying the operator chain to your paper leaves it unchanged. You have reached argumentative equilibrium.</div>
+  </div>
+
+  <p>This is not a metaphor. The Lipschitz constant L of the G-operator — how much one revision shrinks the distance to x* — is measurable. A paper that converges in three drafts has L ≈ 0.5. A paper that still drifts after ten drafts has L close to 1. The operator chain gives you a concrete way to measure your own convergence rate, and to identify which sub-operator (C, K, F, or U) is the bottleneck.</p>
+</section>
+
+<!-- 17.2 -->
+<section>
+  <h2>17.2 What Each Operator Left in You</h2>
+  <p>Seventeen chapters later, each operator has deposited a permanent residue in your writing practice.</p>
+
+  <div class="op-grid">
+    <div class="op-card" style="--card-col:var(--c)">
+      <div class="op-card-label">C — COMPRESSION (Ch 1, 2, 5, 9, 15)</div>
+      <div class="op-card-title">Signal without loss</div>
+      <div class="op-card-body">You know that compression is not deletion — it is finding the invariant core. Kleiber's law compressed metabolic biology to a single exponent. Shannon entropy measures what remains after optimal compression. You compress your methods section the same way.</div>
+    </div>
+    <div class="op-card" style="--card-col:var(--k)">
+      <div class="op-card-label">K — THRESHOLD (Ch 3, 4, 6, 8, 11)</div>
+      <div class="op-card-title">Where the claim crosses</div>
+      <div class="op-card-body">You have learned to find the threshold event — the single sentence where your paper crosses from "interesting" to "evidenced." The spectral radius ρ(claims) must be below 1. Every K-operator moment in your paper is now identified and anchored to data.</div>
+    </div>
+    <div class="op-card" style="--card-col:var(--f)">
+      <div class="op-card-label">F — FOLD (Ch 7, 8, 10, 12, 16)</div>
+      <div class="op-card-title">The argument turns on itself</div>
+      <div class="op-card-body">The fold is where your paper acknowledges its own limitations and uses them. Lyapunov stability showed you how to certify convergence before knowing the trajectory. Scale invariance showed you how to check your argument at every level of magnification.</div>
+    </div>
+    <div class="op-card" style="--card-col:var(--u)">
+      <div class="op-card-label">U — UNFOLDING (Ch 10, 11, 12, 14)</div>
+      <div class="op-card-title">Implications that reach further</div>
+      <div class="op-card-body">Unfolding is not speculation — it is a verified expansion. The Curry-Howard correspondence showed you that every implication is a proof term. Your discussion section now contains only implications you can type-check, and you mark the others with an honest sorry.</div>
+    </div>
+    <div class="op-card" style="--card-col:var(--g)" style="grid-column:1/-1">
+      <div class="op-card-label">G = U∘F∘K∘C — THE FULL CHAIN</div>
+      <div class="op-card-title">The composition that makes a paper</div>
+      <div class="op-card-body">You now write G in one direction (C first, U last) and read papers in the reverse direction (U first — "what is the claim?" — then K, F, C). The operator chain is a lens. You cannot unknow it. This is the fixed point.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 17.3 -->
+<section>
+  <h2>17.3 The Book as Its Own Fixed Point</h2>
+  <p>Book 3 is not merely a book <em>about</em> the operator G — it is itself an instantiation of G, applied at the scale of the book as a whole:</p>
+
+  <table class="iter-table">
+    <thead>
+      <tr><th>Operator</th><th>Role in Book 3</th><th>Chapters</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="color:var(--c)"><strong>C</strong></td>
+        <td>The biological systems compress complex phenomena (circadian rhythms, neural oscillations, immune adaptation) into their mathematical invariants</td>
+        <td>1–5, 15</td>
+      </tr>
+      <tr>
+        <td style="color:var(--k)"><strong>K</strong></td>
+        <td>The threshold chapters identify where the argument crosses: from describing mathematics to claiming it governs writing; from analogy to theorem</td>
+        <td>6–8, 11, 13</td>
+      </tr>
+      <tr>
+        <td style="color:var(--f)"><strong>F</strong></td>
+        <td>The fold chapters acknowledge the book's own limitations: sorry-tracking (Ch14), Nirvana Machine failures (Ch13), the local minima problem (Ch13)</td>
+        <td>10, 12, 13, 14</td>
+      </tr>
+      <tr>
+        <td style="color:var(--u)"><strong>U</strong></td>
+        <td>The unfolding chapters extend the operator into new domains: entropy, scale invariance, formal verification — implications that reach beyond the book</td>
+        <td>14, 15, 16</td>
+      </tr>
+      <tr>
+        <td style="color:var(--g)"><strong>G</strong></td>
+        <td>This chapter. You are the conclusion. Your next paper is the proof that G(you) = you*.</td>
+        <td>17</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>This is not circular — it is a fixed point. The book that teaches G is itself a valid application of G. When you re-read Chapter 1 after finishing Chapter 17, you read it differently: the seed of the operator was there from the beginning, and now you can see it. The book is a living system because <em>you changed</em> while reading it, and the book's meaning changed with you.</p>
+</section>
+
+<!-- 17.4 INTERACTIVE — Living Constellation -->
+<section>
+  <h2>17.4 Interactive: The Living Book Constellation</h2>
+  <p>Each chapter is a star in the constellation below. The color encodes the dominant operator of that chapter. Hover over any star to see the chapter's key formula and its operator role. Click <strong>Converge</strong> to watch all seventeen chapters draw toward the fixed point at the centre — the paper you will write next.</p>
+
+  <div class="interactive" style="position:relative">
+    <h3>✦ Book 3 — All 17 Chapters</h3>
+    <div class="ctrl-row">
+      <button class="ctrl-btn" id="convergeBtn">◎ Converge</button>
+      <button class="ctrl-btn" id="scatterBtn">✦ Scatter</button>
+      <button class="ctrl-btn" id="pulseBtn">◉ Pulse</button>
+    </div>
+    <div style="position:relative;display:inline-block;width:100%">
+      <canvas id="constellationCanvas" height="520"></canvas>
+      <div class="tooltip" id="tooltip">
+        <div class="tt-title" id="ttTitle"></div>
+        <div class="tt-eq" id="ttEq"></div>
+        <div id="ttBody" style="font-size:.78rem;color:var(--sub);margin-top:.2rem"></div>
+      </div>
+    </div>
+    <div class="canvas-caption">Hover a star to reveal its key equation. Click Converge to see the book's fixed point emerge.</div>
+  </div>
+</section>
+
+<!-- 17.5 Coda -->
+<section>
+  <div class="coda">
+    <div class="coda-equation">G = U ∘ F ∘ K ∘ C</div>
+    <p class="coda-text">Every paper you write from here will compress a complex phenomenon (C), cross a threshold of evidence (K), fold its argument to acknowledge limits (F), and unfold into implications larger than itself (U). This is not a formula. It is a description of what already happens when a paper is good. The book has given you a name for it.</p>
+  </div>
+
+  <p>The biological systems in this book — circadian clocks, neural oscillators, immune networks, spectral radii of epidemic thresholds, protein folding, V(D)J recombination, metabolic scaling — are not illustrations. They are <em>existence proofs</em>. Each one is a system that found its fixed point through iteration under constraint. Each one discovered G without being told.</p>
+  <p>The Banach theorem does not guarantee that the fixed point is beautiful, or correct, or worth publishing. It only guarantees convergence. What you converge <em>to</em> depends on the initial condition x₀ — your question — and on how faithfully you apply the operator. The book cannot choose your question for you. That is the one thing it cannot compress, threshold, fold, or unfold. That remains yours.</p>
+</section>
+
+<!-- 17.6 Final Prompts -->
+<section>
+  <h2>17.6 Writing Prompts — The Last Set</h2>
+
+  <div class="prompt-card">
+    <div class="prompt-num">PROMPT 10.1 — YOUR CHAPTER 17</div>
+    <div class="prompt-text">Every paper has an epilogue — even if it is not labelled as such. It is the final paragraph of the discussion section, where you unfold one implication that takes the field further than your data strictly justifies, but that you believe is true. Write your paper's Chapter 17: a 200-word final paragraph that begins from your strongest result (K), acknowledges one honest sorry (the limitation you cannot yet prove), and ends with the implication that will make a colleague in your field sit up. This is U in its purest form.</div>
+    <div class="prompt-tag">Genre: Discussion epilogue | Length: 200 words | Level: D2 | Operator: U</div>
+  </div>
+
+  <div class="prompt-card">
+    <div class="prompt-num">PROMPT 10.2 — FIXED-POINT SELF-AUDIT</div>
+    <div class="prompt-text">Take a paper you wrote before beginning this book and a paper (or extended draft) you are writing now. For each, compute: (a) the spectral radius of claims ρ — what proportion of claims have direct evidence? (b) the entropy efficiency H(paper)/H_max — how uniformly is new information distributed across sections? (c) the Lyapunov function V(draft) — does the argument converge when you remove the final section? Write a 250-word comparison using the operator language developed in this course. Has G(you_before) ≠ G(you_now)?</div>
+    <div class="prompt-tag">Genre: Comparative audit | Level: D2 | Time: ~2 hours</div>
+  </div>
+
+  <div class="prompt-card">
+    <div class="prompt-num">EXTENSION — TEACH THE OPERATOR</div>
+    <div class="prompt-text">The best test of a fixed point is iteration stability: apply the operator once more and the result is unchanged. Teach one section of this book to a colleague who has not read it. Use only the key equation of that chapter and one biological analogy. After the conversation, write 150 words describing what you had to compress, what threshold claim you identified, how you folded the argument for a new audience, and what you unfolded that surprised even you. This is G applied to the act of transmitting G. It is the book's last theorem: the operator is closed under didactics. Reading a recipe book is not the same as eating this cake we call life.</div>
+    <div class="prompt-tag">Genre: Didactic reflection | Level: D2+ | Operator: G∘G</div>
+  </div>
+</section>
+
+<nav class="chapter-nav">
+  <a href="ch16-scale.html">← Ch16 · Scale</a>
+  <div class="center">Book 3 · The Mini-Beast · Complete</div>
+  <a href="Sportal.html">⌂ Portal</a>
+</nav>
+
+</main>
+
+<script>
+/* ─────── LIVING CONSTELLATION ─────── */
+const chapters = [
+  {num:0,  label:'Ch0',  title:'Introduction',      op:'C', sym:'∂',    eq:'G = U∘F∘K∘C',             desc:'The operator chain introduced'},
+  {num:1,  label:'Ch1',  title:'The Seed',           op:'C', sym:'C',    eq:'x₀ → G(x₀)',              desc:'Compression: the initial condition'},
+  {num:2,  label:'Ch2',  title:'Allostatic Load',    op:'C', sym:'σ',    eq:'allostasis ∈ C-operator',  desc:'Allostatic compression and cost'},
+  {num:3,  label:'Ch3',  title:'Circadian Rhythm',   op:'K', sym:'φ',    eq:'ẋ = f(x) − δx',           desc:'Phase threshold crossing'},
+  {num:4,  label:'Ch4',  title:'Neural Oscillations',op:'K', sym:'ω',    eq:'∇²u + ω²u = 0',           desc:'Resonant frequency threshold'},
+  {num:5,  label:'Ch5',  title:'Immune Adaptation',  op:'K', sym:'Ab',   eq:'clonal selection K',       desc:'Threshold selection event'},
+  {num:6,  label:'Ch6',  title:'Resonance',          op:'F', sym:'≈',    eq:'falsifiability: P→¬P',     desc:'The fold as testability'},
+  {num:7,  label:'Ch7',  title:'Crystalline',        op:'F', sym:'⬡',    eq:'symmetry breaking F',      desc:'Crystal fold structure'},
+  {num:8,  label:'Ch8',  title:'Axiomatic',          op:'F', sym:'⊢',    eq:'axioms → theorems',        desc:'Axiomatic fold of argument'},
+  {num:9,  label:'Ch9',  title:'φ — Subcritical',    op:'F', sym:'φ',    eq:'φ = (1+√5)/2 ≈ 1.618',    desc:'Golden ratio fold'},
+  {num:10, label:'Ch10', title:'Lyapunov Stability', op:'U', sym:'V',    eq:'dV/dt ≤ 0',               desc:'Lyapunov unfolding to stability'},
+  {num:11, label:'Ch11', title:'Spectral Radius',    op:'U', sym:'ρ',    eq:'ρ(A) = lim ‖Aⁿ‖^(1/n)',  desc:'Spectral radius R₀'},
+  {num:12, label:'Ch12', title:'Fixed Point',        op:'G', sym:'x*',   eq:'T(x*) = x*, L < 1',       desc:'Banach fixed point'},
+  {num:13, label:'Ch13', title:'Nirvana Machine',    op:'K', sym:'β→∞',  eq:'P = e^(−ΔE/kT)',          desc:'Simulated annealing'},
+  {num:14, label:'Ch14', title:'AXLE / Curry-Howard',op:'U', sym:'⊢',    eq:'proof : Proposition',      desc:'Propositions as types'},
+  {num:15, label:'Ch15', title:'Entropy',            op:'C', sym:'H',    eq:'H = −Σ pᵢ log₂ pᵢ',       desc:'Shannon entropy = C-operator'},
+  {num:16, label:'Ch16', title:'Scale Invariance',   op:'G', sym:'ξ',    eq:'R_b(G) = G',              desc:'RG fixed point'},
+  {num:17, label:'Ch17', title:'Epilogue',           op:'G', sym:'x*',   eq:'G(x*) = x*',              desc:'The living book fixed point'},
+];
+
+const OP_COLORS = {C:'#4a9eff',K:'#e05a3a',F:'#50c878',U:'#c084fc',G:'#f59e0b'};
+
+const cCanvas = document.getElementById('constellationCanvas');
+const cCtx = cCanvas.getContext('2d');
+const tooltip = document.getElementById('tooltip');
+const ttTitle = document.getElementById('ttTitle');
+const ttEq = document.getElementById('ttEq');
+const ttBody = document.getElementById('ttBody');
+
+let stars = [];
+let converging = false;
+let scattered = false;
+let pulsing = false;
+let pulseRaf = null;
+let pulseT = 0;
+
+function initPositions(){
+  const W = cCanvas.width, H = cCanvas.height;
+  const cx = W/2, cy = H/2;
+  // Spiral galaxy layout
+  stars = chapters.map((ch,i)=>{
+    const angle = i * (Math.PI * 2 * 1.618034) + Math.PI*0.2;
+    const r = 60 + i * (Math.min(W,H)/2 - 80) / chapters.length;
+    return {
+      ...ch,
+      x: cx + r * Math.cos(angle),
+      y: cy + r * Math.sin(angle) * 0.72,
+      r: 12 + (ch.op==='G'?3:0),
+      targetX: cx,
+      targetY: cy,
+      originX: cx + r * Math.cos(angle),
+      originY: cy + r * Math.sin(angle) * 0.72,
+      tx: cx + r * Math.cos(angle),
+      ty: cy + r * Math.sin(angle) * 0.72,
+      progress: 0,
+      alpha: 1,
+    };
+  });
+}
+
+function drawConstellation(highlight){
+  const W = cCanvas.width, H = cCanvas.height;
+  cCtx.clearRect(0,0,W,H);
+  cCtx.fillStyle='#000008';cCtx.fillRect(0,0,W,H);
+
+  // Background micro-stars
+  cCtx.fillStyle='rgba(255,255,255,0.25)';
+  for(let i=0;i<60;i++){
+    const bx=(Math.sin(i*137.5)*0.5+0.5)*W;
+    const by=(Math.sin(i*97.3+1.1)*0.5+0.5)*H;
+    cCtx.beginPath();cCtx.arc(bx,by,0.7,0,Math.PI*2);cCtx.fill();
+  }
+
+  // Connection lines (faint)
+  for(let i=0;i<stars.length-1;i++){
+    const s=stars[i],t=stars[i+1];
+    cCtx.beginPath();
+    cCtx.moveTo(s.x,s.y);cCtx.lineTo(t.x,t.y);
+    cCtx.strokeStyle='rgba(255,255,255,0.05)';
+    cCtx.lineWidth=0.8;cCtx.stroke();
+  }
+
+  // Stars
+  stars.forEach((s,i)=>{
+    const col = OP_COLORS[s.op];
+    const isHL = highlight===i;
+    const pr = pulsing ? s.r + 4*Math.sin(pulseT*0.04 + i*0.5) : s.r;
+    const glowR = isHL ? pr*2.5 : pr*1.8;
+
+    // Glow
+    const grad = cCtx.createRadialGradient(s.x,s.y,0,s.x,s.y,glowR*1.5);
+    grad.addColorStop(0, col+(isHL?'80':'40'));
+    grad.addColorStop(1,'transparent');
+    cCtx.beginPath();cCtx.arc(s.x,s.y,glowR*1.5,0,Math.PI*2);
+    cCtx.fillStyle=grad;cCtx.fill();
+
+    // Circle
+    cCtx.beginPath();cCtx.arc(s.x,s.y,pr,0,Math.PI*2);
+    cCtx.fillStyle=col+(isHL?'30':'18');cCtx.fill();
+    cCtx.strokeStyle=col;cCtx.lineWidth=isHL?2.2:1.5;cCtx.stroke();
+
+    // Symbol
+    cCtx.fillStyle=isHL?'#ffffff':col;
+    cCtx.font=`bold ${Math.max(7,10-Math.max(0,s.sym.length-2))}px monospace`;
+    cCtx.textAlign='center';cCtx.textBaseline='middle';
+    cCtx.fillText(s.sym.substring(0,3),s.x,s.y);
+
+    // Chapter label
+    if(pr>9||isHL){
+      cCtx.fillStyle=isHL?col:'rgba(255,255,255,0.45)';
+      cCtx.font=`${isHL?'bold ':''
+      }9px monospace`;
+      cCtx.textAlign='center';
+      cCtx.fillText(s.label,s.x,s.y+pr+10);
+    }
+  });
+
+  // Centre fixed-point marker
+  if(converging){
+    const cx=cCanvas.width/2,cy=cCanvas.height/2;
+    cCtx.beginPath();
+    cCtx.arc(cx,cy,18,0,Math.PI*2);
+    cCtx.strokeStyle='rgba(255,255,255,0.4)';
+    cCtx.lineWidth=1;cCtx.stroke();
+    cCtx.fillStyle='rgba(255,255,255,0.8)';
+    cCtx.font='bold 12px monospace';cCtx.textAlign='center';cCtx.textBaseline='middle';
+    cCtx.fillText('x*',cx,cy);
+  }
+}
+
+// Mouse hover
+let hoveredStar = -1;
+cCanvas.addEventListener('mousemove', e=>{
+  const rect=cCanvas.getBoundingClientRect();
+  const scaleX=cCanvas.width/rect.width;
+  const scaleY=cCanvas.height/rect.height;
+  const mx=(e.clientX-rect.left)*scaleX;
+  const my=(e.clientY-rect.top)*scaleY;
+  hoveredStar=-1;
+  for(let i=0;i<stars.length;i++){
+    const s=stars[i];
+    if(Math.hypot(s.x-mx,s.y-my)<s.r+10){
+      hoveredStar=i;
+      // tooltip
+      ttTitle.textContent=s.label+' · '+s.title;
+      ttEq.textContent=s.eq;
+      ttBody.textContent=s.desc+' ['+s.op+'-operator]';
+      const tx=Math.min(e.clientX-rect.left+12,rect.width-200);
+      const ty=Math.max(e.clientY-rect.top-60,4);
+      tooltip.style.left=tx+'px';tooltip.style.top=ty+'px';
+      tooltip.style.display='block';
+      break;
+    }
+  }
+  if(hoveredStar===-1) tooltip.style.display='none';
+  if(!pulsing) drawConstellation(hoveredStar);
+});
+cCanvas.addEventListener('mouseleave',()=>{
+  tooltip.style.display='none';hoveredStar=-1;
+  if(!pulsing) drawConstellation(-1);
+});
+
+// Converge animation
+let convRaf=null;
+document.getElementById('convergeBtn').addEventListener('click',()=>{
+  converging=true;scattered=false;
+  if(convRaf) cancelAnimationFrame(convRaf);
+  stars.forEach(s=>{s.tx=cCanvas.width/2; s.ty=cCanvas.height/2; s.progress=0;});
+  function step(){
+    let done=true;
+    stars.forEach(s=>{
+      s.progress=Math.min(1,s.progress+0.018);
+      s.x=s.originX+(s.tx-s.originX)*easeInOut(s.progress);
+      s.y=s.originY+(s.ty-s.originY)*easeInOut(s.progress);
+      if(s.progress<1) done=false;
+    });
+    drawConstellation(hoveredStar);
+    if(!done) convRaf=requestAnimationFrame(step);
+  }
+  step();
+});
+
+document.getElementById('scatterBtn').addEventListener('click',()=>{
+  converging=false;scattered=true;
+  if(convRaf) cancelAnimationFrame(convRaf);
+  stars.forEach(s=>{s.tx=s.originX;s.ty=s.originY;s.progress=0;
+    s.x=s.x||cCanvas.width/2; s.y=s.y||cCanvas.height/2;
+    const sx=s.x,sy=s.y;
+    s._fromX=sx; s._fromY=sy;
+  });
+  function step(){
+    let done=true;
+    stars.forEach(s=>{
+      s.progress=Math.min(1,s.progress+0.018);
+      s.x=s._fromX+(s.originX-s._fromX)*easeInOut(s.progress);
+      s.y=s._fromY+(s.originY-s._fromY)*easeInOut(s.progress);
+      if(s.progress<1) done=false;
+    });
+    drawConstellation(hoveredStar);
+    if(!done) convRaf=requestAnimationFrame(step);
+  }
+  step();
+});
+
+// Pulse animation
+document.getElementById('pulseBtn').addEventListener('click',function(){
+  pulsing=!pulsing;
+  this.classList.toggle('active',pulsing);
+  if(pulsing){
+    function step(){
+      if(!pulsing){drawConstellation(hoveredStar);return;}
+      pulseT++;
+      drawConstellation(hoveredStar);
+      pulseRaf=requestAnimationFrame(step);
+    }
+    step();
+  } else {
+    if(pulseRaf) cancelAnimationFrame(pulseRaf);
+    drawConstellation(hoveredStar);
+  }
+});
+
+function easeInOut(t){ return t<0.5?2*t*t:1-Math.pow(-2*t+2,2)/2; }
+
+function resizeConstellation(){
+  const cont=cCanvas.parentElement;
+  cCanvas.width=Math.min(820,cont.offsetWidth);
+  initPositions();
+  drawConstellation(hoveredStar);
+}
+resizeConstellation();
+window.addEventListener('resize',resizeConstellation);
+</script>
+</body>
+</html>

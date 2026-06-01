@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter 2 — Generative Matrix | Book 3: The Mini-Beast</title>
+<style>
+  :root {
+    --gold: #c9a84c;
+    --gold-dim: #8a6f2e;
+    --dark: #0a0a0f;
+    --surface: #111118;
+    --surface2: #1a1a24;
+    --text: #e8e4d8;
+    --text-dim: #9994a0;
+    --k-color: #e05a3a;
+    --c-color: #4a9eff;
+    --f-color: #50c878;
+    --u-color: #c084fc;
+    --t-color: #f9c74f;
+    --g-color: #f5d87a;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--dark);
+    color: var(--text);
+    font-family: 'Georgia', serif;
+    font-size: 18px;
+    line-height: 1.75;
+  }
+
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(10,10,15,0.96);
+    border-bottom: 1px solid var(--gold-dim);
+    padding: 0.6rem 2rem;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 0.5rem;
+  }
+  .nav-logo { font-family: 'Georgia', serif; font-size: 0.85rem; letter-spacing: 0.18em; color: var(--gold); text-decoration: none; }
+  .nav-links { display: flex; gap: 1.5rem; font-size: 0.8rem; }
+  .nav-links a { color: var(--text-dim); text-decoration: none; letter-spacing: 0.08em; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--gold); }
+
+  .chapter-hero {
+    background: linear-gradient(160deg, #060d18 0%, #0b1525 60%, #070d1a 100%);
+    border-bottom: 1px solid #1a2638;
+    padding: 5rem 2rem 4rem;
+    text-align: center; position: relative; overflow: hidden;
+  }
+  .chapter-hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image:
+      radial-gradient(ellipse 55% 35% at 20% 55%, rgba(74,158,255,0.05) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 55% at 80% 40%, rgba(74,158,255,0.03) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-letter {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    font-size: 22rem; font-weight: 900;
+    color: rgba(74,158,255,0.04);
+    user-select: none; pointer-events: none;
+    font-family: 'Georgia', serif; line-height: 1;
+  }
+  .chapter-tag { font-size: 0.72rem; letter-spacing: 0.25em; color: var(--c-color); text-transform: uppercase; margin-bottom: 1rem; position: relative; }
+  .chapter-title { font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 400; letter-spacing: 0.04em; color: var(--text); margin-bottom: 1rem; position: relative; }
+  .chapter-subtitle { font-size: 1.1rem; color: var(--text-dim); max-width: 600px; margin: 0 auto 2rem; font-style: italic; position: relative; }
+  .operator-chain { font-family: 'Courier New', monospace; font-size: 1.05rem; letter-spacing: 0.12em; color: var(--text-dim); position: relative; margin-bottom: 0.5rem; }
+  .operator-chain .active { color: var(--c-color); text-decoration: underline; text-underline-offset: 4px; font-weight: bold; }
+  .chapter-meta { display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap; margin-top: 1.5rem; font-size: 0.78rem; letter-spacing: 0.12em; color: var(--text-dim); position: relative; }
+  .meta-badge { background: rgba(74,158,255,0.1); border: 1px solid rgba(74,158,255,0.3); padding: 0.3rem 0.9rem; border-radius: 2px; color: var(--c-color); }
+
+  .content-wrap { max-width: 780px; margin: 0 auto; padding: 3rem 2rem 4rem; }
+  h2 { font-size: 1.4rem; font-weight: 400; color: var(--gold); margin: 3rem 0 1rem; letter-spacing: 0.06em; }
+  h3 { font-size: 1.1rem; font-weight: 600; color: var(--text); margin: 2rem 0 0.7rem; }
+  p { margin-bottom: 1.2rem; }
+  .gold-rule { border: none; border-top: 1px solid var(--gold-dim); margin: 2.5rem 0; opacity: 0.4; }
+  .fleur { text-align: center; color: var(--gold-dim); font-size: 1.2rem; margin: 2rem 0; opacity: 0.5; }
+
+  .theorem-box { background: rgba(74,158,255,0.05); border-left: 3px solid var(--c-color); padding: 1.5rem 1.8rem; margin: 2rem 0; border-radius: 0 4px 4px 0; }
+  .theorem-label { font-size: 0.72rem; letter-spacing: 0.2em; color: var(--c-color); text-transform: uppercase; margin-bottom: 0.5rem; }
+  .theorem-body { font-style: italic; color: var(--text); }
+  .theorem-proof { margin-top: 1rem; font-size: 0.9rem; color: var(--text-dim); font-style: normal; }
+
+  .insight-box { background: rgba(201,168,76,0.06); border: 1px solid rgba(201,168,76,0.2); padding: 1.2rem 1.5rem; margin: 2rem 0; border-radius: 4px; }
+  .insight-label { font-size: 0.7rem; letter-spacing: 0.2em; color: var(--gold); text-transform: uppercase; margin-bottom: 0.4rem; }
+
+  .math-block {
+    background: var(--surface2); border: 1px solid #2a2a3a;
+    padding: 1.2rem 1.5rem; margin: 1.5rem 0;
+    font-family: 'Courier New', monospace; font-size: 0.95rem;
+    color: var(--c-color); border-radius: 4px; overflow-x: auto; line-height: 1.9;
+  }
+
+  .op-tag { display: inline-block; font-family: 'Courier New', monospace; font-size: 0.75rem; letter-spacing: 0.08em; padding: 0.15rem 0.5rem; border-radius: 2px; vertical-align: middle; }
+  .op-k { background: rgba(224,90,58,0.15); color: var(--k-color); border: 1px solid rgba(224,90,58,0.3); }
+  .op-c { background: rgba(74,158,255,0.15); color: var(--c-color); border: 1px solid rgba(74,158,255,0.3); }
+  .op-f { background: rgba(80,200,120,0.15); color: var(--f-color); border: 1px solid rgba(80,200,120,0.3); }
+  .op-u { background: rgba(192,132,252,0.15); color: var(--u-color); border: 1px solid rgba(192,132,252,0.3); }
+  .op-t { background: rgba(249,199,79,0.15); color: var(--t-color); border: 1px solid rgba(249,199,79,0.3); }
+  .op-g { background: rgba(245,216,122,0.15); color: var(--g-color); border: 1px solid rgba(245,216,122,0.3); }
+
+  .falsify-box { background: rgba(80,200,120,0.06); border-left: 3px solid var(--f-color); padding: 1.2rem 1.5rem; margin: 2rem 0; border-radius: 0 4px 4px 0; }
+  .falsify-label { font-size: 0.7rem; letter-spacing: 0.2em; color: var(--f-color); text-transform: uppercase; margin-bottom: 0.4rem; }
+
+  /* SVDCHART */
+  .svd-diagram {
+    background: var(--surface2); border: 1px solid #2a2a3a;
+    border-radius: 6px; padding: 1.5rem; margin: 2rem 0;
+  }
+  .svd-title { font-size: 0.72rem; letter-spacing: 0.2em; color: var(--text-dim); text-transform: uppercase; margin-bottom: 1.2rem; text-align: center; }
+  .svd-bars { display: flex; gap: 0.4rem; align-items: flex-end; height: 80px; padding: 0 0.5rem; }
+  .svd-bar { flex: 1; border-radius: 2px 2px 0 0; transition: background 0.4s; }
+  .svd-labels { display: flex; gap: 0.4rem; margin-top: 0.4rem; padding: 0 0.5rem; }
+  .svd-lab { flex: 1; text-align: center; font-family: 'Courier New', monospace; font-size: 0.65rem; color: var(--text-dim); }
+
+  /* SIM */
+  .sim-section { background: var(--surface2); border: 1px solid #2a2a3a; border-radius: 6px; margin: 3rem 0; overflow: hidden; }
+  .sim-header { padding: 1rem 1.5rem; border-bottom: 1px solid #2a2a3a; display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+  .sim-title { font-size: 0.78rem; letter-spacing: 0.15em; color: var(--text-dim); text-transform: uppercase; flex: 1; }
+  .sim-controls { display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center; }
+  .sim-btn { background: rgba(74,158,255,0.1); border: 1px solid rgba(74,158,255,0.28); color: var(--c-color); padding: 0.35rem 0.8rem; font-size: 0.75rem; letter-spacing: 0.08em; cursor: pointer; border-radius: 2px; font-family: 'Courier New', monospace; transition: all 0.2s; }
+  .sim-btn:hover { background: rgba(74,158,255,0.22); }
+  .sim-btn.red { background: rgba(224,90,58,0.1); border-color: rgba(224,90,58,0.3); color: var(--k-color); }
+  .sim-btn.green { background: rgba(80,200,120,0.1); border-color: rgba(80,200,120,0.3); color: var(--f-color); }
+  canvas { display: block; width: 100%; background: #05050e; }
+  .sim-status { padding: 0.8rem 1.5rem; font-family: 'Courier New', monospace; font-size: 0.78rem; display: flex; gap: 2rem; flex-wrap: wrap; border-top: 1px solid #2a2a3a; }
+  .status-item { color: var(--text-dim); }
+  .status-val { color: var(--c-color); font-weight: bold; }
+  .status-val.closed { color: var(--f-color); }
+  .status-val.open { color: var(--k-color); }
+
+  /* PORTAL */
+  .portal-section { background: linear-gradient(160deg, #06090f 0%, #0b1020 100%); border: 1px solid rgba(74,158,255,0.2); border-radius: 6px; margin: 3rem 0; overflow: hidden; }
+  .portal-header { background: rgba(74,158,255,0.07); border-bottom: 1px solid rgba(74,158,255,0.18); padding: 1.2rem 1.8rem; }
+  .portal-level { font-size: 0.7rem; letter-spacing: 0.2em; color: var(--c-color); text-transform: uppercase; margin-bottom: 0.3rem; }
+  .portal-heading { font-size: 1.15rem; color: var(--text); font-weight: 400; }
+  .portal-desc { font-size: 0.88rem; color: var(--text-dim); margin-top: 0.4rem; }
+  .prompt-card { padding: 1.5rem 1.8rem; border-bottom: 1px solid rgba(74,158,255,0.08); }
+  .prompt-num { font-size: 0.65rem; letter-spacing: 0.2em; color: var(--c-color); text-transform: uppercase; margin-bottom: 0.5rem; }
+  .prompt-title { font-size: 1rem; color: var(--gold); margin-bottom: 0.5rem; }
+  .prompt-text { background: var(--surface2); border: 1px solid #2a2a3a; border-radius: 4px; padding: 1rem 1.2rem; font-family: 'Courier New', monospace; font-size: 0.82rem; color: var(--text); line-height: 1.6; margin: 0.7rem 0; }
+  .copy-btn { background: rgba(74,158,255,0.08); border: 1px solid rgba(74,158,255,0.22); color: var(--c-color); padding: 0.3rem 0.7rem; font-size: 0.72rem; letter-spacing: 0.08em; cursor: pointer; border-radius: 2px; font-family: 'Courier New', monospace; transition: all 0.2s; }
+  .copy-btn:hover { background: rgba(74,158,255,0.2); }
+  .copy-btn.copied { color: var(--f-color); border-color: rgba(80,200,120,0.35); }
+  .portal-footer { padding: 1rem 1.8rem; border-top: 1px solid rgba(74,158,255,0.12); font-size: 0.78rem; color: var(--text-dim); text-align: center; }
+  .portal-footer a { color: var(--c-color); text-decoration: none; }
+
+  .chapter-nav { display: flex; justify-content: space-between; align-items: center; padding: 2rem; border-top: 1px solid #2a2a3a; max-width: 780px; margin: 0 auto; }
+  .chapter-nav a { color: var(--gold); text-decoration: none; font-size: 0.85rem; letter-spacing: 0.08em; border: 1px solid rgba(201,168,76,0.25); padding: 0.5rem 1rem; border-radius: 2px; transition: all 0.2s; }
+  .chapter-nav a:hover { background: rgba(201,168,76,0.08); }
+
+  footer { text-align: center; padding: 2rem; font-size: 0.72rem; letter-spacing: 0.12em; color: var(--text-dim); border-top: 1px solid #1a1a24; }
+  footer .fleur-footer { color: var(--gold-dim); margin: 0 0.5rem; }
+
+  @media (max-width: 600px) { .hero-letter { font-size: 10rem; } }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="impa-portal.html" class="nav-logo">⚜ PRINCIPIA ORTHOGONA ⚜</a>
+  <div class="nav-links">
+    <a href="chapters-diagram.html">All Chapters</a>
+    <a href="course-16weeks.html">Course</a>
+    <a href="Sportal.html">Portal</a>
+    <a href="trilogy-sale.html">Get the Book</a>
+  </div>
+</nav>
+
+<section class="chapter-hero">
+  <div class="hero-letter">C</div>
+  <div class="chapter-tag">Chapter 2 · Week 2–3 · CEFR A2 → B1</div>
+  <h1 class="chapter-title">Generative Matrix</h1>
+  <p class="chapter-subtitle">Growing up is not accumulation. It is compression — the progressive reduction of infinity to a grammar that fits inside a skull.</p>
+  <div class="operator-chain">G = U ∘ F ∘ K ∘ <span class="active">C</span></div>
+  <div class="chapter-meta">
+    <span class="meta-badge">Operator: C · Compression</span>
+    <span style="color:var(--text-dim)">Week 2–3</span>
+    <span style="color:var(--text-dim)">CEFR A2 → B1</span>
+    <span style="color:var(--text-dim)">Matrix Compression · Critical Periods</span>
+  </div>
+</section>
+
+<div class="content-wrap">
+
+<p>A child acquiring language does not store sentences. If she stored sentences, her memory would overflow before she spoke her first full clause — the space of possible English sentences of length 10 or fewer already exceeds 10²⁰. Instead, she stores something smaller: a set of generative rules that can produce those sentences on demand. The compact set of rules is the <em>generative matrix</em>. The process that produces it from a sea of raw input is the operator <span class="op-tag op-c">C</span> — compression.</p>
+
+<p>This chapter formalizes what compression means mathematically, shows how the brain implements it developmentally, and establishes why the generative matrix is not merely a convenient metaphor but a precise object: a low-rank linear map from an internal code space to a surface-form space, updated by K events (threshold crossings) and stabilized by F (the fold that makes learning permanent). Everything that unfolds in later chapters — the circadian rhythm of Chapter 3, the neural binding of Chapter 4, the immune memory of Chapter 5 — is an instance of C → K → F acting on a domain-specific matrix.</p>
+
+<hr class="gold-rule">
+<h2>§ 2.1 &nbsp; The Compression Operator C</h2>
+
+<p>Let V be the <em>surface space</em> — the set of all grammatical sentences, gestures, or behaviors in some domain. For natural language, V is vast: a countably infinite set with cardinality ℵ₀. The learner cannot store V. What the learner stores is a compact representation living in a much smaller space W, together with a map C: W → V that recovers the surface forms from the internal code.</p>
+
+<div class="math-block">
+C : W → V &nbsp;&nbsp;&nbsp;&nbsp; (compression map)<br><br>
+dim(W) ≪ dim(V) &nbsp;&nbsp;&nbsp;&nbsp; (internal code is small)<br><br>
+C·w = v &nbsp;&nbsp;&nbsp;&nbsp; (the code w ∈ W generates the surface form v ∈ V)<br><br>
+Rank(C) = r &nbsp;&nbsp;&nbsp;&nbsp; (only r independent dimensions are learned)
+</div>
+
+<p>The rank r of C is the learner's <em>compression depth</em>. A native speaker of a language has rank r close to the intrinsic dimensionality of the grammar — estimated at 30 to 50 independent features for any natural language (Chomsky's universal grammar parameters). A beginning learner has rank r = 5–10: enough to handle core constructions, too low to generate subordinate clauses, passives, and long-distance dependencies. Growth is not adding sentences to a list. Growth is increasing rank.</p>
+
+<h3>Singular Value Decomposition</h3>
+
+<p>The mathematical tool for analyzing compression maps is the <strong>singular value decomposition</strong> (SVD). Any linear map C: W → V can be written:</p>
+
+<div class="math-block">
+C = U Σ Vᵀ<br><br>
+U: right singular vectors — "surface patterns"<br>
+Σ: diagonal matrix of singular values σ₁ ≥ σ₂ ≥ … ≥ σᵣ > 0<br>
+V: left singular vectors — "internal code dimensions"<br><br>
+The rank-k approximation: &nbsp; C_k = Σᵢ₌₁ᵏ σᵢ uᵢ vᵢᵀ
+</div>
+
+<p>The singular values σᵢ are ordered by importance. The first singular value σ₁ captures the largest possible variance in the surface space — in language, this is the noun-verb distinction, the most powerful single compression. The second, σ₂, captures the next largest — perhaps animacy, or tense. By the time you reach σ₁₅, you are capturing fine distinctions of aspect, evidentiality, and register.</p>
+
+<div class="svd-diagram">
+  <div class="svd-title">Singular Values of the Generative Matrix — Language Acquisition by Age</div>
+  <div class="svd-bars" id="svdBars">
+    <!-- Bars generated by script -->
+  </div>
+  <div class="svd-labels" id="svdLabels"></div>
+</div>
+
+<script>
+(function() {
+  // Singular value decay: σᵢ ∝ 1/i^α with noise
+  const N = 16;
+  const sigmas = [];
+  for (let i = 1; i <= N; i++) {
+    sigmas.push(1 / Math.pow(i, 0.65) + Math.random() * 0.02);
+  }
+  const maxS = sigmas[0];
+  const barsEl = document.getElementById('svdBars');
+  const labsEl = document.getElementById('svdLabels');
+  const names = ['NP/VP','Tense','Animacy','Aspect','Subord','Passive','Evidential','Register','Mood','Scope','Focus','Voice','Polarity','Inversion','Cleft','∞…'];
+  for (let i = 0; i < N; i++) {
+    const h = Math.round((sigmas[i] / maxS) * 76) + 4;
+    const pct = Math.round((sigmas[i] / maxS) * 100);
+    const bar = document.createElement('div');
+    bar.className = 'svd-bar';
+    bar.style.height = h + 'px';
+    bar.style.background = i < 5
+      ? 'rgba(74,158,255,0.7)'
+      : i < 10
+      ? 'rgba(74,158,255,0.35)'
+      : 'rgba(74,158,255,0.15)';
+    bar.title = `σ${i+1} = ${sigmas[i].toFixed(3)} — ${names[i]}`;
+    barsEl.appendChild(bar);
+    const lab = document.createElement('div');
+    lab.className = 'svd-lab';
+    lab.textContent = names[i].length > 6 ? names[i].slice(0,6) : names[i];
+    labsEl.appendChild(lab);
+  }
+})();
+</script>
+
+<div class="insight-box">
+  <div class="insight-label">C Operator Insight</div>
+  The first five singular values of any natural language grammar account for roughly 80% of the variance in adult speech. This is why a learner at rank 5 sounds surprisingly fluent in short interactions but collapses at complex sentences: they have captured the 80%, not the 20% that requires ranks 6–50. The compression is excellent but incomplete. Every language teacher who has noted that "students know the vocabulary but struggle with complex sentences" is observing this singular value gap.
+</div>
+
+<hr class="gold-rule">
+<h2>§ 2.2 &nbsp; Critical Periods as K Events</h2>
+
+<p>If compression were unlimited in time, every learner would eventually converge to the same C — the adult grammar. But learning is not unlimited. The brain has <strong>critical periods</strong>: time windows during which a given compression dimension can be learned, after which the threshold rises sharply and that dimension becomes much harder to acquire. This is the <span class="op-tag op-k">K</span> operator operating on development.</p>
+
+<p>The molecular basis of critical periods is well established. During development, the visual cortex, auditory cortex, and language areas undergo waves of synaptic pruning and myelination. During a wave, the cortical circuit is <em>plastic</em> — it can learn the relevant compression dimension (σᵢ) from input. As the wave closes, inhibitory interneurons (particularly parvalbumin-positive cells) mature, perineuronal nets solidify around them, and plasticity is suppressed. The threshold K* for updating σᵢ rises above any achievable input level. The K event has fired and frozen.</p>
+
+<div class="math-block">
+Critical period dynamics:<br><br>
+Before window: &nbsp; K*(t) low — any input I > K* can update σᵢ<br>
+During window: &nbsp; σᵢ(t) ← σᵢ(t) + η·(I(t) − K*(t)) &nbsp; if I > K*<br>
+After window: &nbsp; K*(t) → ∞ — no input can cross the threshold<br><br>
+Window timing (approximate):<br>
+  Phonology: &nbsp;&nbsp;&nbsp;&nbsp; birth → 12 months<br>
+  Morphology: &nbsp;&nbsp;&nbsp; 12 months → 3 years<br>
+  Syntax: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 3 years → puberty<br>
+  Vocabulary: &nbsp;&nbsp;&nbsp; no hard closure (ℵ₀ open)
+</div>
+
+<p>Note that vocabulary has no hard critical period. This is because vocabulary acquisition is <em>not</em> a compression — it is an expansion. Each new word adds a dimension to V (the surface space) rather than deepening a dimension of W (the code space). This is why adults can learn thousands of new words in a second language but cannot acquire the phonology as a native speaker does: vocabulary is linear addition, grammar is matrix compression.</p>
+
+<div class="theorem-box">
+  <div class="theorem-label">Theorem 2.1 — Generative Compression</div>
+  <div class="theorem-body">Let C: W → V be a rank-r compression map from internal code space W to surface space V. A K event at time t* with input I > K*(t*) increases Rank(C) from r to r + 1 — adding one new singular value σᵣ₊₁ and its associated pair of singular vectors (uᵣ₊₁, vᵣ₊₁). The new dimension persists after t* if and only if a subsequent F event folds it into the stable subspace: the memory consolidation event (sleep-dependent or hippocampal reconsolidation) that moves σᵣ₊₁ from episodic to semantic storage.</div>
+  <div class="theorem-proof">
+    <strong>Developmental reading:</strong> Each genuine learning event — each K crossing — adds one rank to the learner's generative matrix. If sleep (the F event) follows, the new dimension is consolidated; if it does not, the rank increase is temporary (as in the laboratory phenomenon of sleep-deprivation-induced forgetting of novel grammar). The 33 K-crossings established in Chapter 1 correspond to rank-33 compression: the practitioner's matrix has 33 stable, consolidated singular values in the domain of expertise.<br><br>
+    <strong>Mathematical reading:</strong> The F operator acts as a projection onto the stable subspace of the Reeb flow (Chapter 3). Rank consolidation = Legendrian isotopy of the new singular vector into the stable contact structure. A K crossing that is not followed by F is a transverse curve that does not close — it is present but not Legendrian, hence not protected.
+  </div>
+</div>
+
+<hr class="gold-rule">
+<h2>§ 2.3 &nbsp; Myelination as C Applied to C</h2>
+
+<p>There is a second level of compression that operates on top of the generative matrix itself: <strong>myelination</strong>. Myelin sheaths wrap around axons and increase signal conduction velocity from roughly 1 m/s (unmyelinated) to 70–120 m/s (heavily myelinated). But the function of myelination is not merely speed. It is <em>precision of timing</em>: myelination allows neural assemblies to synchronize within milliseconds — the window required for gamma-band binding (Chapter 4).</p>
+
+<p>In the compression framework, myelination is <span class="op-tag op-c">C</span> applied to <span class="op-tag op-c">C</span>: a second-order compression. The first C generates the generative matrix (grammar). The second C compresses the computational cost of evaluating C — it reduces the metabolic and temporal expense of applying the matrix. A native speaker evaluates complex syntax in 200–400 ms. An advanced second-language learner evaluating the same construction may take 600–900 ms. The difference is not knowledge (rank is the same) — it is myelination. C² is faster than C.</p>
+
+<div class="math-block">
+First-order C: &nbsp; C₁ : W → V &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (grammar — what to generate)<br>
+Second-order C: C₂ : C₁ → C₁' &nbsp;&nbsp; (myelination — how fast to generate it)<br><br>
+Conduction time: &nbsp; τ = d / v(m) &nbsp;&nbsp; where v increases with myelin thickness m<br>
+Binding window: &nbsp; Δt < 10 ms required for gamma synchrony (Ch. 4)<br><br>
+C² outcome: same grammar, evaluated faster → enables K-crossing at higher frequency
+</div>
+
+<p>This is why fluency is not the same as proficiency. A learner can have a high-rank C (correct grammar) but low-rank C² (slow evaluation). Fluency develops as C² matures — as the circuits that evaluate the grammar become myelinated and fast. The developmental arc of language is: C (grammar acquisition) → K (threshold crossings consolidate rank) → F (sleep consolidates) → T (the circadian period of the learning cycle) → C² (myelination automates). The full operator chain, applied twice.</p>
+
+<div class="falsify-box">
+  <div class="falsify-label">Falsifiability — Chapter 2</div>
+  <p><strong>Prediction:</strong> If Theorem 2.1 is correct, then each genuine K crossing (encounter with a truly novel grammatical construction, confirmed by surprise response — N400 or P600 EEG component) should be followed by a measurable rank increase in the learner's production matrix. This increase should be detectable as the appearance of a new syntactic construction in the learner's output within 24–48 hours of the K event, and should be suppressed by sleep deprivation in the intervening night.</p>
+  <p><strong>Test protocol:</strong> Present 20 learners with a novel grammatical construction. Measure K-crossing via P600 amplitude. Randomly assign half to sleep deprivation. Test production 48 hours later. Predict: sleep-normal group produces the new construction at 60%+ accuracy; sleep-deprived group at 20% or below. This is the F-gating of C.</p>
+</div>
+
+<hr class="gold-rule">
+<h2>§ 2.4 &nbsp; Growing Up: The Unfolding of C</h2>
+
+<p>The title of this chapter — <em>Generative Matrix</em> — carries a second meaning. The word "generative" does not only mean "produces surface forms." It means <em>unfolds from within</em>. The matrix is already implicit in the child at birth; what development does is reveal it, one singular value at a time.</p>
+
+<p>This view — nativist in spirit, contact-geometric in formalization — holds that the generative matrix is not constructed from nothing but is present as a potential in the contact structure of the developing brain. The Darboux theorem (Chapter 3) ensures that the local structure of the contact manifold is the same in every brain: the same fundamental grammar potential. What differs is the global winding — the environmental input that determines which K events fire and in what order, hence which singular values are revealed and consolidated.</p>
+
+<p>Growing up is not filling an empty container. It is an unfolding — a diffeomorphism of the contact manifold that takes an implicit high-dimensional potential and maps it, K event by K event, into an explicit low-dimensional compression. The child is not less than the adult. She is the adult's grammar, still folded. Each year, each K crossing, each sleep cycle — each F event — opens one more dimension.</p>
+
+<div class="insight-box">
+  <div class="insight-label">On the 33 Crossings</div>
+  Chapter 1 establishes that 33 genuine K-crossings on a single topic produce the practitioner threshold. Chapter 2 provides the matrix-theoretic meaning: 33 consolidated K events give the learner a rank-33 compression. In mathematics, this produces a matrix of sufficient rank to represent essentially all first-order logical relationships within a bounded vocabulary. In language, it corresponds to the point at which a learner stops translating from their first language and begins thinking in the second language: the internal code space W has been remapped. The matrix is no longer a translation; it is a native grammar.
+</div>
+
+<div class="fleur">— ≋ —</div>
+
+<h2>§ 2.5 &nbsp; Exercises</h2>
+
+<h3>2.1 &nbsp; Rank and Vocabulary</h3>
+<p>A learner knows 2,000 words and has rank-12 grammar. A second learner knows 500 words and has rank-40 grammar. Predict which learner performs better on: (a) a short story comprehension task, (b) a complex sentence structure task, (c) a content-heavy academic reading task. Explain your prediction in terms of V (surface space) vs. W (code space) and the map C.</p>
+
+<h3>2.2 &nbsp; SVD and Learning Order</h3>
+<p>If singular values are ordered σ₁ > σ₂ > … > σ_r, and K events fire in order of input frequency, argue why the most frequent constructions in a language are learned first. Now consider: is it possible for σ₃ to be learned before σ₂? Under what developmental condition would this happen, and what would be the consequence for comprehension of constructions that depend on σ₂?</p>
+
+<h3>2.3 &nbsp; Critical Period and K*</h3>
+<p>The phonological critical period closes at approximately 12 months. After this, K*(t) for phonological rank has risen above achievable input levels. Explain why adult learners of a second language can nonetheless improve their accent with training — what is happening to K*(t) under intensive training? And why do most adult learners retain a detectable accent even after years of training?</p>
+
+<h3>2.4 &nbsp; Myelination and Fluency</h3>
+<p>Two musicians have identical musical grammar (same rank C) but one has been practicing for 10 years (high C²) and one for 2 years (low C²). In what measurable ways would their performance differ on a sight-reading task? What would EEG data show during the sight-reading? Relate your answer to gamma-band binding and the K threshold of Chapter 4.</p>
+
+</div>
+
+<!-- SIMULATION -->
+<div class="sim-section">
+  <div class="sim-header">
+    <div class="sim-title">Simulation — Critical Period Windows: K Events in Development</div>
+    <div class="sim-controls">
+      <button class="sim-btn" onclick="simAddInput()">Add Input Burst</button>
+      <button class="sim-btn green" onclick="simSleep()">Sleep (F event)</button>
+      <button class="sim-btn red" onclick="simDeprive()">Sleep Deprive</button>
+      <button class="sim-btn" onclick="simReset()">Reset</button>
+    </div>
+  </div>
+  <canvas id="devCanvas" height="300"></canvas>
+  <div class="sim-status">
+    <span class="status-item">Age: <span class="status-val" id="statAge">0.0 y</span></span>
+    <span class="status-item">Rank(C): <span class="status-val" id="statRank">0</span></span>
+    <span class="status-item">K Events: <span class="status-val" id="statK">0</span></span>
+    <span class="status-item">Open Windows: <span class="status-val" id="statWindows">phonology</span></span>
+  </div>
+</div>
+
+<script>
+(function() {
+  const canvas = document.getElementById('devCanvas');
+  const ctx = canvas.getContext('2d');
+  function resize() { canvas.width = canvas.parentElement.clientWidth; }
+  resize();
+  window.addEventListener('resize', resize);
+
+  // Critical period definitions (start, peak, end in years, dimension name, color)
+  const WINDOWS = [
+    { name: 'Phonology', start: 0,   peak: 0.5, end: 1.2,  color: '#4a9eff',  sigma: 0 },
+    { name: 'Morphology',start: 0.8, peak: 2.0, end: 3.5,  color: '#c084fc',  sigma: 1 },
+    { name: 'Syntax',    start: 2.0, peak: 5.0, end: 12.0, color: '#50c878',  sigma: 2 },
+    { name: 'Pragmatics',start: 4.0, peak: 8.0, end: 16.0, color: '#f9c74f',  sigma: 3 },
+    { name: 'Vocabulary',start: 0,   peak: 7.0, end: 99.0, color: '#e05a3a',  sigma: 4 },
+  ];
+
+  const MAX_AGE = 18;
+  let age = 0;
+  let rank = 0;
+  let kEvents = 0;
+  let consolidated = [false, false, false, false, false];
+  let inputBurst = 0;  // extra input level
+  let sleepBonus = 0;
+  let deprived = false;
+  const DT = 0.01; // years per frame
+
+  let animId = null;
+
+  function kThreshold(w, a) {
+    // K* rises steeply after the window closes
+    if (a < w.start) return 1.5;
+    if (a < w.peak) return 0.3 - 0.2 * ((a - w.start) / (w.peak - w.start));
+    if (a < w.end)  return 0.1 + 0.9 * ((a - w.peak) / (w.end - w.peak));
+    return 2.0; // closed
+  }
+
+  function step() {
+    age += DT;
+    if (inputBurst > 0) inputBurst = Math.max(0, inputBurst - DT * 2);
+    if (sleepBonus > 0) sleepBonus = Math.max(0, sleepBonus - DT * 4);
+    if (deprived) { sleepBonus = -0.3; }
+
+    // For each open window, check if input crosses K*
+    for (let i = 0; i < WINDOWS.length; i++) {
+      if (consolidated[i]) continue;
+      const w = WINDOWS[i];
+      const kt = kThreshold(w, age);
+      const input = 0.4 + inputBurst + Math.sin(age * 12) * 0.1;
+      if (input > kt + sleepBonus) {
+        // K fires
+        consolidated[i] = true;
+        rank++;
+        kEvents++;
+      }
+    }
+  }
+
+  function draw() {
+    const W = canvas.width, H = canvas.height;
+    ctx.clearRect(0, 0, W, H);
+    ctx.fillStyle = '#05050e';
+    ctx.fillRect(0, 0, W, H);
+
+    const padL = 60, padR = 20, padT = 28, padB = 40;
+    const plotW = W - padL - padR, plotH = H - padT - padB;
+
+    // Axes
+    ctx.strokeStyle = 'rgba(42,42,58,0.9)';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(padL, padT); ctx.lineTo(padL, padT + plotH);
+    ctx.moveTo(padL, padT + plotH); ctx.lineTo(padL + plotW, padT + plotH);
+    ctx.stroke();
+
+    // X axis labels (age)
+    ctx.fillStyle = 'rgba(153,148,160,0.6)';
+    ctx.font = `${Math.max(9,W*0.012)}px monospace`;
+    ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+    for (let a = 0; a <= MAX_AGE; a += 3) {
+      const x = padL + (a / MAX_AGE) * plotW;
+      ctx.fillText(a + 'y', x, padT + plotH + 4);
+      ctx.strokeStyle = 'rgba(42,42,58,0.4)';
+      ctx.lineWidth = 1; ctx.setLineDash([2,6]);
+      ctx.beginPath(); ctx.moveTo(x, padT); ctx.lineTo(x, padT + plotH); ctx.stroke();
+      ctx.setLineDash([]);
+    }
+
+    // Y axis label
+    ctx.save();
+    ctx.translate(14, padT + plotH / 2);
+    ctx.rotate(-Math.PI / 2);
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillStyle = 'rgba(153,148,160,0.5)';
+    ctx.fillText('K* threshold', 0, 0);
+    ctx.restore();
+
+    // Panel title
+    ctx.fillStyle = 'rgba(153,148,160,0.4)';
+    ctx.font = `${Math.max(9,W*0.011)}px monospace`;
+    ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+    ctx.fillText('CRITICAL PERIOD WINDOWS — K* THRESHOLD VS AGE', padL + plotW/2, 6);
+
+    // Draw K* curves for each window
+    for (let i = 0; i < WINDOWS.length; i++) {
+      const w = WINDOWS[i];
+      ctx.beginPath();
+      ctx.lineWidth = consolidated[i] ? 3 : 1.5;
+      const alpha = consolidated[i] ? 0.6 : 0.3;
+      ctx.strokeStyle = w.color.replace(')', `,${alpha})`).replace('rgb', 'rgba');
+      // Parse color and add alpha
+      const hex = w.color;
+      const r = parseInt(hex.slice(1,3),16), g = parseInt(hex.slice(3,5),16), b = parseInt(hex.slice(5,7),16);
+      ctx.strokeStyle = `rgba(${r},${g},${b},${consolidated[i] ? 0.7 : 0.35})`;
+
+      let started = false;
+      for (let step = 0; step <= 200; step++) {
+        const a = (step / 200) * MAX_AGE;
+        const kt = kThreshold(w, a);
+        const x = padL + (a / MAX_AGE) * plotW;
+        const y = padT + plotH - Math.min(kt, 2) / 2 * plotH;
+        if (!started) { ctx.moveTo(x, y); started = true; }
+        else ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+
+      // Window label
+      if (!consolidated[i]) {
+        const midA = (w.start + w.end) / 2;
+        const midKt = kThreshold(w, Math.min(midA, w.peak));
+        const lx = padL + (Math.min(midA, MAX_AGE * 0.85) / MAX_AGE) * plotW;
+        const ly = padT + plotH - Math.min(midKt, 2) / 2 * plotH - 12;
+        ctx.fillStyle = `rgba(${r},${g},${b},0.6)`;
+        ctx.font = `${Math.max(8,W*0.011)}px monospace`;
+        ctx.textAlign = 'center'; ctx.textBaseline = 'bottom';
+        ctx.fillText(w.name, lx, ly);
+      } else {
+        const lx = padL + (Math.min(w.end * 0.8, MAX_AGE * 0.85) / MAX_AGE) * plotW;
+        ctx.fillStyle = `rgba(${r},${g},${b},0.8)`;
+        ctx.font = `bold ${Math.max(8,W*0.011)}px monospace`;
+        ctx.textAlign = 'center'; ctx.textBaseline = 'bottom';
+        ctx.fillText(w.name + ' ✓', lx, padT + plotH - 4);
+      }
+    }
+
+    // Current age line
+    const curX = padL + Math.min(age / MAX_AGE, 1) * plotW;
+    ctx.strokeStyle = 'rgba(74,158,255,0.6)';
+    ctx.lineWidth = 2;
+    ctx.setLineDash([4,6]);
+    ctx.beginPath();
+    ctx.moveTo(curX, padT); ctx.lineTo(curX, padT + plotH);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    // Age label on line
+    ctx.fillStyle = 'rgba(74,158,255,0.8)';
+    ctx.font = `${Math.max(9,W*0.012)}px monospace`;
+    ctx.textAlign = 'center'; ctx.textBaseline = 'bottom';
+    ctx.fillText(age.toFixed(1) + 'y', curX, padT - 2);
+
+    // Input level indicator
+    const inputLevel = 0.4 + inputBurst;
+    const inputY = padT + plotH - (Math.min(inputLevel, 2) / 2) * plotH;
+    ctx.strokeStyle = 'rgba(249,199,79,0.6)';
+    ctx.lineWidth = 1.5;
+    ctx.setLineDash([8, 4]);
+    ctx.beginPath();
+    ctx.moveTo(padL, inputY); ctx.lineTo(padL + plotW, inputY);
+    ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle = 'rgba(249,199,79,0.7)';
+    ctx.font = `${Math.max(8,W*0.01)}px monospace`;
+    ctx.textAlign = 'right'; ctx.textBaseline = 'bottom';
+    ctx.fillText('input I', padL + plotW - 4, inputY - 1);
+
+    // Status
+    document.getElementById('statAge').textContent = age.toFixed(1) + ' y';
+    document.getElementById('statRank').textContent = rank;
+    document.getElementById('statK').textContent = kEvents;
+    const openWins = WINDOWS.filter((w, i) => !consolidated[i] && age >= w.start && age <= w.end).map(w => w.name);
+    document.getElementById('statWindows').textContent = openWins.length ? openWins.join(', ') : (age >= MAX_AGE ? 'closed' : 'none active');
+  }
+
+  function loop() {
+    if (age < MAX_AGE) step();
+    draw();
+    animId = requestAnimationFrame(loop);
+  }
+
+  window.simAddInput = function() {
+    inputBurst = Math.min(inputBurst + 0.6, 1.2);
+    deprived = false;
+  };
+
+  window.simSleep = function() {
+    sleepBonus = 0.15; // lower K* temporarily
+    deprived = false;
+  };
+
+  window.simDeprive = function() {
+    deprived = !deprived;
+    document.querySelectorAll('.sim-btn.red')[0].textContent =
+      deprived ? 'Depriving ✗' : 'Sleep Deprive';
+  };
+
+  window.simReset = function() {
+    age = 0; rank = 0; kEvents = 0;
+    consolidated = [false, false, false, false, false];
+    inputBurst = 0; sleepBonus = 0; deprived = false;
+    document.querySelectorAll('.sim-btn.red')[0].textContent = 'Sleep Deprive';
+  };
+
+  loop();
+})();
+</script>
+
+<!-- PORTAL -->
+<div class="content-wrap" style="padding-top:0">
+<div class="portal-section">
+  <div class="portal-header">
+    <div class="portal-level">Student Portal · Level A2 → B1 · Operator: C</div>
+    <div class="portal-heading">Level A2 → B1 — The Compression</div>
+    <div class="portal-desc">You have read the chapter. Now use these prompts with an AI assistant to move from reading to writing. Each prompt takes you one step further into C — compression, matrix, and the mathematics of unfolding.</div>
+  </div>
+
+  <div class="prompt-card">
+    <div class="prompt-num">Prompt 1 of 3</div>
+    <div class="prompt-title">Find Your Generative Matrix</div>
+    <div class="prompt-text" id="p1text">I am an A2–B1 English learner reading Chapter 2 of Book 3: The Mini-Beast. The chapter argues that all learning involves compression — reducing a large surface space (many possible sentences or behaviors) into a small internal code (a generative matrix). I want to identify the generative matrix in my own area of expertise or study. My area is: [INSERT YOUR AREA]. Please help me: (1) describe the "surface space" in my area — all the things a practitioner can produce or recognize, (2) estimate how many independent rules or principles (like singular values) a true expert needs to know, and (3) identify the 3 most important "singular values" — the three rules or principles that explain the most variance in my field. Use simple English. Give each principle a one-sentence explanation.</div>
+    <button class="copy-btn" onclick="copyPrompt('p1text', this)">Copy Prompt</button>
+  </div>
+
+  <div class="prompt-card">
+    <div class="prompt-num">Prompt 2 of 3</div>
+    <div class="prompt-title">Describe a Critical Period</div>
+    <div class="prompt-text" id="p2text">I am writing a short academic paragraph (150 words, A2–B1 English) about a "critical period" — a time window when a particular kind of learning is possible that becomes much harder afterward. Chapter 2 describes critical periods as K events: moments when the threshold for learning a new dimension of a generative matrix drops low enough that input can cross it. My critical period example is: [DESCRIBE YOUR EXAMPLE — could be language, music, sport, mathematics, social skill, etc.]. Please write one academic paragraph that: (1) names the critical period and its approximate timing, (2) describes what kind of input is needed to cross the K threshold during this period, (3) explains what is harder to learn after the period closes, and (4) gives one observable prediction that could confirm your claim. Use simple vocabulary but precise language. No bullet points.</div>
+    <button class="copy-btn" onclick="copyPrompt('p2text', this)">Copy Prompt</button>
+  </div>
+
+  <div class="prompt-card">
+    <div class="prompt-num">Prompt 3 of 3</div>
+    <div class="prompt-title">Count Your K Crossings</div>
+    <div class="prompt-text" id="p3text">I am a learner of [MY TARGET LANGUAGE/SUBJECT] at approximately [MY CURRENT LEVEL]. I am using Book 3: The Mini-Beast to understand how I learn. The book argues that genuine learning happens one K crossing at a time — and that 33 consolidated K crossings (K events followed by sleep, the F event) produce a practitioner threshold. I want to estimate how many real K crossings I have had in my target subject so far. Please ask me 5 questions that will help me identify genuine K events in my learning history — moments when something truly new crossed my threshold and was retained. Then estimate my current rank (number of consolidated K events) based on my answers, explain what the next 5 K events in my learning journey might look like, and suggest one specific study activity for this week that is most likely to produce a genuine K crossing. Use B1 level English.</div>
+    <button class="copy-btn" onclick="copyPrompt('p3text', this)">Copy Prompt</button>
+  </div>
+
+  <div class="portal-footer">
+    All 21 prompts across levels A1 → D2 available at <a href="Sportal.html">sportal.html</a>
+  </div>
+</div>
+</div>
+
+<script>
+function copyPrompt(id, btn) {
+  const text = document.getElementById(id).textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = 'Copied ✓';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy Prompt'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+</script>
+
+<div class="chapter-nav">
+  <a href="ch1.html">← Chapter 1: The Cajueiro Principle</a>
+  <a href="ch3-circadian.html">Chapter 3: Circadian Regulation →</a>
+</div>
+
+<footer>
+  <span class="fleur-footer">⚜</span>
+  Book 3: The Mini-Beast &nbsp;·&nbsp; G = U ∘ F ∘ K ∘ C &nbsp;·&nbsp; Chapter 2 of 17
+  <span class="fleur-footer">⚜</span>
+</footer>
+
+</body>
+</html>

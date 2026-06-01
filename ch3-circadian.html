@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter 3 — Circadian Regulation | Book 3: The Mini-Beast</title>
+<style>
+  :root {
+    --gold: #c9a84c;
+    --gold-dim: #8a6f2e;
+    --dark: #0a0a0f;
+    --surface: #111118;
+    --surface2: #1a1a24;
+    --text: #e8e4d8;
+    --text-dim: #9994a0;
+    --k-color: #e05a3a;
+    --c-color: #4a9eff;
+    --f-color: #50c878;
+    --u-color: #c084fc;
+    --t-color: #f9c74f;
+    --g-color: #f5d87a;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--dark);
+    color: var(--text);
+    font-family: 'Georgia', serif;
+    font-size: 18px;
+    line-height: 1.75;
+  }
+
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(10,10,15,0.96);
+    border-bottom: 1px solid var(--gold-dim);
+    padding: 0.6rem 2rem;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 0.5rem;
+  }
+  .nav-logo {
+    font-family: 'Georgia', serif;
+    font-size: 0.85rem; letter-spacing: 0.18em;
+    color: var(--gold); text-decoration: none;
+  }
+  .nav-links { display: flex; gap: 1.5rem; font-size: 0.8rem; }
+  .nav-links a {
+    color: var(--text-dim); text-decoration: none; letter-spacing: 0.08em;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+
+  .chapter-hero {
+    background: linear-gradient(160deg, #100e06 0%, #1a1608 60%, #0e0c06 100%);
+    border-bottom: 1px solid #2a2618;
+    padding: 5rem 2rem 4rem;
+    text-align: center;
+    position: relative; overflow: hidden;
+  }
+  .chapter-hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image:
+      radial-gradient(ellipse 60% 30% at 25% 60%, rgba(249,199,79,0.04) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 60% at 75% 40%, rgba(249,199,79,0.03) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-letter {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    font-size: 22rem; font-weight: 900;
+    color: rgba(249,199,79,0.04);
+    user-select: none; pointer-events: none;
+    font-family: 'Georgia', serif; line-height: 1;
+  }
+  .chapter-tag {
+    font-size: 0.72rem; letter-spacing: 0.25em;
+    color: var(--t-color); text-transform: uppercase;
+    margin-bottom: 1rem; position: relative;
+  }
+  .chapter-title {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 400; letter-spacing: 0.04em;
+    color: var(--text); margin-bottom: 1rem;
+    position: relative;
+  }
+  .chapter-subtitle {
+    font-size: 1.1rem; color: var(--text-dim);
+    max-width: 600px; margin: 0 auto 2rem;
+    font-style: italic; position: relative;
+  }
+  .operator-chain {
+    font-family: 'Courier New', monospace;
+    font-size: 1.05rem; letter-spacing: 0.12em;
+    color: var(--text-dim); position: relative;
+    margin-bottom: 0.5rem;
+  }
+  .operator-chain .active {
+    color: var(--t-color);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    font-weight: bold;
+  }
+  .chapter-meta {
+    display: flex; gap: 2rem; justify-content: center;
+    flex-wrap: wrap; margin-top: 1.5rem;
+    font-size: 0.78rem; letter-spacing: 0.12em;
+    color: var(--text-dim); position: relative;
+  }
+  .meta-badge {
+    background: rgba(249,199,79,0.1);
+    border: 1px solid rgba(249,199,79,0.3);
+    padding: 0.3rem 0.9rem; border-radius: 2px;
+    color: var(--t-color);
+  }
+
+  .content-wrap {
+    max-width: 780px; margin: 0 auto; padding: 3rem 2rem 4rem;
+  }
+  h2 {
+    font-size: 1.4rem; font-weight: 400;
+    color: var(--gold); margin: 3rem 0 1rem;
+    letter-spacing: 0.06em;
+  }
+  h3 {
+    font-size: 1.1rem; font-weight: 600;
+    color: var(--text); margin: 2rem 0 0.7rem;
+  }
+  p { margin-bottom: 1.2rem; }
+
+  .gold-rule {
+    border: none; border-top: 1px solid var(--gold-dim);
+    margin: 2.5rem 0; opacity: 0.4;
+  }
+  .fleur {
+    text-align: center; color: var(--gold-dim);
+    font-size: 1.2rem; margin: 2rem 0; opacity: 0.5;
+  }
+
+  .theorem-box {
+    background: rgba(249,199,79,0.05);
+    border-left: 3px solid var(--t-color);
+    padding: 1.5rem 1.8rem;
+    margin: 2rem 0; border-radius: 0 4px 4px 0;
+  }
+  .theorem-label {
+    font-size: 0.72rem; letter-spacing: 0.2em;
+    color: var(--t-color); text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+  .theorem-body { font-style: italic; color: var(--text); }
+  .theorem-proof {
+    margin-top: 1rem; font-size: 0.9rem;
+    color: var(--text-dim); font-style: normal;
+  }
+
+  .insight-box {
+    background: rgba(201,168,76,0.06);
+    border: 1px solid rgba(201,168,76,0.2);
+    padding: 1.2rem 1.5rem; margin: 2rem 0; border-radius: 4px;
+  }
+  .insight-label {
+    font-size: 0.7rem; letter-spacing: 0.2em;
+    color: var(--gold); text-transform: uppercase; margin-bottom: 0.4rem;
+  }
+
+  .math-block {
+    background: var(--surface2);
+    border: 1px solid #2a2a3a;
+    padding: 1.2rem 1.5rem; margin: 1.5rem 0;
+    font-family: 'Courier New', monospace;
+    font-size: 0.95rem; color: var(--t-color);
+    border-radius: 4px; overflow-x: auto;
+    line-height: 1.9;
+  }
+
+  .op-tag {
+    display: inline-block;
+    font-family: 'Courier New', monospace;
+    font-size: 0.75rem; letter-spacing: 0.08em;
+    padding: 0.15rem 0.5rem; border-radius: 2px;
+    vertical-align: middle;
+  }
+  .op-k { background: rgba(224,90,58,0.15); color: var(--k-color); border: 1px solid rgba(224,90,58,0.3); }
+  .op-c { background: rgba(74,158,255,0.15); color: var(--c-color); border: 1px solid rgba(74,158,255,0.3); }
+  .op-f { background: rgba(80,200,120,0.15); color: var(--f-color); border: 1px solid rgba(80,200,120,0.3); }
+  .op-u { background: rgba(192,132,252,0.15); color: var(--u-color); border: 1px solid rgba(192,132,252,0.3); }
+  .op-t { background: rgba(249,199,79,0.15); color: var(--t-color); border: 1px solid rgba(249,199,79,0.3); }
+  .op-g { background: rgba(245,216,122,0.15); color: var(--g-color); border: 1px solid rgba(245,216,122,0.3); }
+
+  .falsify-box {
+    background: rgba(80,200,120,0.06);
+    border-left: 3px solid var(--f-color);
+    padding: 1.2rem 1.5rem; margin: 2rem 0; border-radius: 0 4px 4px 0;
+  }
+  .falsify-label {
+    font-size: 0.7rem; letter-spacing: 0.2em;
+    color: var(--f-color); text-transform: uppercase; margin-bottom: 0.4rem;
+  }
+
+  /* CONTACT DIAGRAM */
+  .contact-diagram {
+    background: var(--surface2);
+    border: 1px solid #2a2a3a;
+    border-radius: 6px; padding: 1.5rem; margin: 2rem 0;
+  }
+  .contact-title {
+    font-size: 0.72rem; letter-spacing: 0.2em;
+    color: var(--text-dim); text-transform: uppercase;
+    margin-bottom: 1.2rem; text-align: center;
+  }
+  .mechanics-table {
+    width: 100%; border-collapse: collapse; font-size: 0.88rem;
+  }
+  .mechanics-table th {
+    font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--text-dim); padding: 0.4rem 0.8rem;
+    border-bottom: 1px solid #2a2a3a; text-align: left;
+  }
+  .mechanics-table td {
+    padding: 0.6rem 0.8rem; border-bottom: 1px solid #1a1a24;
+    vertical-align: top;
+  }
+  .mechanics-table tr:last-child td { border-bottom: none; }
+  .mech-op { font-family: 'Courier New', monospace; font-weight: bold; }
+  .mech-name { color: var(--text-dim); font-size: 0.82rem; }
+  .mech-contact { font-family: 'Courier New', monospace; font-size: 0.82rem; color: var(--t-color); }
+  .mech-bio { font-size: 0.82rem; color: var(--text-dim); }
+
+  /* SIMULATION */
+  .sim-section {
+    background: var(--surface2);
+    border: 1px solid #2a2a3a;
+    border-radius: 6px; margin: 3rem 0; overflow: hidden;
+  }
+  .sim-header {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid #2a2a3a;
+    display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+  }
+  .sim-title {
+    font-size: 0.78rem; letter-spacing: 0.15em;
+    color: var(--text-dim); text-transform: uppercase; flex: 1;
+  }
+  .sim-controls { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+  .sim-btn {
+    background: rgba(249,199,79,0.1);
+    border: 1px solid rgba(249,199,79,0.28);
+    color: var(--t-color);
+    padding: 0.35rem 0.8rem;
+    font-size: 0.75rem; letter-spacing: 0.08em;
+    cursor: pointer; border-radius: 2px;
+    font-family: 'Courier New', monospace;
+    transition: all 0.2s;
+  }
+  .sim-btn:hover { background: rgba(249,199,79,0.22); }
+  .sim-btn.red {
+    background: rgba(224,90,58,0.1);
+    border-color: rgba(224,90,58,0.3);
+    color: var(--k-color);
+  }
+  .sim-btn.green {
+    background: rgba(80,200,120,0.1);
+    border-color: rgba(80,200,120,0.3);
+    color: var(--f-color);
+  }
+  canvas { display: block; width: 100%; background: #06060c; }
+  .sim-status {
+    padding: 0.8rem 1.5rem;
+    font-family: 'Courier New', monospace; font-size: 0.78rem;
+    display: flex; gap: 2rem; flex-wrap: wrap;
+    border-top: 1px solid #2a2a3a;
+  }
+  .status-item { color: var(--text-dim); }
+  .status-val { color: var(--t-color); font-weight: bold; }
+  .status-val.disrupted { color: var(--k-color); }
+  .status-val.entrained { color: var(--f-color); }
+
+  /* PORTAL */
+  .portal-section {
+    background: linear-gradient(160deg, #100e06 0%, #1a1508 100%);
+    border: 1px solid rgba(249,199,79,0.2);
+    border-radius: 6px; margin: 3rem 0; overflow: hidden;
+  }
+  .portal-header {
+    background: rgba(249,199,79,0.07);
+    border-bottom: 1px solid rgba(249,199,79,0.18);
+    padding: 1.2rem 1.8rem;
+  }
+  .portal-level {
+    font-size: 0.7rem; letter-spacing: 0.2em;
+    color: var(--t-color); text-transform: uppercase; margin-bottom: 0.3rem;
+  }
+  .portal-heading { font-size: 1.15rem; color: var(--text); font-weight: 400; }
+  .portal-desc { font-size: 0.88rem; color: var(--text-dim); margin-top: 0.4rem; }
+  .prompt-card {
+    padding: 1.5rem 1.8rem;
+    border-bottom: 1px solid rgba(249,199,79,0.08);
+  }
+  .prompt-num {
+    font-size: 0.65rem; letter-spacing: 0.2em;
+    color: var(--t-color); text-transform: uppercase; margin-bottom: 0.5rem;
+  }
+  .prompt-title { font-size: 1rem; color: var(--gold); margin-bottom: 0.5rem; }
+  .prompt-text {
+    background: var(--surface2); border: 1px solid #2a2a3a;
+    border-radius: 4px; padding: 1rem 1.2rem;
+    font-family: 'Courier New', monospace;
+    font-size: 0.82rem; color: var(--text);
+    line-height: 1.6; margin: 0.7rem 0;
+  }
+  .copy-btn {
+    background: rgba(249,199,79,0.08);
+    border: 1px solid rgba(249,199,79,0.22);
+    color: var(--t-color);
+    padding: 0.3rem 0.7rem; font-size: 0.72rem;
+    letter-spacing: 0.08em; cursor: pointer;
+    border-radius: 2px; font-family: 'Courier New', monospace;
+    transition: all 0.2s;
+  }
+  .copy-btn:hover { background: rgba(249,199,79,0.2); }
+  .copy-btn.copied { color: var(--f-color); border-color: rgba(80,200,120,0.35); }
+  .portal-footer {
+    padding: 1rem 1.8rem; border-top: 1px solid rgba(249,199,79,0.12);
+    font-size: 0.78rem; color: var(--text-dim); text-align: center;
+  }
+  .portal-footer a { color: var(--t-color); text-decoration: none; }
+
+  .chapter-nav {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 2rem; border-top: 1px solid #2a2a3a;
+    max-width: 780px; margin: 0 auto;
+  }
+  .chapter-nav a {
+    color: var(--gold); text-decoration: none;
+    font-size: 0.85rem; letter-spacing: 0.08em;
+    border: 1px solid rgba(201,168,76,0.25);
+    padding: 0.5rem 1rem; border-radius: 2px;
+    transition: all 0.2s;
+  }
+  .chapter-nav a:hover { background: rgba(201,168,76,0.08); }
+
+  footer {
+    text-align: center; padding: 2rem;
+    font-size: 0.72rem; letter-spacing: 0.12em;
+    color: var(--text-dim); border-top: 1px solid #1a1a24;
+  }
+  footer .fleur-footer { color: var(--gold-dim); margin: 0 0.5rem; }
+
+  @media (max-width: 600px) {
+    .hero-letter { font-size: 10rem; }
+    .mechanics-table { font-size: 0.78rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="impa-portal.html" class="nav-logo">⚜ PRINCIPIA ORTHOGONA ⚜</a>
+  <div class="nav-links">
+    <a href="chapters-diagram.html">All Chapters</a>
+    <a href="course-16weeks.html">Course</a>
+    <a href="Sportal.html">Portal</a>
+    <a href="trilogy-sale.html">Get the Book</a>
+  </div>
+</nav>
+
+<section class="chapter-hero">
+  <div class="hero-letter">T</div>
+  <div class="chapter-tag">Chapter 3 · Week 3–4 · CEFR B1</div>
+  <h1 class="chapter-title">Circadian Regulation</h1>
+  <p class="chapter-subtitle">The body does not choose to oscillate. The geometry of its state space forces it to. That geometry is T.</p>
+  <div class="operator-chain">G = U ∘ F ∘ K ∘ C &nbsp;·&nbsp; <span class="active">T</span> = periodicity</div>
+  <div class="chapter-meta">
+    <span class="meta-badge">Operator: T · Tone / Period</span>
+    <span style="color:var(--text-dim)">Week 3–4</span>
+    <span style="color:var(--text-dim)">CEFR B1</span>
+    <span style="color:var(--text-dim)">Contact Geometry · Reeb Flow</span>
+  </div>
+</section>
+
+<div class="content-wrap">
+
+<p>Something in you keeps exact time. Without a clock, without sunlight, without any external signal, your body temperature peaks in the late afternoon, your cortisol surges before you wake, your immune cells shift from production to surveillance at hours you cannot consciously track. The period of this cycle is approximately 24.2 hours — close enough to Earth's rotation that entrainment locks the two together every morning when light hits your retina.</p>
+
+<p>How does a living system maintain period? Not because it has a timer — there is no homunculus counting seconds. It maintains period because its state space has a particular <em>shape</em>, and that shape, under the right conditions, makes periodic motion geometrically inevitable. Chapter 3 shows you that shape. It is a contact 3-manifold, its natural dynamics are the Reeb flow, and the persistent oscillation it produces is the operator <span class="op-tag op-t">T</span> in the framework G = U ∘ F ∘ K ∘ C.</p>
+
+<hr class="gold-rule">
+<h2>§ 3.1 &nbsp; The Contact 3-Manifold</h2>
+
+<p>A <em>manifold</em> is a space that looks locally flat — every small neighborhood resembles ordinary Euclidean space — but can have global curvature and topology. The state of your circadian system at any moment can be described by three coordinates: the phase of the molecular clock oscillator (call it <em>q</em>), the amplitude of the oscillation (call it <em>p</em>), and a quantity tracking accumulated biochemical history (call it <em>z</em>). Together, (q, p, z) define a point in a 3-dimensional state manifold M.</p>
+
+<p>A <strong>contact structure</strong> on M is a smoothly varying choice of a 2-dimensional plane ξ at each point — one plane per point — satisfying a strict non-integrability condition. More precisely, we specify a 1-form α (a linear function on each tangent space) whose kernel defines the plane field:</p>
+
+<div class="math-block">
+ξ  =  ker(α)   ⟵  the contact distribution<br><br>
+Darboux local coordinates: &nbsp; α = dz + q dp<br><br>
+Non-integrability: &nbsp; α ∧ dα ≠ 0 &nbsp; everywhere on M
+</div>
+
+<p>The condition α ∧ dα ≠ 0 — the <em>contact condition</em> — is the key. It means the plane field ξ is <em>maximally non-integrable</em>: there is no surface in M whose tangent planes all lie inside ξ. The biological consequence is direct: the circadian system cannot get "stuck" at a steady state. Non-integrability forbids the dynamics from settling into a 2-dimensional rest. It must keep moving along the one remaining direction — and that direction is the Reeb vector field.</p>
+
+<div class="insight-box">
+  <div class="insight-label">Contact Geometry Insight</div>
+  The Darboux theorem guarantees that any two contact structures on a 3-manifold are locally identical: there is only one local model. What differs between organisms, or between tissue types in the same organism, is the <em>global</em> topology. This is how T (the periodicity operator) produces the same 24-hour structure in organisms as different as cyanobacteria, fungi, and mammals: the local geometry is universal; only the global winding differs.
+</div>
+
+<h2>§ 3.2 &nbsp; The Reeb Vector Field</h2>
+
+<p>Given a contact form α, the <strong>Reeb vector field</strong> R is the unique vector field on M satisfying two conditions simultaneously:</p>
+
+<div class="math-block">
+α(R) = 1 &nbsp;&nbsp;&nbsp;&nbsp; ← R is never tangent to the contact planes<br><br>
+ι_R dα = 0 &nbsp;&nbsp;&nbsp;&nbsp; ← R preserves the contact form<br><br>
+Together: R is the unique "transverse" direction α ∧ dα forces to exist
+</div>
+
+<p>The flow of R — call it φ_t — is the <strong>Reeb flow</strong>. As t increases, the point representing the organism's state moves along R in M. The Reeb flow is volume-preserving (it is a contactomorphism), which means it cannot spiral in or out; it cannot approach a fixed point. The only long-run behaviours are periodic orbits — closed loops — or quasi-periodic trajectories that densely fill tori.</p>
+
+<p>For the circadian system, the periodic orbit of the Reeb flow is the <em>circadian attractor</em>: a closed curve γ ⊂ M traversed once every ~24.2 hours. A mathematical theorem — proved by Clifford Taubes in 2007 using Seiberg-Witten theory — guarantees that on any closed orientable 3-manifold with a contact form, the Reeb vector field has at least one periodic orbit. Your body's timekeeping is not an accident of evolution. It is geometrically mandated.</p>
+
+<div class="theorem-box">
+  <div class="theorem-label">Theorem 3.1 — Contact Periodicity (Weinstein Conjecture, Taubes 2007)</div>
+  <div class="theorem-body">Let (M, α) be a closed orientable contact 3-manifold. Then the Reeb vector field R_α has at least one closed orbit γ: there exists T > 0 such that φ_T(x) = x for some x ∈ M.</div>
+  <div class="theorem-proof">
+    <strong>Biological reading:</strong> Any living system whose state space is a closed contact 3-manifold must exhibit at least one periodic oscillation — a biological clock — regardless of the specific biochemistry. The period T of the orbit is determined by the global geometry of (M, α), not by any individual molecular rate constant. This is why knocking out a single clock gene shifts the period without destroying it: you are deforming α, not eliminating the contact structure.<br><br>
+    <strong>Proof sketch:</strong> Taubes proved that the Seiberg-Witten invariant of M equals the embedded contact homology (ECH) count of Reeb orbits. For any closed orientable 3-manifold with a contact form, this count is nonzero. The algebraic nonvanishing forces a geometric periodic orbit to exist. The argument is independent of the particular contact form chosen, hence independent of specific biochemical parameters.
+  </div>
+</div>
+
+<hr class="gold-rule">
+<h2>§ 3.3 &nbsp; Helical Attractors in Phase-Time Space</h2>
+
+<p>To visualize the circadian attractor, embed the Reeb orbit γ into an extended phase-time space M × ℝ, where the vertical axis is external clock time t. As the organism's state traverses γ — spending ~24.2 hours per lap — its trajectory in M × ℝ traces a <em>helix</em>:</p>
+
+<div class="math-block">
+Γ(t) = ( φ_t(x₀), t ) ∈ M × ℝ<br><br>
+Phase coordinates: &nbsp; q(t) = q₀ + (2π/T)·t &nbsp;(mod 2π)<br><br>
+Projection onto ℝ: &nbsp; q(t) = A·cos(2πt/T + φ₀) + harmonics<br><br>
+T ≈ 24.2 h (free-running period), A = amplitude, φ₀ = initial phase
+</div>
+
+<p>The helix has a fixed <em>pitch</em> — one full revolution every T hours. Entrainment by the light-dark cycle is a daily phase correction: each morning, the retinal ganglion cells transmit a signal that slightly adjusts φ₀, keeping the helix locked to the 24.0-hour solar period rather than the 24.2-hour free-running period. This is a <strong>K event</strong> <span class="op-tag op-k">K</span>: a threshold-crossing signal that resets the phase without destroying the Reeb orbit structure.</p>
+
+<p>A <strong>Legendrian curve</strong> in (M, ξ) is one whose tangent vector lies entirely within the contact planes ξ at every point. Biological processes that run <em>in phase</em> with the circadian oscillator are Legendrian in this sense: they stay inside the contact distribution, protected from crossing the threshold. A <strong>transverse curve</strong> — one that crosses ξ — corresponds to a disruption event: jet lag, shift work, the forcing of a biological process into a phase incompatible with the circadian contact structure. Transverse crossings are the geometry of misalignment, and they are costly: the contact condition penalizes them energetically.</p>
+
+<div class="insight-box">
+  <div class="insight-label">The F Operator in Circadian Context</div>
+  <span class="op-tag op-f">F</span> — the fold / memory operator — appears in the circadian system as <em>Legendrian isotopy</em>. Two Legendrian curves are Legendrian isotopic if one can be continuously deformed into the other while staying Legendrian throughout. This is the mathematical structure of <em>phase tolerance</em>: the organism can adjust its internal timing (deform the Legendrian curve) without ever leaving the contact distribution (without crossing K). The Legendrian isotopy class is the organism's "phase envelope" — the range of schedules it can accommodate while remaining in the protected fold.
+</div>
+
+<hr class="gold-rule">
+<h2>§ 3.4 &nbsp; Generative Contact Mechanics</h2>
+
+<p>The framework below formalizes the operator mapping for any system whose dynamics are governed by a contact structure. This is <strong>Generative Contact Mechanics</strong> — the formal language in which the science of this book is written.</p>
+
+<div class="contact-diagram">
+  <div class="contact-title">Generative Contact Mechanics — Operator Correspondence</div>
+  <table class="mechanics-table">
+    <tr>
+      <th>Operator</th>
+      <th>Name</th>
+      <th>Contact Object</th>
+      <th>Circadian Biology</th>
+    </tr>
+    <tr>
+      <td class="mech-op"><span class="op-tag op-c">C</span></td>
+      <td class="mech-name">Compression</td>
+      <td class="mech-contact">The contact manifold (M, α) itself</td>
+      <td class="mech-bio">The phase space of the molecular clock — compressed from ∼10⁴ genes to 3 coordinates</td>
+    </tr>
+    <tr>
+      <td class="mech-op"><span class="op-tag op-k">K</span></td>
+      <td class="mech-name">Threshold</td>
+      <td class="mech-contact">Contact condition: α ∧ dα ≠ 0</td>
+      <td class="mech-bio">The non-integrability gate that prevents rest states; light-pulse phase resets; temperature entrainment thresholds</td>
+    </tr>
+    <tr>
+      <td class="mech-op"><span class="op-tag op-f">F</span></td>
+      <td class="mech-name">Fold / Memory</td>
+      <td class="mech-contact">Legendrian isotopy class of γ</td>
+      <td class="mech-bio">Phase tolerance; the range of jet-lag-free travel; entrainment without disruption</td>
+    </tr>
+    <tr>
+      <td class="mech-op"><span class="op-tag op-t">T</span></td>
+      <td class="mech-name">Tone / Period</td>
+      <td class="mech-contact">Reeb flow φ_t; closed orbit γ of period T</td>
+      <td class="mech-bio">The 24.2-hour free-running period; circadian gene expression cycles; cortisol rhythm</td>
+    </tr>
+    <tr>
+      <td class="mech-op"><span class="op-tag op-u">U</span></td>
+      <td class="mech-name">Universal</td>
+      <td class="mech-contact">Contactomorphism classification; Darboux universality</td>
+      <td class="mech-bio">The same period arises in cyanobacteria, fungi, insects, mammals — one local geometry, many global biologies</td>
+    </tr>
+    <tr>
+      <td class="mech-op"><span class="op-tag op-g">G</span></td>
+      <td class="mech-name">Generative</td>
+      <td class="mech-contact">G = U ∘ F ∘ K ∘ C acting on (M, α)</td>
+      <td class="mech-bio">The complete circadian system: compressed state space → non-integrability gate → Legendrian fold → Reeb flow → universal period → full organism timing</td>
+    </tr>
+  </table>
+</div>
+
+<h3>The Reeb Orbit as Circadian Period</h3>
+
+<p>The period T of the circadian clock is not a rate constant — it is a topological invariant. You cannot change T by adjusting any single molecular rate without deforming the contact structure (M, α) itself. This is why the circadian period is so robust: it is protected by contact topology, not by any single gene. Mutations in PERIOD, CRY, CLOCK, or BMAL1 do shift T, but they do so by changing the global shape of the contact manifold — the winding number of γ — not by directly setting a rate.</p>
+
+<div class="falsify-box">
+  <div class="falsify-label">Falsifiability — Chapter 3</div>
+  <p><strong>Prediction:</strong> If the Reeb orbit interpretation is correct, then the circadian period T should be robust to proportional scaling of all molecular rate constants simultaneously (a uniform time-rescaling), but sensitive to changes in the <em>ratio</em> of rates that alter the winding geometry. A 2× increase in all transcription and degradation rates should not halve the period — it should leave T approximately constant, because it rescales the Reeb flow speed without changing the orbit topology.</p>
+  <p><strong>Test:</strong> Temperature-compensated systems (cyanobacterial KaiC and mammalian PERIOD) already show this robustness. A decisive experiment would apply proportional rate perturbations computationally (in a full kinetic model) and show period insensitivity followed by sensitivity to asymmetric perturbations.</p>
+</div>
+
+<hr class="gold-rule">
+<h2>§ 3.5 &nbsp; Contact Geometry and Sleep</h2>
+
+<p>The connection to Chapter 4 is direct. When the Reeb orbit passes through the phase corresponding to NREM sleep — roughly between hours 0–6 of the 24-hour cycle — the contact structure of the circadian manifold places the brain's network state into a region of M where the <span class="op-tag op-k">K</span> threshold for theta-gamma coupling is maximally lowered. This is not metaphor. The circadian-gated window of slow-wave sleep is the Reeb orbit passing through the sub-threshold zone of the coupled neural contact manifold.</p>
+
+<p>Two contact manifolds in mechanical coupling — the circadian clock (this chapter) and the thalamocortical oscillator (Chapter 4) — produce a coupled Reeb flow. The joint orbit of this coupled system is the sleep architecture: slow oscillations (δ, 0.5–2 Hz) nested within sleep spindles (12–15 Hz) nested within theta sequences (4–8 Hz), all paced by the circadian Reeb orbit that determines when the coupled window opens. This multi-scale nesting is the operator chain C → K → T: compressed state space, threshold gate, and period.</p>
+
+<div class="theorem-box">
+  <div class="theorem-label">Connection — Chapter 4: Neural Oscillations</div>
+  <div class="theorem-body">The circadian Reeb orbit gates neural K-crossing events. Theta-gamma coupling (Chapter 4's consolidation mechanism) is suppressed when the circadian contact orbit is in its "wake" phase and maximally enabled when it enters its "deep sleep" phase. Disrupting the contact structure — jet lag, shift work, artificial light at night — displaces the Reeb orbit relative to the neural K-threshold window, preventing the F fold (memory consolidation) from completing.</div>
+  <div class="theorem-proof">Observable consequence: learning acquired before sleep consolidates more effectively than learning acquired immediately after waking, because the F-fold window (NREM phase of the Reeb orbit) is closer in time. This is T operating as the scheduler for K and F.</div>
+</div>
+
+<div class="fleur">— ∿ —</div>
+
+<h2>§ 3.6 &nbsp; Exercises</h2>
+
+<h3>3.1 &nbsp; Contact Condition</h3>
+<p>In Darboux coordinates (q, p, z), the contact form is α = dz + q dp. Compute α ∧ dα. Show that it equals dq ∧ dp ∧ dz — the standard volume form — hence is nowhere zero. What does this tell you about the dimensionality of integral submanifolds of ξ = ker(α)?</p>
+
+<h3>3.2 &nbsp; Reeb Vector Field</h3>
+<p>Using α = dz + q dp in Darboux coordinates, find the Reeb vector field R satisfying α(R) = 1 and ι_R dα = 0. Show that R = ∂/∂z. Interpret: what does it mean biologically that the Reeb flow moves purely in the "accumulated history" direction z?</p>
+
+<h3>3.3 &nbsp; Legendrian vs Transverse</h3>
+<p>A Legendrian curve γ(t) = (q(t), p(t), z(t)) must satisfy α(γ̇) = 0, i.e., ż + q·ṗ = 0. If a biological process has phase q(t) = cos(ωt) and amplitude p(t) = sin(ωt), what z(t) keeps it Legendrian? What happens to z(t) if the process is instead transverse (ż = constant)?</p>
+
+<h3>3.4 &nbsp; Period Robustness</h3>
+<p>Consider a simplified circadian model where the Reeb orbit has period T = 2π/ω. If all molecular rates are scaled by a factor λ (i.e., the contact form is rescaled α → λα), how does T change? Now suppose only the transcription rate is doubled, which deforms α asymmetrically. Argue qualitatively why asymmetric deformation changes T while symmetric rescaling does not.</p>
+
+</div><!-- end content-wrap -->
+
+<!-- SIMULATION -->
+<div class="sim-section">
+  <div class="sim-header">
+    <div class="sim-title">Simulation — Circadian Helix: Reeb Orbit in Phase-Time Space</div>
+    <div class="sim-controls">
+      <button class="sim-btn" onclick="simDisrupt()">Jet Lag (−6 h)</button>
+      <button class="sim-btn red" onclick="simShiftWork()">Night Shift</button>
+      <button class="sim-btn green" onclick="simEntrain()">Entrain</button>
+      <button class="sim-btn" onclick="simReset()">Reset</button>
+    </div>
+  </div>
+  <canvas id="circCanvas" height="320"></canvas>
+  <div class="sim-status">
+    <span class="status-item">Phase: <span class="status-val" id="statPhase">0.0 h</span></span>
+    <span class="status-item">Period: <span class="status-val" id="statPeriod">24.2 h</span></span>
+    <span class="status-item">Displacement: <span class="status-val" id="statDisp">0.0 h</span></span>
+    <span class="status-item">State: <span class="status-val" id="statState">entrained</span></span>
+  </div>
+</div>
+
+<script>
+(function() {
+  const canvas = document.getElementById('circCanvas');
+  const ctx = canvas.getContext('2d');
+
+  // Sizing
+  function resize() {
+    canvas.width = canvas.parentElement.clientWidth;
+  }
+  resize();
+  window.addEventListener('resize', () => { resize(); });
+
+  // State
+  const FREE_PERIOD = 24.2;   // hours
+  const ENTRAIN_PERIOD = 24.0; // solar
+  let phase = 0;            // radians [0, 2π)
+  let displacement = 0;    // extra phase offset (radians)
+  let entraining = true;
+  let nightShift = false;
+  let tSim = 0;              // simulated hours elapsed
+  const DT = 0.04;           // time step per frame (simulated hours)
+
+  // History: array of {t, phase} objects
+  const HISTORY_MAX = 480;
+  let history = [];
+
+  let animId = null;
+
+  function step() {
+    const period = entraining ? ENTRAIN_PERIOD : FREE_PERIOD;
+    const omega = (2 * Math.PI) / period;
+    phase += omega * DT;
+    if (phase >= 2 * Math.PI) phase -= 2 * Math.PI;
+    tSim += DT;
+
+    // Entrainment: each "morning" (phase near 0 after a full revolution) pull displacement toward 0
+    if (entraining && !nightShift) {
+      displacement *= 0.985; // slow pull back toward entrainment
+    }
+
+    history.push({ t: tSim, ph: phase + displacement });
+    if (history.length > HISTORY_MAX) history.shift();
+  }
+
+  function draw() {
+    const W = canvas.width, H = canvas.height;
+    ctx.clearRect(0, 0, W, H);
+
+    // Background gradient
+    const bg = ctx.createLinearGradient(0, 0, W, 0);
+    bg.addColorStop(0, '#06060c');
+    bg.addColorStop(1, '#080610');
+    ctx.fillStyle = bg;
+    ctx.fillRect(0, 0, W, H);
+
+    const midX = Math.floor(W * 0.38);
+
+    // ── LEFT PANEL: Phase circle (Reeb orbit) ──
+    const cx = Math.floor(midX * 0.5);
+    const cy = H / 2;
+    const r = Math.min(cx, cy) * 0.72;
+
+    // Orbit circle
+    ctx.strokeStyle = 'rgba(249,199,79,0.12)';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.arc(cx, cy, r, 0, 2 * Math.PI);
+    ctx.stroke();
+
+    // Phase labels (24h clock positions)
+    const labels = ['Noon','18h','Mid','6h'];
+    const labelAngles = [Math.PI*1.5, 0, Math.PI*0.5, Math.PI];
+    ctx.fillStyle = 'rgba(153,148,160,0.5)';
+    ctx.font = `${Math.max(9, W * 0.013)}px monospace`;
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    for (let i = 0; i < labels.length; i++) {
+      const lx = cx + (r + 18) * Math.cos(labelAngles[i]);
+      const ly = cy + (r + 18) * Math.sin(labelAngles[i]);
+      ctx.fillText(labels[i], lx, ly);
+    }
+
+    // Wake/sleep arc shading
+    // Sleep roughly midnight(π/2) to 6am(π) on the lower portion
+    ctx.save();
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.arc(cx, cy, r - 2, Math.PI * 0.5, Math.PI * 1.0);
+    ctx.closePath();
+    ctx.fillStyle = 'rgba(74,158,255,0.07)';
+    ctx.fill();
+    ctx.restore();
+
+    // "SLEEP" label
+    ctx.fillStyle = 'rgba(74,158,255,0.35)';
+    ctx.font = `${Math.max(8,W*0.011)}px monospace`;
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillText('SLEEP', cx + r * 0.6 * Math.cos(Math.PI * 0.75), cy + r * 0.6 * Math.sin(Math.PI * 0.75));
+
+    // Reeb orbit indicator — arrow around circle
+    ctx.strokeStyle = 'rgba(249,199,79,0.25)';
+    ctx.lineWidth = 1.5;
+    ctx.setLineDash([3, 6]);
+    ctx.beginPath();
+    ctx.arc(cx, cy, r, 0, 2 * Math.PI);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    // Current phase dot
+    const curPhase = phase + displacement;
+    const px = cx + r * Math.cos(curPhase - Math.PI / 2);
+    const py = cy + r * Math.sin(curPhase - Math.PI / 2);
+
+    // Glow
+    const grd = ctx.createRadialGradient(px, py, 0, px, py, 14);
+    grd.addColorStop(0, 'rgba(249,199,79,0.4)');
+    grd.addColorStop(1, 'rgba(249,199,79,0)');
+    ctx.fillStyle = grd;
+    ctx.beginPath();
+    ctx.arc(px, py, 14, 0, 2 * Math.PI);
+    ctx.fill();
+
+    // Main dot
+    ctx.fillStyle = nightShift ? '#e05a3a' : '#f9c74f';
+    ctx.beginPath();
+    ctx.arc(px, py, 7, 0, 2 * Math.PI);
+    ctx.fill();
+
+    // Panel label
+    ctx.fillStyle = 'rgba(153,148,160,0.4)';
+    ctx.font = `${Math.max(9, W*0.011)}px monospace`;
+    ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+    ctx.fillText('REEB ORBIT  γ', cx, 8);
+
+    // Divider
+    ctx.strokeStyle = 'rgba(42,42,58,0.6)';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(midX, 10); ctx.lineTo(midX, H - 10);
+    ctx.stroke();
+
+    // ── RIGHT PANEL: Phase-time plot (helix projection) ──
+    const rx = midX + 12;
+    const rw = W - rx - 12;
+    const ry = 28;
+    const rh = H - ry - 30;
+
+    // Axes
+    ctx.strokeStyle = 'rgba(42,42,58,0.8)';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(rx, ry); ctx.lineTo(rx, ry + rh);       // y-axis
+    ctx.moveTo(rx, ry + rh); ctx.lineTo(rx + rw, ry + rh); // x-axis
+    ctx.stroke();
+
+    // Axis labels
+    ctx.fillStyle = 'rgba(153,148,160,0.5)';
+    ctx.font = `${Math.max(9,W*0.011)}px monospace`;
+    ctx.textAlign = 'left'; ctx.textBaseline = 'top';
+    ctx.fillText('cos(phase)', rx + 4, ry + 2);
+    ctx.textAlign = 'right'; ctx.textBaseline = 'bottom';
+    ctx.fillText('time →', rx + rw, ry + rh - 2);
+
+    // Gridlines (24h intervals)
+    if (history.length > 1) {
+      const tMin = history[0].t, tMax = history[history.length - 1].t;
+      const tRange = Math.max(tMax - tMin, 1);
+      ctx.strokeStyle = 'rgba(42,42,58,0.5)';
+      ctx.lineWidth = 1;
+      ctx.setLineDash([3, 6]);
+      const firstGrid = Math.ceil(tMin / 24) * 24;
+      for (let tg = firstGrid; tg <= tMax; tg += 24) {
+        const gx = rx + ((tg - tMin) / tRange) * rw;
+        ctx.beginPath();
+        ctx.moveTo(gx, ry); ctx.lineTo(gx, ry + rh);
+        ctx.stroke();
+        ctx.fillStyle = 'rgba(153,148,160,0.3)';
+        ctx.font = `${Math.max(8, W*0.01)}px monospace`;
+        ctx.textAlign = 'center'; ctx.textBaseline = 'bottom';
+        ctx.fillText(`${Math.round(tg)}h`, gx, ry + rh - 2);
+      }
+      ctx.setLineDash([]);
+
+      // Draw the helix projection: cos(phase) vs time
+      ctx.lineWidth = 1.8;
+      let prevAbove = null;
+      ctx.beginPath();
+      let started = false;
+      for (let i = 0; i < history.length; i++) {
+        const { t, ph } = history[i];
+        const hx = rx + ((t - tMin) / tRange) * rw;
+        const hy = ry + rh * 0.5 - (Math.cos(ph) * rh * 0.42);
+
+        // Color by phase quadrant
+        const quad = Math.floor(((ph % (2 * Math.PI)) + 2 * Math.PI) % (2 * Math.PI) / (Math.PI / 2));
+        const colors = ['#f9c74f', '#c084fc', '#4a9eff', '#50c878'];
+
+        if (!started) { ctx.moveTo(hx, hy); started = true; }
+        else {
+          // stroke segment by segment with color
+          ctx.strokeStyle = colors[quad];
+          ctx.lineTo(hx, hy);
+          ctx.stroke();
+          ctx.beginPath();
+          ctx.moveTo(hx, hy);
+        }
+      }
+
+      // Current phase dot on right panel
+      const lastH = history[history.length - 1];
+      const dpx = rx + rw - 2;
+      const dpy = ry + rh * 0.5 - (Math.cos(lastH.ph) * rh * 0.42);
+      ctx.fillStyle = nightShift ? '#e05a3a' : '#f9c74f';
+      ctx.beginPath();
+      ctx.arc(dpx, dpy, 4, 0, 2 * Math.PI);
+      ctx.fill();
+    }
+
+    // Right panel label
+    ctx.fillStyle = 'rgba(153,148,160,0.4)';
+    ctx.font = `${Math.max(9,W*0.011)}px monospace`;
+    ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+    ctx.fillText('HELIX PROJECTION — cos(φ) vs time', rx + rw / 2, 6);
+
+    // Status
+    const dispH = (displacement / (2 * Math.PI)) * (entraining ? ENTRAIN_PERIOD : FREE_PERIOD);
+    const phaseH = ((phase / (2 * Math.PI)) * (entraining ? ENTRAIN_PERIOD : FREE_PERIOD)).toFixed(1);
+    document.getElementById('statPhase').textContent = phaseH + ' h';
+    document.getElementById('statPeriod').textContent = (entraining ? ENTRAIN_PERIOD : FREE_PERIOD).toFixed(1) + ' h';
+    document.getElementById('statDisp').textContent = dispH.toFixed(1) + ' h';
+    const stateEl = document.getElementById('statState');
+    if (nightShift) {
+      stateEl.textContent = 'night shift (disrupted)';
+      stateEl.className = 'status-val disrupted';
+    } else if (Math.abs(dispH) < 0.5) {
+      stateEl.textContent = 'entrained ✓';
+      stateEl.className = 'status-val entrained';
+    } else {
+      stateEl.textContent = 'recovering…';
+      stateEl.className = 'status-val';
+    }
+  }
+
+  function loop() {
+    step();
+    draw();
+    animId = requestAnimationFrame(loop);
+  }
+
+  window.simDisrupt = function() {
+    // Jet lag: add 6-hour phase advance (cross multiple time zones west → east)
+    displacement += (6 / FREE_PERIOD) * 2 * Math.PI;
+    nightShift = false; entraining = true;
+  };
+
+  window.simShiftWork = function() {
+    // Night shift: 12-hour inversion
+    displacement += Math.PI;
+    nightShift = !nightShift;
+    entraining = true;
+  };
+
+  window.simEntrain = function() {
+    // Snap back to entrained
+    displacement = 0;
+    nightShift = false;
+    entraining = true;
+  };
+
+  window.simReset = function() {
+    phase = 0; displacement = 0;
+    tSim = 0; history = [];
+    nightShift = false; entraining = true;
+  };
+
+  loop();
+})();
+</script>
+
+<!-- PORTAL -->
+<div class="content-wrap" style="padding-top:0">
+<div class="portal-section">
+  <div class="portal-header">
+    <div class="portal-level">Student Portal · Level B1 · Operator: T</div>
+    <div class="portal-heading">Level B1 — The Geometry of Time</div>
+    <div class="portal-desc">You have read the chapter. Now use these prompts with an AI assistant to move from reading to writing. Each prompt takes you one step further into T — tone, period, and the contact geometry of biological clocks.</div>
+  </div>
+
+  <div class="prompt-card">
+    <div class="prompt-num">Prompt 1 of 3</div>
+    <div class="prompt-title">Find Your Reeb Orbit</div>
+    <div class="prompt-text" id="p1text">I am a B1 English learner reading Chapter 3 of Book 3: The Mini-Beast. The chapter argues that any living system with a contact state space must have at least one periodic oscillation — a Reeb orbit — as a geometric necessity. I want to find the equivalent of a Reeb orbit in my own field of study. My field is: [INSERT YOUR FIELD]. Please help me identify: (1) what the "state space" of a key process in my field looks like — what are its 2 or 3 most important variables? (2) whether there is a periodic oscillation in this process that seems robust — hard to eliminate even when you perturb the system — and (3) one real biological, physical, or social example from my field where a period persists despite perturbation. Use simple English. End with a one-sentence claim about why the period persists that I could test.</div>
+    <button class="copy-btn" onclick="copyPrompt('p1text', this)">Copy Prompt</button>
+  </div>
+
+  <div class="prompt-card">
+    <div class="prompt-num">Prompt 2 of 3</div>
+    <div class="prompt-title">Write the Disruption Mechanism</div>
+    <div class="prompt-text" id="p2text">I am writing a short academic paragraph (150 words, B1 English) about a periodic system in [MY FIELD] that can be disrupted. Chapter 3 describes jet lag as a phase displacement of the Reeb orbit — the circadian phase shifts but the period structure survives. I want to describe a similar disruption in my chosen system: [DESCRIBE YOUR SYSTEM AND DISRUPTION]. Please help me write one clear academic paragraph that: (1) names the periodic system and its normal period, (2) describes what a disruption event does to the phase (not the period itself), (3) explains how the system recovers — how it returns to its Reeb orbit — and (4) gives one measurable indicator that recovery is complete. Use simple vocabulary but precise scientific language. Do not use bullet points.</div>
+    <button class="copy-btn" onclick="copyPrompt('p2text', this)">Copy Prompt</button>
+  </div>
+
+  <div class="prompt-card">
+    <div class="prompt-num">Prompt 3 of 3</div>
+    <div class="prompt-title">T → K → F: Your Sleep-Learning Chain</div>
+    <div class="prompt-text" id="p3text">I am a language learner using Book 3: The Mini-Beast. I have just finished Chapter 3 on circadian regulation and I am preparing to read Chapter 4 on neural oscillations. The book argues that the T operator (Reeb orbit = 24-hour period) gates the K operator (neural synchrony threshold) which then gates the F operator (memory consolidation during sleep). I want to design a personal study schedule based on this T → K → F chain. Please ask me three questions: (1) what time I naturally fall asleep and wake, (2) what subject I am most trying to learn right now, and (3) how much sleep I currently average. Then use my answers to suggest a concrete weekly study schedule that places the most cognitively demanding new material (K-crossing events) in the 4–6 hours before my natural sleep onset. Give the schedule as a simple paragraph, not a table. Use B1 level English.</div>
+    <button class="copy-btn" onclick="copyPrompt('p3text', this)">Copy Prompt</button>
+  </div>
+
+  <div class="portal-footer">
+    All 21 prompts across levels A1 → D2 available at <a href="Sportal.html">sportal.html</a>
+  </div>
+</div>
+</div>
+
+<script>
+function copyPrompt(id, btn) {
+  const text = document.getElementById(id).textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = 'Copied ✓';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy Prompt'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+</script>
+
+<div class="chapter-nav">
+  <a href="ch2.html">← Chapter 2: Generative Matrix</a>
+  <a href="ch4-neural.html">Chapter 4: Neural Oscillations →</a>
+</div>
+
+<footer>
+  <span class="fleur-footer">⚜</span>
+  Book 3: The Mini-Beast &nbsp;·&nbsp; G = U ∘ F ∘ K ∘ C &nbsp;·&nbsp; Chapter 3 of 17
+  <span class="fleur-footer">⚜</span>
+</footer>
+
+</body>
+</html>

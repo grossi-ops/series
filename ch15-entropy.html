@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ch15 · H — Entropy and the Compression Circle · Book 3</title>
+<style>
+  /* ── Entropy palette — warm rose / information pink ──────── */
+  :root {
+    --h-color:  #f472b6;
+    --h-dim:    #9d174d;
+    --h-glow:   rgba(244, 114, 182, 0.14);
+    --bg:       #0f0614;
+    --bg2:      #180820;
+    --bg3:      #200c2a;
+    --text:     #fce7f3;
+    --muted:    #7c4d6e;
+    --gold:     #c9a84c;
+    --border:   rgba(244, 114, 182, 0.20);
+    --c-color:  #4a9eff;
+    --k-color:  #e05a3a;
+    --f-color:  #50c878;
+    --u-color:  #c084fc;
+    --g-color:  #f59e0b;
+    --safe:     #4ade80;
+    --warn:     #f87171;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: linear-gradient(160deg, var(--bg) 0%, var(--bg2) 50%, var(--bg3) 100%);
+    color: var(--text);
+    font-family: Georgia, 'Times New Roman', serif;
+    min-height: 100vh;
+    line-height: 1.75;
+  }
+
+  nav.top {
+    display: flex; flex-wrap: wrap; gap: .5rem;
+    padding: .75rem 1.5rem;
+    background: rgba(15,6,20,.90);
+    border-bottom: 1px solid var(--border);
+    font-family: 'Courier New', monospace; font-size: .78rem;
+  }
+  nav.top a {
+    color: var(--h-color); text-decoration: none;
+    padding: .2rem .6rem;
+    border: 1px solid var(--border); border-radius: 4px;
+    transition: background .2s;
+  }
+  nav.top a:hover { background: var(--h-glow); }
+
+  /* ── Hero ────────────────────────────────── */
+  .hero {
+    text-align: center; padding: 4rem 2rem 3rem;
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 50% 40%,
+      rgba(244,114,182,.11) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .operator-badge {
+    display: inline-block;
+    font-family: 'Courier New', monospace;
+    font-size: .8rem; font-weight: 700; letter-spacing: .12em;
+    color: var(--bg); background: var(--h-color);
+    padding: .25rem .9rem; border-radius: 3px; margin-bottom: 1.5rem;
+  }
+  .hero-letter {
+    font-size: clamp(5rem, 16vw, 11rem);
+    font-style: italic;
+    color: var(--h-color); line-height: 1;
+    text-shadow: 0 0 60px rgba(244,114,182,.38);
+    margin-bottom: .5rem;
+  }
+  .hero h1 {
+    font-size: clamp(1.4rem, 3.5vw, 2.4rem);
+    font-weight: 400; color: var(--text); margin-bottom: .5rem;
+  }
+  .hero .subtitle {
+    font-size: 1rem; color: var(--muted);
+    font-style: italic; margin-bottom: 1rem;
+  }
+  .meta-row {
+    display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap;
+    font-family: 'Courier New', monospace; font-size: .8rem; color: var(--muted);
+  }
+  .meta-row span { color: var(--h-color); }
+
+  /* ── Sections ────────────────────────────── */
+  .section {
+    max-width: 860px; margin: 0 auto 2.5rem; padding: 0 1.5rem;
+  }
+  .section h2 {
+    font-size: 1.3rem; font-weight: 400;
+    color: var(--h-color);
+    border-bottom: 1px solid var(--border);
+    padding-bottom: .4rem; margin-bottom: 1.2rem;
+  }
+  .section p { margin-bottom: 1rem; color: var(--text); }
+  .section em { color: var(--h-color); font-style: normal; }
+
+  /* ── Math block ──────────────────────────── */
+  .math-block {
+    background: rgba(244,114,182,.05);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--h-color);
+    border-radius: 6px;
+    padding: 1.4rem 1.6rem; margin: 1.4rem 0;
+    font-family: 'Courier New', monospace;
+    font-size: .93rem; line-height: 2;
+    overflow-x: auto;
+  }
+  .math-block .label {
+    font-size: .72rem; letter-spacing: .1em;
+    color: var(--h-color); text-transform: uppercase; margin-bottom: .5rem;
+  }
+
+  /* ── Entropy state cards ─────────────────── */
+  .state-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem; margin: 1.4rem 0;
+  }
+  .st-card {
+    background: var(--bg2);
+    border: 1px solid var(--border); border-radius: 8px; padding: 1.1rem;
+    text-align: center;
+  }
+  .st-card .sv   { font-family: 'Courier New', monospace; font-size: 1.3rem; margin-bottom: .4rem; }
+  .st-card .sl   { font-size: .72rem; letter-spacing: .08em; color: var(--muted); text-transform: uppercase; margin-bottom: .4rem; }
+  .st-card .sd   { font-size: .87rem; color: var(--text); }
+  .st-card.zero  { border-color: var(--c-color); } .st-card.zero  .sv { color: var(--c-color); }
+  .st-card.low   { border-color: var(--safe); }    .st-card.low   .sv { color: var(--safe); }
+  .st-card.high  { border-color: var(--h-color); } .st-card.high  .sv { color: var(--h-color); }
+  .st-card.max   { border-color: var(--warn); }    .st-card.max   .sv { color: var(--warn); }
+
+  /* ── Theorem / Insight ───────────────────── */
+  .theorem {
+    background: rgba(244,114,182,.07);
+    border: 1px solid rgba(244,114,182,.30);
+    border-radius: 8px; padding: 1.4rem 1.6rem; margin: 1.6rem 0;
+  }
+  .theorem .thm-label {
+    font-family: 'Courier New', monospace;
+    font-size: .75rem; letter-spacing: .1em;
+    color: var(--h-color); text-transform: uppercase; margin-bottom: .6rem;
+  }
+  .theorem .thm-body { color: var(--text); line-height: 1.9; }
+  .theorem code   { font-family: 'Courier New', monospace; color: var(--h-color); }
+  .theorem strong { color: var(--h-color); }
+
+  .insight {
+    background: rgba(201,168,76,.06);
+    border-left: 3px solid var(--gold);
+    border-radius: 4px; padding: 1rem 1.4rem; margin: 1.4rem 0;
+    font-style: italic; color: #f0dda8; font-size: .95rem;
+  }
+
+  /* ── Bit-cost table ──────────────────────── */
+  .bit-table {
+    width: 100%; border-collapse: collapse; font-size: .88rem; margin: 1.4rem 0;
+  }
+  .bit-table th {
+    text-align: left; color: var(--h-color);
+    border-bottom: 1px solid var(--border);
+    padding: .5rem .8rem;
+    font-family: 'Courier New', monospace; font-size: .78rem;
+    letter-spacing: .06em; text-transform: uppercase;
+  }
+  .bit-table td {
+    padding: .55rem .8rem;
+    border-bottom: 1px solid rgba(244,114,182,.08);
+    vertical-align: top;
+  }
+  .bit-table .bv  { font-family: 'Courier New', monospace; color: var(--h-color); }
+  .bit-table .ok  { color: var(--safe); }
+  .bit-table .bad { color: var(--warn); }
+
+  /* ── Canvas panel ────────────────────────── */
+  .canvas-panel {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 10px; padding: 1.6rem;
+    margin: 1.6rem auto 2rem; max-width: 860px;
+  }
+  .canvas-panel h3 {
+    font-size: 1rem; font-weight: 400;
+    color: var(--h-color); margin-bottom: .6rem;
+    font-family: 'Courier New', monospace;
+  }
+
+  /* Slider rows */
+  .slider-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: .8rem; margin: .8rem 0 1rem;
+  }
+  @media (max-width: 500px) { .slider-grid { grid-template-columns: 1fr; } }
+  .slider-row {
+    display: flex; align-items: center; gap: .6rem;
+    font-family: 'Courier New', monospace; font-size: .80rem;
+  }
+  .slider-row label { width: 60px; color: var(--h-color); flex-shrink: 0; }
+  .slider-row input[type=range] {
+    flex: 1; accent-color: var(--h-color); cursor: pointer;
+  }
+  .slider-row .sv { width: 44px; text-align: right; color: var(--text); }
+
+  canvas#entropyCanvas {
+    display: block; width: 100%; max-width: 760px; height: 240px;
+    background: #0a040f;
+    border-radius: 6px; border: 1px solid var(--border);
+    margin: 0 auto .8rem;
+  }
+
+  .entropy-readout {
+    display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap;
+    font-family: 'Courier New', monospace; font-size: .88rem; margin: .4rem 0;
+  }
+  .er-cell {
+    background: var(--bg3); border: 1px solid var(--border);
+    border-radius: 5px; padding: .4rem .9rem; text-align: center; min-width: 110px;
+  }
+  .er-cell .ec-label { color: var(--h-color); font-size: .68rem; margin-bottom: .2rem; }
+
+  .mode-row {
+    display: flex; gap: .5rem; justify-content: center; margin: .6rem 0;
+    flex-wrap: wrap;
+  }
+  .mode-btn {
+    font-family: 'Courier New', monospace; font-size: .78rem;
+    padding: .35rem .9rem; border-radius: 4px; cursor: pointer;
+    border: 1px solid var(--border); background: transparent;
+    color: var(--muted); transition: all .2s;
+  }
+  .mode-btn.active { color: var(--h-color); border-color: var(--h-color); background: var(--h-glow); }
+  .mode-btn:hover  { color: var(--h-color); border-color: var(--h-color); }
+
+  /* ── Prompt portal ───────────────────────── */
+  .prompt-portal {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 10px; padding: 1.6rem;
+    margin: 2rem auto; max-width: 860px;
+  }
+  .prompt-portal h3 {
+    font-size: 1.1rem; font-weight: 400;
+    color: var(--h-color); margin-bottom: 1rem;
+    font-family: 'Courier New', monospace;
+  }
+  .prompt-card {
+    background: var(--bg3);
+    border: 1px solid rgba(244,114,182,.2);
+    border-radius: 7px; padding: 1rem 1.2rem; margin-bottom: 1rem;
+  }
+  .prompt-card .p-id {
+    font-family: 'Courier New', monospace; font-size: .72rem;
+    color: var(--h-color); letter-spacing: .1em; margin-bottom: .4rem;
+  }
+  .prompt-card .p-title {
+    font-size: .95rem; font-weight: 600; color: var(--text); margin-bottom: .5rem;
+  }
+  .prompt-card .p-text {
+    font-size: .85rem; color: var(--muted); line-height: 1.6; margin-bottom: .8rem;
+  }
+  .copy-btn {
+    font-family: 'Courier New', monospace; font-size: .72rem;
+    padding: .3rem .8rem; border: 1px solid rgba(244,114,182,.3);
+    border-radius: 4px; background: transparent;
+    color: var(--h-color); cursor: pointer;
+  }
+  .copy-btn:hover { background: var(--h-glow); }
+
+  /* ── Chapter nav ─────────────────────────── */
+  .chapter-nav {
+    display: flex; justify-content: space-between;
+    max-width: 860px; margin: 2rem auto; padding: 0 1.5rem 3rem;
+  }
+  .chapter-nav a {
+    color: var(--h-color); text-decoration: none;
+    font-family: 'Courier New', monospace; font-size: .82rem;
+    padding: .5rem 1rem; border: 1px solid var(--border);
+    border-radius: 5px; transition: background .2s;
+  }
+  .chapter-nav a:hover { background: var(--h-glow); }
+
+  footer {
+    text-align: center; padding: 1.5rem; color: var(--muted);
+    font-size: .78rem; font-family: 'Courier New', monospace;
+    border-top: 1px solid var(--border);
+  }
+</style>
+</head>
+<body>
+
+<nav class="top">
+  <a href="impa-portal.html">⬡ AXLE Portal</a>
+  <a href="chapters-diagram.html">Map</a>
+  <a href="course-16weeks.html">16 Weeks</a>
+  <a href="Sportal.html">S-Portal</a>
+  <a href="trilogy-sale.html">Trilogy</a>
+</nav>
+
+<!-- ── Hero ─────────────────────────────────── -->
+<div class="hero">
+  <div class="operator-badge">INFORMATION THEORY · CHAPTER 15</div>
+  <div class="hero-letter">H</div>
+  <h1>Entropy and the Compression Circle</h1>
+  <p class="subtitle">H(X) measures what you cannot predict. A paper's value is its mutual information with what the field does not yet know.</p>
+  <div class="meta-row">
+    <div>Week <span>16+</span></div>
+    <div>Level <span>D2</span></div>
+    <div>Operator <span>C revisited</span></div>
+    <div>Focus <span>Shannon Entropy · KL Divergence · Efficient Coding</span></div>
+  </div>
+</div>
+
+<!-- ── Section 1: Shannon Entropy ─────────────── -->
+<div class="section">
+  <h2>§1 · Shannon Entropy — The Measure of Surprise</h2>
+  <p>
+    In 1948, Claude Shannon published "A Mathematical Theory of Communication"
+    and defined <em>entropy</em> as the average surprise in a probability distribution.
+    An event that always happens carries zero information — you already knew it was coming.
+    An event that rarely happens carries maximum information — it is maximally surprising.
+  </p>
+
+  <div class="math-block">
+    <div class="label">Definition 15.1 — Shannon Entropy</div>
+    H(X)  =  −Σᵢ pᵢ log₂ pᵢ  &nbsp;&nbsp; (bits)
+    <br><br>
+    pᵢ  =  probability of outcome i
+    <br><br>
+    Special cases:
+    pᵢ = 1 for one i (certainty):  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; H = 0 bits (no surprise)
+    pᵢ = 1/n for all i (uniform): &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; H = log₂ n  (maximum)
+    <br><br>
+    H(fair coin)   = log₂ 2  = 1.000 bit
+    H(DNA base)    = log₂ 4  = 2.000 bits
+    H(amino acid)  = log₂ 20 = 4.322 bits  (if uniform)
+    H(English word) ≈ 11.8 bits  (Shannon 1951 estimate for natural language)
+    <br><br>
+    Source coding theorem:  optimal code length  =  H(X)  bits/symbol
+    No lossless compression can go below H(X)  — it is the entropy floor.
+  </div>
+
+  <div class="state-grid">
+    <div class="st-card zero">
+      <div class="sv">H = 0</div>
+      <div class="sl">Certainty</div>
+      <div class="sd">One outcome has probability 1. No information — nothing new to learn. A paper that only confirms what everyone already knows.</div>
+    </div>
+    <div class="st-card low">
+      <div class="sv">H ≈ 0.5</div>
+      <div class="sl">Structured</div>
+      <div class="sd">A few outcomes dominate. Predictable but not trivial. A paper with a clear thesis and supporting evidence.</div>
+    </div>
+    <div class="st-card high">
+      <div class="sv">H ≈ log₂n − 1</div>
+      <div class="sl">Informative</div>
+      <div class="sd">Near-uniform distribution with slight structure. Maximally informative within a framework. The ideal research paper.</div>
+    </div>
+    <div class="st-card max">
+      <div class="sv">H = log₂n</div>
+      <div class="sl">Maximum Entropy</div>
+      <div class="sd">Uniform distribution — all outcomes equally likely. Pure noise. A paper with no coherent argument, only unstructured data.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── Section 2: Operator C revisited ────────── -->
+<div class="section">
+  <h2>§2 · Operator C — Compression as Entropy Reduction</h2>
+  <p>
+    Chapter 4 introduced C as the Compression operator — the first step in
+    G = U ∘ F ∘ K ∘ C. Now we can define it precisely:
+    C reduces the entropy of the data representation
+    while preserving the mutual information with the target claim.
+  </p>
+
+  <div class="math-block">
+    <div class="label">Compression as Entropy Reduction</div>
+    Raw data X:    H(X) = high   (many variables, redundancy, noise)
+    Compressed C(X):  H(C(X)) &lt; H(X)   (fewer bits, same signal)
+    <br><br>
+    Information preserved:  I(C(X) ; Y)  ≈  I(X ; Y)
+    where Y = the downstream claim you are trying to support
+    <br><br>
+    Rate-distortion:  min H(C(X))  subject to  I(C(X);Y) ≥ I_min
+    <br><br>
+    Lossless C:  H(C(X)) = H(X)  (e.g., gzip — exact reconstruction)
+    Lossy C:     H(C(X)) &lt; H(X)  with controlled distortion
+    <br><br>
+    Methods section = a lossy compression of the experiment
+    &nbsp;&nbsp;→ enough bits to reconstruct the key results, not the entire raw dataset
+    Results section = decompressed C(X) mapped to human-readable space
+    &nbsp;&nbsp;→ tables, figures, statistics are the decoded representation
+  </div>
+
+  <p>
+    The classic error in Methods sections: either too high-entropy
+    (every protocol detail, no compression — Methods becomes unreadable)
+    or too low-entropy (so compressed that replication fails —
+    the reader cannot reconstruct the experiment from the description).
+    The optimal Methods section achieves the Shannon bound:
+    minimum bits needed for replication, no more, no fewer.
+  </p>
+
+  <div class="insight">
+    The Compression Circle: G = U ∘ F ∘ K ∘ C starts by reducing entropy (C),
+    then builds structure through K and F, then expands into Discussion (U).
+    Ch15 closes the loop — the Discussion's claims become the prior
+    for the next paper's C operator, compressing toward what the field now knows.
+    Science is a self-compressing information system.
+  </div>
+</div>
+
+<!-- ── Section 3: Efficient coding ───────────── -->
+<div class="section">
+  <h2>§3 · Efficient Coding — Biology at Maximum Entropy</h2>
+  <p>
+    Horace Barlow's efficient coding hypothesis (1961) proposes that
+    the nervous system has evolved to encode stimuli in a way that
+    maximises information transmission — operating near maximum entropy
+    given the statistics of the natural environment.
+  </p>
+  <p>
+    This is why retinal ganglion cells respond strongly to edges
+    (high spatial information content — unexpected luminance changes)
+    and weakly to uniform fields (low information content — predictable).
+    The visual system has learned the entropy structure of natural scenes
+    and adapted its code to match.
+  </p>
+
+  <div class="math-block">
+    <div class="label">Biological Information Densities</div>
+    DNA (4 bases, ~uniform coding regions):
+    &nbsp;&nbsp;H ≈ 1.9 bits/nucleotide  (theoretical max: 2.0 bits)
+    <br><br>
+    Amino acid sequence (20 aa, non-uniform):
+    &nbsp;&nbsp;H ≈ 4.2 bits/residue  (theoretical max: 4.32 bits)
+    <br><br>
+    Human genome total information:
+    &nbsp;&nbsp;~750 MB compressed  (6×10⁹ bp × 1.9 bits / 8 bits/byte)
+    <br><br>
+    V(D)J recombination (antibody diversity):
+    &nbsp;&nbsp;~10¹⁵ possible sequences  →  H ≈ 50 bits per antibody locus
+    &nbsp;&nbsp;This IS maximum entropy of the immune recognition space
+    &nbsp;&nbsp;Goal: no antigen should be entirely unpredictable to the system
+    <br><br>
+    Drosophila connectome (2023, Schlegel et al.):
+    &nbsp;&nbsp;130,000 neurons · 50M synapses · ~10⁷ bits of connectivity information
+    &nbsp;&nbsp;The most information-dense biological structure formally verified
+  </div>
+
+  <p>
+    V(D)J recombination deliberately maximizes the entropy of the antibody repertoire —
+    ensuring the immune system has a non-zero probability of recognising any possible antigen.
+    This is the K operator (Chapter 5) serving the C operator:
+    maximum repertoire entropy ensures that <em>any</em> pathogen can be compressed
+    into a specific antibody shape.
+  </p>
+
+  <table class="bit-table">
+    <thead>
+      <tr>
+        <th>Writing Context</th>
+        <th>H (bits/unit)</th>
+        <th>Entropy State</th>
+        <th>Interpretation</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Abstract: every sentence predictable from the last</td>
+        <td class="bv">H ≈ 0.2</td>
+        <td class="bad">Too low</td>
+        <td>Redundant, says nothing new per sentence</td>
+      </tr>
+      <tr>
+        <td>Introduction: contextualised claim</td>
+        <td class="bv">H ≈ 1.5</td>
+        <td class="ok">Optimal</td>
+        <td>Each sentence advances the argument</td>
+      </tr>
+      <tr>
+        <td>Results: findings plus statistics</td>
+        <td class="bv">H ≈ 2.5</td>
+        <td class="ok">High-value</td>
+        <td>Dense with information, warrants careful reading</td>
+      </tr>
+      <tr>
+        <td>Discussion: every sentence a new speculation</td>
+        <td class="bv">H ≈ 4.0</td>
+        <td class="bad">Too high</td>
+        <td>Unanchored — ρ &gt; 1 (Ch11), sorry accumulation (Ch14)</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ── Section 4: KL Divergence ───────────────── -->
+<div class="section">
+  <h2>§4 · KL Divergence — How Surprising Is Your Paper?</h2>
+  <p>
+    The Kullback-Leibler divergence D_KL(P ‖ Q) measures how different
+    a distribution P is from an expected distribution Q.
+    It equals the extra bits needed to encode samples from P
+    using a code optimised for Q.
+  </p>
+
+  <div class="math-block">
+    <div class="label">KL Divergence and Paper Novelty</div>
+    D_KL(paper ‖ field_prior)  =  Σ p(claim) · log₂ [p(claim) / q(claim)]
+    <br><br>
+    p = distribution of claims in your paper
+    q = distribution of claims the field already expects
+    <br><br>
+    D_KL = 0:  your paper is exactly what the field predicted  (no novelty)
+    D_KL small:  modest advance — confirms with refinements
+    D_KL moderate:  genuine contribution — surprising but in the right direction
+    D_KL large:  paradigm-shifting (or wrong — reviewer decides)
+    <br><br>
+    Mutual information of your paper with the field's unknowns:
+    I(paper ; gap) = H(gap) − H(gap | paper)
+    = entropy of the open question BEFORE reading minus AFTER reading
+    <br><br>
+    A paper's scientific value  ≈  I(paper ; gap)  bits
+  </div>
+
+  <div class="theorem">
+    <div class="thm-label">Theorem 15.1 — The Information Value of a Paper</div>
+    <div class="thm-body">
+      Let Q be the field's prior distribution over claims (what is expected before reading the paper),
+      and P be the paper's claimed distribution (what is asserted after).
+      The paper's <strong>information value</strong> is:
+      <br><br>
+      <code>V(paper)  =  I(paper ; gap)  =  H(Q) − H(Q | P)</code>
+      <br><br>
+      where gap = the set of open questions the paper addresses.
+      <br><br>
+      A paper maximises V by:
+      (1) targeting a high-entropy gap H(Q) — an open question with many plausible answers;<br>
+      (2) reducing H(Q|P) as much as possible — narrowing the remaining uncertainty after reading;<br>
+      (3) ensuring D_KL(P ‖ Q) is neither 0 (trivial) nor ∞ (incomprehensible);<br>
+      (4) keeping ρ(P) ≤ 1 (Ch11) — so the reduction in uncertainty is warranted.
+    </div>
+  </div>
+</div>
+
+<!-- ── Canvas: Entropy Calculator ─────────────── -->
+<div class="canvas-panel">
+  <h3>▶ Shannon Entropy Calculator</h3>
+  <p style="font-size:.83rem; color:var(--muted); margin-bottom:.8rem; font-family:'Courier New',monospace;">
+    Drag sliders to set event probabilities (auto-normalized to sum = 1). Watch H(X) update in real time.
+  </p>
+
+  <div class="slider-grid">
+    <div class="slider-row"><label>p₁</label><input type="range" id="s1" min="1" max="100" value="40" oninput="updateEntropy()"><span class="sv" id="v1">—</span></div>
+    <div class="slider-row"><label>p₂</label><input type="range" id="s2" min="1" max="100" value="30" oninput="updateEntropy()"><span class="sv" id="v2">—</span></div>
+    <div class="slider-row"><label>p₃</label><input type="range" id="s3" min="1" max="100" value="20" oninput="updateEntropy()"><span class="sv" id="v3">—</span></div>
+    <div class="slider-row"><label>p₄</label><input type="range" id="s4" min="1" max="100" value="10" oninput="updateEntropy()"><span class="sv" id="v4">—</span></div>
+  </div>
+
+  <canvas id="entropyCanvas" width="760" height="240"></canvas>
+
+  <div class="entropy-readout">
+    <div class="er-cell"><div class="ec-label">H(X) bits</div><div id="hval">—</div></div>
+    <div class="er-cell"><div class="ec-label">H_max bits</div><div id="hmax">2.000</div></div>
+    <div class="er-cell"><div class="ec-label">Efficiency %</div><div id="heff">—</div></div>
+    <div class="er-cell"><div class="ec-label">KL from uniform</div><div id="kldiv">—</div></div>
+    <div class="er-cell"><div class="ec-label">State</div><div id="hstate" style="color:var(--h-color)">—</div></div>
+  </div>
+
+  <div class="mode-row">
+    <button class="mode-btn active" onclick="setPreset('custom')">Custom</button>
+    <button class="mode-btn" onclick="setPreset('certain')">Certainty (H=0)</button>
+    <button class="mode-btn" onclick="setPreset('uniform')">Uniform (H=max)</button>
+    <button class="mode-btn" onclick="setPreset('dna')">DNA-like</button>
+    <button class="mode-btn" onclick="setPreset('paper')">Ideal Paper</button>
+  </div>
+</div>
+
+<!-- ── Prompt Portal ───────────────────────────── -->
+<div class="prompt-portal">
+  <h3>⬡ LLM Prompt Portal · Chapter 15</h3>
+
+  <div class="prompt-card">
+    <div class="p-id">PROMPT 8.2 · PAPER ENTROPY AUDIT</div>
+    <div class="p-title">Identify High- and Low-Information Sentences</div>
+    <div class="p-text">
+      Read your paper one paragraph at a time. For each sentence, estimate its information content:<br>
+      H ≈ 0 = says something already implied by the previous sentence (redundant — cut or merge)<br>
+      H ≈ 1 = advances the argument by one logical step (good)<br>
+      H ≈ 2–3 = introduces a new finding, mechanism, or claim (high value — protect these)<br>
+      H &gt; 3 = makes a claim that is completely unconnected to the previous sentence (check: is this a new section, or a sorry?)<br>
+      For each section (Introduction / Methods / Results / Discussion / Conclusion),
+      compute the average H per sentence.
+      Flag any section where average H &lt; 0.5 (too redundant) or average H &gt; 3 (too disconnected).
+    </div>
+    <button class="copy-btn" onclick="copyPrompt('p82', this)">Copy Prompt 8.2</button>
+  </div>
+
+  <div class="prompt-card">
+    <div class="p-id">PROMPT 8.3 · KL DIVERGENCE FROM FIELD EXPECTATIONS</div>
+    <div class="p-title">Measure Your Paper's Novelty</div>
+    <div class="p-text">
+      Answer these questions to estimate D_KL(paper ‖ field_prior):<br>
+      (a) What would a well-read researcher in your field expect this paper to find, before reading it? List 3–5 expected claims (this is Q).<br>
+      (b) What does your paper actually claim? List 3–5 actual claims (this is P).<br>
+      (c) For each claim in P, is it in Q (expected), a refinement of Q (small KL), or new information not in Q (large KL)?<br>
+      (d) Estimate overall novelty: 0 (expected) → 1 (modest advance) → 2 (significant contribution) → 3 (paradigm-shifting).<br>
+      (e) Is D_KL appropriate for your venue? High D_KL is right for Nature/Science; moderate D_KL for specialist journals; low D_KL for replication studies.
+    </div>
+    <button class="copy-btn" onclick="copyPrompt('p83', this)">Copy Prompt 8.3</button>
+  </div>
+
+  <div class="prompt-card">
+    <div class="p-id">EXTENSION · EFFICIENT ABSTRACT</div>
+    <div class="p-title">Maximise Information per Word</div>
+    <div class="p-text">
+      Apply the efficient coding principle to your abstract:<br>
+      Count the words. For each sentence, ask: if I removed this sentence, how much would a reader's uncertainty about my paper's contribution increase?<br>
+      This is the mutual information I(sentence ; paper) — the sentence's contribution in bits.<br>
+      Rank sentences by I value. Keep the top 5 (highest information density). Rewrite the abstract using only those sentences plus the minimum connective tissue needed for coherence.<br>
+      Target: every sentence should reduce the reader's uncertainty by at least 0.5 bits. No sentence should restate what the previous sentence already implied.
+    </div>
+    <button class="copy-btn" onclick="copyPrompt('ext', this)">Copy Extension</button>
+  </div>
+</div>
+
+<!-- ── Chapter nav ─────────────────────────────── -->
+<div class="chapter-nav">
+  <a href="ch14-axle.html">← Ch14 · AXLE</a>
+  <a href="ch16-scale.html">Ch16 · Scale →</a>
+</div>
+
+<footer>
+  Chapter 15 of 17 &nbsp;·&nbsp; Book 3: The Mini-Beast &nbsp;·&nbsp;
+  G = U ∘ F ∘ K ∘ C &nbsp;·&nbsp; © G6 LLC
+</footer>
+
+<script>
+/* ── Entropy calculator ──────────────────────────────────────── */
+const canvas = document.getElementById('entropyCanvas');
+const ctx    = canvas.getContext('2d');
+const IDS    = ['s1','s2','s3','s4'];
+const VLABS  = ['v1','v2','v3','v4'];
+const COLORS = ['#f472b6','#c084fc','#4ade80','#67e8f9'];
+const LABELS = ['p₁','p₂','p₃','p₄'];
+
+function getProbs() {
+  const raw = IDS.map(id => parseFloat(document.getElementById(id).value));
+  const sum = raw.reduce((a,b) => a+b, 0);
+  return raw.map(v => v / sum);
+}
+
+function entropy(probs) {
+  return -probs.reduce((acc, p) => {
+    if (p <= 0) return acc;
+    return acc + p * Math.log2(p);
+  }, 0);
+}
+
+function klFromUniform(probs) {
+  const n = probs.length;
+  const q = 1 / n;
+  return probs.reduce((acc, p) => {
+    if (p <= 0) return acc;
+    return acc + p * Math.log2(p / q);
+  }, 0);
+}
+
+function updateEntropy() {
+  const probs = getProbs();
+  const H     = entropy(probs);
+  const Hmax  = Math.log2(probs.length);
+  const eff   = (H / Hmax) * 100;
+  const kl    = klFromUniform(probs);
+
+  // Update slider value labels
+  probs.forEach((p, i) => {
+    document.getElementById(VLABS[i]).textContent = (p * 100).toFixed(0) + '%';
+  });
+
+  document.getElementById('hval').textContent  = H.toFixed(3);
+  document.getElementById('hmax').textContent  = Hmax.toFixed(3);
+  document.getElementById('heff').textContent  = eff.toFixed(1) + '%';
+  document.getElementById('kldiv').textContent = kl.toFixed(3);
+
+  const stateEl = document.getElementById('hstate');
+  if (eff < 20) {
+    stateEl.textContent = 'CERTAIN'; stateEl.style.color = '#4a9eff';
+  } else if (eff < 55) {
+    stateEl.textContent = 'STRUCTURED'; stateEl.style.color = '#4ade80';
+  } else if (eff < 85) {
+    stateEl.textContent = 'INFORMATIVE'; stateEl.style.color = '#f472b6';
+  } else {
+    stateEl.textContent = 'MAX ENTROPY'; stateEl.style.color = '#f87171';
+  }
+
+  drawChart(probs, H, Hmax);
+}
+
+function drawChart(probs, H, Hmax) {
+  const W = canvas.width, H_c = canvas.height;
+  ctx.clearRect(0, 0, W, H_c);
+  ctx.fillStyle = '#0a040f';
+  ctx.fillRect(0, 0, W, H_c);
+
+  const PAD = 45, BAR_GAP = 18;
+  const n = probs.length;
+  const plotW = W - 2*PAD;
+  const plotH = H_c - 2*PAD - 10;
+  const barW  = (plotW - (n-1)*BAR_GAP) / n;
+
+  // Grid
+  ctx.strokeStyle = 'rgba(244,114,182,0.07)';
+  ctx.lineWidth = 1;
+  for (let g = 0; g <= 4; g++) {
+    const gy = PAD + plotH - (g/4)*plotH;
+    ctx.beginPath(); ctx.moveTo(PAD, gy); ctx.lineTo(PAD+plotW, gy); ctx.stroke();
+  }
+
+  // Axis
+  ctx.strokeStyle = 'rgba(244,114,182,0.25)'; ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(PAD, PAD); ctx.lineTo(PAD, PAD+plotH);
+  ctx.moveTo(PAD, PAD+plotH); ctx.lineTo(PAD+plotW, PAD+plotH);
+  ctx.stroke();
+
+  // Uniform reference line
+  const uH = PAD + plotH - (1/n)*plotH;
+  ctx.strokeStyle = 'rgba(244,114,182,0.3)'; ctx.lineWidth = 1;
+  ctx.setLineDash([4,4]);
+  ctx.beginPath(); ctx.moveTo(PAD, uH); ctx.lineTo(PAD+plotW, uH); ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle = 'rgba(244,114,182,0.5)'; ctx.font = '10px Courier New';
+  ctx.textAlign = 'left';
+  ctx.fillText('1/n = uniform', PAD+4, uH-4);
+
+  // Bars
+  probs.forEach((p, i) => {
+    const bx = PAD + i*(barW + BAR_GAP);
+    const bh = p * plotH;
+    const by = PAD + plotH - bh;
+
+    // Gradient fill
+    const grad = ctx.createLinearGradient(0, by, 0, by+bh);
+    grad.addColorStop(0, COLORS[i]);
+    grad.addColorStop(1, COLORS[i] + '44');
+    ctx.fillStyle = grad;
+    ctx.fillRect(bx, by, barW, bh);
+
+    // Border
+    ctx.strokeStyle = COLORS[i]; ctx.lineWidth = 1.5;
+    ctx.setLineDash([]);
+    ctx.strokeRect(bx, by, barW, bh);
+
+    // Label
+    ctx.fillStyle = COLORS[i]; ctx.font = '11px Courier New';
+    ctx.textAlign = 'center';
+    ctx.fillText(LABELS[i], bx + barW/2, PAD + plotH + 14);
+    ctx.fillStyle = '#fff'; ctx.font = 'bold 11px Courier New';
+    ctx.fillText((p*100).toFixed(0)+'%', bx + barW/2, by - 5);
+  });
+
+  // H bar (overlay)
+  const hPct = H / Hmax;
+  const hBarX = W - PAD - 28;
+  const hBarH = hPct * plotH;
+  const hGrad = ctx.createLinearGradient(0, PAD+plotH-hBarH, 0, PAD+plotH);
+  hGrad.addColorStop(0, '#f472b6');
+  hGrad.addColorStop(1, '#f472b644');
+  ctx.fillStyle = hGrad;
+  ctx.fillRect(hBarX, PAD+plotH-hBarH, 24, hBarH);
+  ctx.strokeStyle = '#f472b6'; ctx.lineWidth = 1.5;
+  ctx.strokeRect(hBarX, PAD+plotH-hBarH, 24, hBarH);
+  ctx.fillStyle = '#f472b6'; ctx.font = '9px Courier New'; ctx.textAlign = 'center';
+  ctx.fillText('H', hBarX+12, PAD+plotH+14);
+  ctx.fillStyle = '#fff'; ctx.font = 'bold 10px Courier New';
+  ctx.fillText(H.toFixed(2), hBarX+12, PAD+plotH-hBarH-5);
+
+  // Y-axis labels
+  ctx.fillStyle = 'rgba(244,114,182,0.6)'; ctx.font = '10px Courier New';
+  ctx.textAlign = 'right';
+  ctx.fillText('1.0', PAD-4, PAD+5);
+  ctx.fillText('0.5', PAD-4, PAD+plotH/2+4);
+  ctx.fillText('0', PAD-4, PAD+plotH+4);
+}
+
+function setPreset(name) {
+  document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+  const presets = {
+    certain: [99, 1, 1, 1],
+    uniform: [25, 25, 25, 25],
+    dna:     [30, 25, 25, 20],   // A,T,G,C roughly equal
+    paper:   [45, 30, 15, 10],   // structured but informative
+    custom:  null
+  };
+  const p = presets[name];
+  if (!p) return;
+  IDS.forEach((id, i) => document.getElementById(id).value = p[i]);
+  updateEntropy();
+}
+
+/* ── Copy prompts ──────────────────────────────────────────── */
+const PROMPT_TEXT = {
+  p82: `PAPER ENTROPY AUDIT — Prompt 8.2
+
+Read your paper one paragraph at a time. For each sentence, estimate its information content on this scale:
+  H ≈ 0  = redundant — restates the previous sentence. Cut or merge.
+  H ≈ 1  = advances the argument by one logical step. Good.
+  H ≈ 2–3 = introduces a new finding, mechanism, or claim. High value — protect.
+  H > 3  = completely disconnected from previous sentence. Check: new section needed, or a sorry?
+
+For each section (Introduction / Methods / Results / Discussion / Conclusion):
+(a) List sentence-level H estimates.
+(b) Compute the section average.
+(c) Flag: average H < 0.5 (too redundant — tighten) or average H > 3 (too disconnected — anchor with warrants).
+
+Report: a table with section / average H / diagnosis / suggested action.`,
+
+  p83: `KL DIVERGENCE FROM FIELD EXPECTATIONS — Prompt 8.3
+
+Estimate D_KL(paper || field_prior) for your paper:
+
+(a) What would a well-read researcher in your field expect this paper to find, before reading it? List 3–5 expected claims. This is Q.
+
+(b) What does your paper actually claim? List 3–5 actual claims. This is P.
+
+(c) For each claim in P:
+  · Is it identical to something in Q? → D_KL contribution ≈ 0 (expected)
+  · Is it a refinement of Q? → small KL (modest advance)
+  · Is it absent from Q entirely? → large KL contribution (genuine novelty)
+
+(d) Overall novelty rating: 0 = exactly expected · 1 = modest advance · 2 = significant contribution · 3 = paradigm-shifting.
+
+(e) Is this D_KL appropriate for your target journal? (Nature/Science target D_KL ≈ 2–3; specialist journals ≈ 1–2; replication studies ≈ 0–1.)`,
+
+  ext: `EFFICIENT ABSTRACT — Extension
+
+Apply the efficient coding principle to your abstract. Target: every sentence should reduce the reader's uncertainty by at least 0.5 bits.
+
+Step 1: Count sentences in your abstract.
+
+Step 2: For each sentence, ask: "If I removed this sentence, how much would a reader's uncertainty about my paper's contribution increase?" Rate 0 (nothing lost) to 3 (essential).
+
+Step 3: Rank sentences by information contribution. Identify the top 5.
+
+Step 4: Rewrite the abstract using only those 5 sentences plus the minimum connective tissue for coherence.
+
+Step 5: Check: does any sentence in the rewrite restate something already implied by the previous sentence? If yes, that sentence has H ≈ 0 — compress or cut.
+
+Target length: 150–200 words. Every word should carry information.`
+};
+
+function copyPrompt(id, btn) {
+  navigator.clipboard.writeText(PROMPT_TEXT[id]).then(() => {
+    const orig = btn.textContent;
+    btn.textContent = 'Copied ✓';
+    setTimeout(() => { btn.textContent = orig; }, 2000);
+  });
+}
+
+// ── Init ──
+updateEntropy();
+</script>
+</body>
+</html>
