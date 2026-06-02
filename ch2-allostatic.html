@@ -1,64 +1,704 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Chapter 2: Allostatic | dm³</title>
-  <style>
-    :root {
-      --navy: #1a2744; --gold: #c9a84c; --cream: #faf7f0; --smoke: #f0ece4;
-      --mid: #3a4f7a; --rule: #8a7340; --text: #1c1c1c; --light: #e8e2d4;
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Georgia','Times New Roman',serif; color: var(--text); background: var(--cream); }
-    nav { background: var(--navy); padding: 0.75rem 2rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; }
-    .nav-logo { color: var(--gold); font-weight: bold; font-size: 0.9rem; letter-spacing: 0.1em; text-decoration: none; font-family: sans-serif; }
-    .nav-links { display: flex; gap: 1.2rem; list-style: none; flex-wrap: wrap; }
-    .nav-links a { color: #ccc; text-decoration: none; font-size: 0.82rem; font-family: sans-serif; }
-    .nav-links a:hover { color: var(--gold); }
-    .hero { background: var(--navy); color: white; padding: 4rem 2rem 3rem; }
-    .hero-inner { max-width: 800px; margin: 0 auto; }
-    .eyebrow { font-family: sans-serif; font-size: 0.75rem; letter-spacing: 0.2em; color: var(--gold); text-transform: uppercase; margin-bottom: 0.8rem; }
-    h1 { font-size: clamp(1.7rem, 4vw, 2.8rem); color: white; line-height: 1.2; margin-bottom: 0.6rem; }
-    .gold-rule { width: 60px; height: 2px; background: var(--gold); margin: 1.2rem 0; }
-    .hero-desc { color: #bbb; font-size: 0.95rem; line-height: 1.7; max-width: 640px; }
-    section { padding: 3rem 2rem; }
-    .section-inner { max-width: 800px; margin: 0 auto; }
-    .stub-banner { background: var(--smoke); border-left: 4px solid var(--gold); padding: 1.2rem 1.5rem; margin: 1.5rem 0; font-style: italic; color: var(--mid); }
-    p { line-height: 1.8; margin-bottom: 1rem; }
-    .chapter-nav { background: var(--smoke); border-top: 1px solid var(--light); padding: 1.2rem 2rem; display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
-    .chapter-nav a { font-family: sans-serif; font-size: 0.82rem; color: var(--mid); text-decoration: none; padding: 0.4rem 0.9rem; border: 1px solid var(--light); }
-    .chapter-nav a:hover { background: var(--navy); color: var(--gold); }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Ch.2 · Allostatic Load · Book 3: The Mini-Beast · G6 LLC</title>
+<meta name="description" content="Chapter 2: Allostatic Load — stress accumulates across systems, the body as proof that compression builds toward threshold. Principia Orthogona · Book 3 · G6 LLC.">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:#07050f;
+  color:#e8e0d0;
+  font-family:'Georgia',serif;
+  min-height:100vh;
+  overflow-x:hidden;
+  line-height:1.75;
+}
+
+/* ── NAV ── */
+.back-nav{background:#0a0814;border-bottom:1px solid #18122a;position:sticky;top:0;z-index:100}
+.back-nav-inner{max-width:900px;margin:0 auto;padding:0 20px;display:flex;align-items:center;justify-content:space-between;height:40px}
+.back-link{display:inline-flex;align-items:center;gap:6px;font-family:'Courier New',monospace;font-size:.7rem;letter-spacing:.08em;color:#443355;text-decoration:none;transition:color .2s}
+.back-link:hover{color:#c9a84c}
+.back-link svg{width:12px;height:12px;flex-shrink:0}
+.nav-right{display:flex;gap:14px;align-items:center}
+.nav-right a{font-family:'Courier New',monospace;font-size:.68rem;letter-spacing:.06em;color:#2a2040;text-decoration:none;transition:color .2s}
+.nav-right a:hover{color:#c9a84c}
+
+/* ── HERO ── */
+.hero{max-width:900px;margin:0 auto;padding:40px 20px 28px;display:flex;align-items:flex-start;gap:28px;border-bottom:1px solid #1a1530;flex-wrap:wrap}
+.hero-badge{
+  flex-shrink:0;width:80px;height:80px;border-radius:50%;
+  border:2px solid rgba(74,158,255,.3);background:#080c18;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Courier New',monospace;font-size:.7rem;color:#4a9eff;
+  text-align:center;line-height:1.3;
+  box-shadow:0 0 28px rgba(74,158,255,.1);
+  position:relative;
+}
+.hero-badge::before{content:'';position:absolute;inset:-5px;border-radius:50%;border:1px solid rgba(74,158,255,.07)}
+.hero-badge .badge-sym{font-size:2rem;display:block;font-family:'Georgia',serif}
+.hero-text{flex:1;min-width:240px}
+.chapter-label{font-family:'Courier New',monospace;font-size:.66rem;letter-spacing:.15em;text-transform:uppercase;color:#4a9eff;opacity:.7;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.phase-pill{display:inline-block;padding:.1rem .5rem;background:rgba(74,158,255,.08);border:1px solid rgba(74,158,255,.2);border-radius:2px;font-size:.6rem;color:#4a9eff;letter-spacing:.1em}
+.hero h1{font-size:2rem;color:#e8e0d0;line-height:1.15;margin-bottom:8px}
+.hero h1 em{color:#4a9eff;font-style:normal}
+.hero-eq{font-family:'Courier New',monospace;font-size:.95rem;color:#9ac8ff;background:#080c18;padding:8px 14px;border-radius:4px;border-left:3px solid #4a9eff;display:inline-block;margin-bottom:10px}
+.hero-desc{font-size:.88rem;color:#bbaabb;max-width:560px;line-height:1.65}
+.hero-meta{margin-top:12px;font-family:'Courier New',monospace;font-size:.66rem;color:#2a2040;display:flex;flex-wrap:wrap;gap:12px}
+
+/* ── PROGRESS BAR ── */
+.progress-strip{max-width:900px;margin:0 auto;padding:10px 20px;display:flex;align-items:center;gap:10px;border-bottom:1px solid #110e1c}
+.prog-label{font-family:'Courier New',monospace;font-size:.6rem;color:#2a2040;white-space:nowrap;letter-spacing:.06em}
+.prog-track{flex:1;height:3px;background:#110e1c;border-radius:2px;overflow:hidden}
+.prog-fill{height:100%;background:#4a9eff;border-radius:2px;width:11.1%}
+.prog-chapters{display:flex;gap:4px;margin-left:4px}
+.prog-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+
+/* ── PAGE ── */
+.page{max-width:900px;margin:0 auto;padding:32px 20px 64px;display:grid;grid-template-columns:1fr 260px;gap:32px;align-items:start}
+@media(max-width:720px){.page{grid-template-columns:1fr}.sidebar{order:2}}
+
+/* ── PROSE ── */
+.prose{}
+.prose p{font-size:.95rem;color:#c8bdd4;margin-bottom:1.2rem;line-height:1.8}
+.prose p strong{color:#e8e0d0}
+.prose p em{color:#9ac8ff;font-style:italic}
+
+.section-head{font-family:'Courier New',monospace;font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:#2a2040;margin:2rem 0 .5rem;display:flex;align-items:center;gap:8px}
+.section-head::after{content:'';flex:1;height:1px;background:#1a1530}
+.section-title{font-size:1.15rem;color:#c9a84c;margin-bottom:1rem;font-family:'Georgia',serif}
+
+/* ── CALLOUT ── */
+.callout{background:#080c18;border:1px solid #141c30;border-left:3px solid #4a9eff;border-radius:0 6px 6px 0;padding:14px 16px;margin:1.5rem 0}
+.callout-label{font-family:'Courier New',monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:#4a9eff;margin-bottom:6px;opacity:.7}
+.callout p{font-size:.82rem;color:#9ac8ff;margin-bottom:0;line-height:1.6}
+
+.callout-gold{border-left-color:#c9a84c;background:#080c08}
+.callout-gold .callout-label{color:#c9a84c}
+.callout-gold p{color:#c9a84c;opacity:.85}
+
+.callout-warning{border-left-color:#e05a3a;background:#0c0408}
+.callout-warning .callout-label{color:#e05a3a}
+.callout-warning p{color:#bba090;opacity:.9}
+
+/* ── EQUATION DISPLAY ── */
+.eq-block{background:#060a12;border:1px solid #141030;border-radius:6px;padding:16px 20px;margin:1.5rem 0;text-align:center}
+.eq-label{font-family:'Courier New',monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:#2a2040;margin-bottom:10px}
+.eq-main{font-family:'Courier New',monospace;font-size:1.4rem;color:#9ac8ff;margin-bottom:8px;letter-spacing:.04em}
+.eq-sub{font-size:.75rem;color:#443355;font-family:'Courier New',monospace;line-height:1.6}
+
+/* ── EXERCISE ── */
+.exercise{background:#0c0918;border:1px solid #1e1840;border-radius:8px;padding:18px;margin:2rem 0}
+.ex-label{font-family:'Courier New',monospace;font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:#554466;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.ex-label::after{content:'';flex:1;height:1px;background:#1e1840}
+.ex-title{font-size:.95rem;color:#e8e0d0;margin-bottom:10px}
+.ex-body{font-size:.82rem;color:#776688;line-height:1.6;margin-bottom:12px}
+.ex-prompt{font-family:'Courier New',monospace;font-size:.75rem;color:#4a9eff;background:#080c18;padding:8px 12px;border-radius:4px;border-left:2px solid #4a9eff;line-height:1.55}
+
+/* ── STRESS VISUALISER ── */
+.stress-vis{background:#060a12;border:1px solid #141030;border-radius:8px;padding:16px;margin:1.5rem 0}
+.sv-label{font-family:'Courier New',monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:#2a2040;margin-bottom:12px}
+.sv-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;font-family:'Courier New',monospace;font-size:.72rem}
+.sv-name{width:110px;color:#554466;flex-shrink:0}
+.sv-track{flex:1;height:6px;background:#110e1c;border-radius:3px;overflow:hidden}
+.sv-fill{height:100%;border-radius:3px;transition:width 1s ease}
+.sv-val{width:28px;text-align:right;color:#2a2040;font-size:.65rem}
+.sv-total{margin-top:12px;padding-top:10px;border-top:1px solid #1a1530;display:flex;justify-content:space-between;font-family:'Courier New',monospace;font-size:.72rem}
+.sv-total-label{color:#443355}
+.sv-total-val{color:#e05a3a}
+
+/* ── HOMEOSTASIS VS ALLOSTASIS ── */
+.compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:1.5rem 0}
+.cmp-card{background:#0c0918;border:1px solid #1e1840;border-radius:6px;padding:14px}
+.cmp-head{font-family:'Courier New',monospace;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px}
+.cmp-head.blue{color:#4a9eff}
+.cmp-head.gold{color:#c9a84c}
+.cmp-row{font-size:.75rem;color:#776688;padding:3px 0;border-bottom:1px solid #100d1c;line-height:1.45}
+.cmp-row:last-child{border-bottom:none}
+.cmp-row strong{color:#bbaabb}
+
+/* ── OPERATOR CHAIN ── */
+.op-chain{display:flex;align-items:center;gap:4px;flex-wrap:wrap;margin:1.5rem 0;padding:14px 16px;background:#060a12;border:1px solid #141030;border-radius:6px}
+.op-box{display:flex;flex-direction:column;align-items:center;gap:2px}
+.op-letter{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Georgia',serif;font-size:1rem;font-weight:bold}
+.op-c{background:rgba(74,158,255,.12);color:#4a9eff;border:1px solid rgba(74,158,255,.3)}
+.op-k{background:rgba(224,90,58,.12);color:#e05a3a;border:1px solid rgba(224,90,58,.3)}
+.op-f{background:rgba(80,200,120,.12);color:#50c878;border:1px solid rgba(80,200,120,.3)}
+.op-u{background:rgba(192,132,252,.12);color:#c084fc;border:1px solid rgba(192,132,252,.3)}
+.op-label{font-family:'Courier New',monospace;font-size:.55rem;letter-spacing:.06em;color:#2a2040}
+.op-arrow{font-family:'Courier New',monospace;font-size:.8rem;color:#221c38;margin:0 2px;align-self:center;margin-bottom:14px}
+.op-active{box-shadow:0 0 16px rgba(74,158,255,.2)}
+
+/* ── VOCAB ── */
+.vocab-list{margin:1rem 0}
+.vocab-item{display:flex;gap:10px;padding:6px 0;border-bottom:1px solid #100d1c;font-size:.8rem}
+.vocab-item:last-child{border-bottom:none}
+.vocab-term{font-family:'Courier New',monospace;color:#4a9eff;min-width:130px;flex-shrink:0}
+.vocab-def{color:#776688;line-height:1.5}
+
+/* ── SIDEBAR ── */
+.sidebar{}
+.side-card{background:#0c0918;border:1px solid #1e1840;border-radius:8px;padding:14px;margin-bottom:12px}
+.side-label{font-family:'Courier New',monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:#2a2040;margin-bottom:8px}
+.side-eq{font-family:'Courier New',monospace;font-size:.8rem;color:#9ac8ff;background:#080c18;padding:6px 10px;border-radius:3px;border-left:2px solid #4a9eff;display:block;margin-bottom:8px}
+.side-item{font-size:.72rem;color:#554466;padding:3px 0;border-bottom:1px solid #100d1c;display:flex;gap:6px}
+.side-item:last-child{border-bottom:none}
+.side-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0;margin-top:5px}
+.cefr-bar{display:flex;gap:3px;margin-top:6px}
+.cefr-pip{height:4px;flex:1;border-radius:2px;background:#110e1c}
+.cefr-pip.active{background:#4a9eff}
+
+.chapter-nav{display:flex;flex-direction:column;gap:3px}
+.ch-nav-row{display:flex;align-items:center;gap:8px;padding:4px 6px;border-radius:3px;font-family:'Courier New',monospace;font-size:.65rem;color:#2a2040;text-decoration:none;transition:all .2s}
+.ch-nav-row:hover{color:#c9a84c;background:#110e1c}
+.ch-nav-row.current{color:#4a9eff;background:#080c18}
+.ch-num{width:18px;text-align:right;flex-shrink:0}
+.ch-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
+
+/* ── FOOTER ── */
+.site-footer{max-width:900px;margin:0 auto;padding:16px 20px 8px;border-top:1px solid #18122a;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+.footer-chain{font-family:'Courier New',monospace;font-size:.68rem;letter-spacing:.08em;color:#c9a84c;opacity:.35}
+.footer-links{display:flex;gap:14px}
+.footer-links a{font-family:'Courier New',monospace;font-size:.66rem;color:#2a2040;text-decoration:none;transition:color .2s}
+.footer-links a:hover{color:#c9a84c}
+.footer-copy{width:100%;font-family:'Courier New',monospace;font-size:.6rem;color:#1a1428;margin-top:4px}
+
+@media(max-width:600px){
+  .hero h1{font-size:1.45rem}
+  .compare-grid{grid-template-columns:1fr}
+  .op-chain{justify-content:center}
+}
+</style>
 </head>
 <body>
-  <nav>
-    <a href="index.html" class="nav-logo">dm³</a>
-    <ul class="nav-links">
-      <li><a href="living-book.html">Living Book</a></li>
-      <li><a href="chapters-diagram.html">Chapters</a></li>
-      <li><a href="index.html">Home</a></li>
-    </ul>
-  </nav>
-  <div class="hero">
-    <div class="hero-inner">
-      <div class="eyebrow">Chapter 2</div>
-      <h1>Allostatic</h1>
-      <div class="gold-rule"></div>
-      <p class="hero-desc">Allostatic regulation as a dynamical pattern: setpoints that move, error signals that stabilize.</p>
+
+<!-- ── NAV ── -->
+<div class="back-nav">
+  <div class="back-nav-inner">
+    <a class="back-link" href="index.html">
+      <svg viewBox="0 0 12 12" fill="none"><path d="M7.5 2L3 6l4.5 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      G6 Geometry Hub
+    </a>
+    <div class="nav-right">
+      <a href="collatz-engineering_1.html">Engineering ↗</a>
+      <a href="https://github.com/TOTOGT/AXLE" target="_blank">AXLE ↗</a>
+      <a href="https://doi.org/10.5281/zenodo.19117399" target="_blank">Zenodo ↗</a>
     </div>
   </div>
-  <section>
-    <div class="section-inner">
-      <div class="stub-banner">
-        Stub page. This chapter is referenced from elsewhere in the book but has not been written yet. The link target now resolves; replace this file with the real chapter when ready.
+</div>
+
+<!-- ── HERO ── -->
+<div class="hero">
+  <div class="hero-badge op-active">
+    <span>
+      <span class="badge-sym">λ</span>
+      Ch.2
+    </span>
+  </div>
+  <div class="hero-text">
+    <div class="chapter-label">
+      Chapter 2 · Book 3: The Mini-Beast · Phase C — Compression
+      <span class="phase-pill">C</span>
+    </div>
+    <h1>Allostatic <em>Load</em></h1>
+    <div class="hero-eq">λ = Σ wᵢ sᵢ</div>
+    <p class="hero-desc">
+      Stress accumulates across systems. The body is proof that compression builds toward threshold.
+      Allostatic load is not suffering — it is the accumulation of the cost of adaptation.
+      When the load exceeds the system's capacity, the operator K fires.
+    </p>
+    <div class="hero-meta">
+      <span>CEFR B1 · Week 4 · Phase C (Compression) · G = U ∘ F ∘ K ∘ C</span>
+      <a href="collatz-engineering_1.html">← Ch.1: The Seed</a>
+      <a href="ch3-circadian.html">Ch.3: Circadian Rhythm →</a>
+    </div>
+  </div>
+</div>
+
+<!-- ── PROGRESS ── -->
+<div class="progress-strip">
+  <span class="prog-label">Book 3 · Ch.2 of 18</span>
+  <div class="prog-track"><div class="prog-fill"></div></div>
+  <div class="prog-chapters">
+    <div class="prog-dot" style="background:#4a9eff" title="Ch.0"></div>
+    <div class="prog-dot" style="background:#4a9eff" title="Ch.1"></div>
+    <div class="prog-dot" style="background:#4a9eff;box-shadow:0 0 6px #4a9eff" title="Ch.2 — now"></div>
+    <div class="prog-dot" style="background:#1a1530" title="Ch.3"></div>
+    <div class="prog-dot" style="background:#1a1530" title="Ch.4"></div>
+    <div class="prog-dot" style="background:#1a1530" title="Ch.5"></div>
+    <div class="prog-dot" style="background:#1a1530" title="Ch.6"></div>
+    <div class="prog-dot" style="background:#1a1530" title="Ch.7"></div>
+    <div class="prog-dot" style="background:#1a1530" title="Ch.8"></div>
+  </div>
+</div>
+
+<!-- ── MAIN ── -->
+<div class="page">
+
+  <!-- ── PROSE ── -->
+  <div class="prose">
+
+    <div class="section-head">Opening</div>
+    <div class="section-title">The body does not forget</div>
+
+    <p>
+      Every time you adapt to something difficult — a threat, a deadline, a cold morning, a loss —
+      your body pays a price. Not always a large price. Often just a small metabolic tax:
+      cortisol released, heart rate elevated, immune response modulated, sleep architecture shifted
+      by a fraction. Small. Barely noticeable.
+    </p>
+    <p>
+      But the body keeps the ledger.
+    </p>
+    <p>
+      Allostatic load is the <strong>cumulative biological cost of repeated adaptation</strong>.
+      The word comes from the Greek <em>allos</em> (other, variable) and <em>stasis</em> (standing still).
+      Where homeostasis asks: can the system hold its set-point?
+      Allostasis asks: <strong>what did holding that set-point cost?</strong>
+    </p>
+
+    <div class="callout">
+      <div class="callout-label">Definition · Allostatic Load</div>
+      <p>The accumulated physiological cost of maintaining stability through change. A measure not of current stress but of the <em>history</em> of stress — what the system has spent adapting, and what reserve remains.</p>
+    </div>
+
+    <div class="section-head">The operator C</div>
+    <div class="section-title">Compression is not loss — it is cost</div>
+
+    <p>
+      In the dm³ framework, the operator C — Compression — reduces degrees of freedom while preserving
+      what is essential. Think of a seed: it compresses the full genetic programme of a tree into a
+      dense, dormant form. Nothing is lost. But the cost of that compression is real —
+      it requires energy, it produces heat, it imposes structure.
+    </p>
+    <p>
+      Allostatic load is what C looks like in the body.
+      Each stressor is a compression event. The HPA axis fires — hypothalamus signals pituitary,
+      pituitary signals adrenal cortex, cortisol floods the bloodstream. The immune system
+      redistributes its soldiers. Metabolism shifts toward glucose availability.
+      This is not malfunction. <strong>This is the operator working correctly.</strong>
+    </p>
+    <p>
+      The problem is not a single activation. The problem is the integral over time.
+    </p>
+
+    <!-- Operator chain -->
+    <div class="op-chain">
+      <div class="op-box">
+        <div class="op-letter op-c op-active">C</div>
+        <div class="op-label">Compression</div>
       </div>
-      <p>Outline pending.</p>
+      <div class="op-arrow">∘</div>
+      <div class="op-box">
+        <div class="op-letter op-k">K</div>
+        <div class="op-label">Threshold</div>
+      </div>
+      <div class="op-arrow">∘</div>
+      <div class="op-box">
+        <div class="op-letter op-f">F</div>
+        <div class="op-label">Fold</div>
+      </div>
+      <div class="op-arrow">∘</div>
+      <div class="op-box">
+        <div class="op-letter op-u">U</div>
+        <div class="op-label">Unfolding</div>
+      </div>
+      <div style="flex:1;min-width:100px;padding-left:12px;font-family:'Courier New',monospace;font-size:.65rem;color:#2a2040;line-height:1.6;align-self:center">
+        Chapter 2 lives here — in C.<br>
+        Load accumulates until K fires.<br>
+        K is Chapter 3 (Circadian Rhythm)<br>
+        and Chapter 4 (Neural Oscillations).
+      </div>
     </div>
-  </section>
-  <div class="chapter-nav">
-    <a href="ch1-seed.html">← Ch. 1: Seed</a>
-    <a href="living-book.html">Living Book →</a>
+
+    <div class="section-head">The equation</div>
+    <div class="section-title">λ = Σ wᵢ sᵢ — reading the formula</div>
+
+    <div class="eq-block">
+      <div class="eq-label">Allostatic load index</div>
+      <div class="eq-main">λ = Σ wᵢ sᵢ</div>
+      <div class="eq-sub">
+        λ = total allostatic load (scalar)<br>
+        wᵢ = weight of stressor i (severity, duration, unpredictability)<br>
+        sᵢ = binary indicator: 1 if biomarker i exceeds threshold, 0 otherwise<br>
+        Σ = sum over all N biomarker systems (HPA, cardiovascular, metabolic, immune)
+      </div>
+    </div>
+
+    <p>
+      The formula looks simple. It is. What it encodes is profound.
+    </p>
+    <p>
+      Each term wᵢ sᵢ asks: <strong>is this system under sustained strain?</strong>
+      Elevated cortisol at night (when it should be low) — sᵢ = 1.
+      Resting heart rate chronically above baseline — sᵢ = 1.
+      HDL cholesterol suppressed — sᵢ = 1.
+      Waist-to-hip ratio elevated — sᵢ = 1.
+      The sum λ is the total count of systems that have been pushed past their range,
+      weighted by how severe the deviation is.
+    </p>
+    <p>
+      When λ crosses the threshold κ* — the K operator fires.
+      The system can no longer absorb the load through normal allostatic compensation.
+      What follows is either adaptation (a new, more resilient equilibrium)
+      or breakdown (disease, dysfunction, collapse).
+    </p>
+
+    <div class="callout callout-gold">
+      <div class="callout-label">Connection to dm³</div>
+      <p>
+        In the dm³ framework: λ is the radial coordinate r approaching the limit cycle Γ.
+        The Lyapunov function V = (r−1)² measures distance from stability.
+        As λ grows, V grows. When V exceeds ε₀ = 1/3, the stability radius is breached — the
+        K operator fires exactly as it fires in the HPA cascade.
+        The body and the manifold follow the same grammar.
+      </p>
+    </div>
+
+    <div class="section-head">Two concepts confused</div>
+    <div class="section-title">Homeostasis vs Allostasis — the difference matters</div>
+
+    <div class="compare-grid">
+      <div class="cmp-card">
+        <div class="cmp-head blue">Homeostasis</div>
+        <div class="cmp-row"><strong>Goal:</strong> maintain a fixed set-point</div>
+        <div class="cmp-row"><strong>Example:</strong> body temperature 37°C</div>
+        <div class="cmp-row"><strong>Mechanism:</strong> negative feedback loops</div>
+        <div class="cmp-row"><strong>Failure mode:</strong> fever, hypothermia</div>
+        <div class="cmp-row"><strong>Time scale:</strong> minutes to hours</div>
+        <div class="cmp-row"><strong>Cost accounting:</strong> none — cost is invisible</div>
+      </div>
+      <div class="cmp-card">
+        <div class="cmp-head gold">Allostasis</div>
+        <div class="cmp-row"><strong>Goal:</strong> achieve stability through change</div>
+        <div class="cmp-row"><strong>Example:</strong> cortisol varies with demand</div>
+        <div class="cmp-row"><strong>Mechanism:</strong> predictive, anticipatory adjustment</div>
+        <div class="cmp-row"><strong>Failure mode:</strong> allostatic overload (λ &gt; κ*)</div>
+        <div class="cmp-row"><strong>Time scale:</strong> days to decades</div>
+        <div class="cmp-row"><strong>Cost accounting:</strong> explicit — the load is the ledger</div>
+      </div>
+    </div>
+
+    <p>
+      The key distinction: homeostasis asks if the variable is at its target.
+      Allostasis asks <strong>what it cost to get it there</strong>, and whether that cost
+      is sustainable across time.
+      A student who passes every exam by sleeping three hours a night has homeostatic
+      success (grades are fine) but escalating allostatic load (the body is paying for it).
+    </p>
+
+    <div class="section-head">The four systems</div>
+    <div class="section-title">Where load accumulates — interactive model</div>
+
+    <div class="stress-vis" id="stressVis">
+      <div class="sv-label">Allostatic load model — λ = Σ wᵢ sᵢ — drag sliders to update</div>
+
+      <div class="sv-row">
+        <span class="sv-name">HPA axis</span>
+        <input type="range" min="0" max="10" value="7" oninput="updateStress()" style="flex:1;accent-color:#4a9eff" id="s1">
+        <span class="sv-val" id="v1">7</span>
+      </div>
+      <div class="sv-row">
+        <span class="sv-name">Cardiovascular</span>
+        <input type="range" min="0" max="10" value="5" oninput="updateStress()" style="flex:1;accent-color:#e05a3a" id="s2">
+        <span class="sv-val" id="v2">5</span>
+      </div>
+      <div class="sv-row">
+        <span class="sv-name">Metabolic</span>
+        <input type="range" min="0" max="10" value="4" oninput="updateStress()" style="flex:1;accent-color:#c9a84c" id="s3">
+        <span class="sv-val" id="v3">4</span>
+      </div>
+      <div class="sv-row">
+        <span class="sv-name">Immune</span>
+        <input type="range" min="0" max="10" value="3" oninput="updateStress()" style="flex:1;accent-color:#50c878" id="s4">
+        <span class="sv-val" id="v4">3</span>
+      </div>
+      <div class="sv-row">
+        <span class="sv-name">Sleep/circadian</span>
+        <input type="range" min="0" max="10" value="6" oninput="updateStress()" style="flex:1;accent-color:#c084fc" id="s5">
+        <span class="sv-val" id="v5">6</span>
+      </div>
+
+      <div class="sv-total">
+        <span class="sv-total-label">Total λ</span>
+        <span class="sv-total-val" id="lambdaTotal">25 / 50</span>
+      </div>
+      <div style="margin-top:8px;height:6px;background:#110e1c;border-radius:3px;overflow:hidden">
+        <div id="lambdaBar" style="height:100%;background:#4a9eff;border-radius:3px;transition:width .4s,background .4s;width:50%"></div>
+      </div>
+      <div style="font-family:'Courier New',monospace;font-size:.62rem;color:#2a2040;margin-top:6px" id="lambdaStatus">λ = 25 · below threshold κ* = 35 · system stable</div>
+    </div>
+
+    <div class="section-head">Argument structure</div>
+    <div class="section-title">Writing under load — the allostatic argument</div>
+
+    <p>
+      An allostatic argument does not make its point immediately.
+      It accumulates. Each paragraph is a stressor: a new claim, a new contradiction,
+      a new piece of evidence that the reader must absorb and hold.
+      The reader's cognitive load — their λ — rises with each section.
+    </p>
+    <p>
+      A good writer manages this load deliberately.
+      They know when the reader is near threshold.
+      They offer release — a summary, an analogy, a short sentence after a long one —
+      before pushing into the next layer of complexity.
+    </p>
+    <p>
+      This is the K operator working in prose.
+      The compression of Chapter 1 (The Seed) built toward this point.
+      Chapter 3 (Circadian Rhythm) will be the first threshold firing:
+      the moment the argument stops accumulating and begins oscillating.
+    </p>
+
+    <div class="callout callout-warning">
+      <div class="callout-label">Writing warning — the invisible load</div>
+      <p>
+        The most common failure in academic writing is accumulating load without release.
+        The writer knows the argument so well they no longer feel its weight.
+        The reader, encountering it fresh, hits threshold at paragraph 4 and stops.
+        The fix: read your own work as a reader who knows nothing. Where do you feel the pressure
+        rise? That is where you insert the release.
+      </p>
+    </div>
+
+    <div class="section-head">Vocabulary</div>
+    <div class="section-title">Key terms for this chapter</div>
+
+    <div class="vocab-list">
+      <div class="vocab-item">
+        <span class="vocab-term">allostasis</span>
+        <span class="vocab-def">Achieving stability through physiological change; contrast with homeostasis (stability at a fixed point).</span>
+      </div>
+      <div class="vocab-item">
+        <span class="vocab-term">allostatic load (λ)</span>
+        <span class="vocab-def">The cumulative biological cost of repeated adaptation. Measured as a weighted sum of dysregulated biomarkers.</span>
+      </div>
+      <div class="vocab-item">
+        <span class="vocab-term">HPA axis</span>
+        <span class="vocab-def">Hypothalamic-pituitary-adrenal axis. The primary stress-response cascade: hypothalamus → pituitary → cortisol release.</span>
+      </div>
+      <div class="vocab-item">
+        <span class="vocab-term">threshold κ*</span>
+        <span class="vocab-def">The value of λ at which the system's compensatory capacity is exceeded and the K operator fires. In dm³: the critical manifold boundary.</span>
+      </div>
+      <div class="vocab-item">
+        <span class="vocab-term">biomarker</span>
+        <span class="vocab-def">A measurable physiological indicator (cortisol level, blood pressure, HDL, waist-to-hip ratio) used to track allostatic load.</span>
+      </div>
+      <div class="vocab-item">
+        <span class="vocab-term">dysregulation</span>
+        <span class="vocab-def">Chronic deviation of a biomarker from its adaptive range — the condition measured by sᵢ = 1 in the load equation.</span>
+      </div>
+      <div class="vocab-item">
+        <span class="vocab-term">reserve capacity</span>
+        <span class="vocab-def">The gap between current λ and the threshold κ*. The amount of additional stress the system can absorb before breakdown.</span>
+      </div>
+    </div>
+
+    <!-- Exercise -->
+    <div class="exercise">
+      <div class="ex-label">Exercise 2.1 — B1 writing task</div>
+      <div class="ex-title">Reduce any argument to its seed — then estimate its λ</div>
+      <div class="ex-body">
+        Choose a position you want to argue (academic, professional, personal).
+        First apply the seed operator from Chapter 1: compress it to one sentence.
+        Then, for each of the following five "biomarker" systems, score your argument
+        from 0 (no strain) to 10 (maximum strain):
+        <br><br>
+        (1) Logical coherence · (2) Evidence load · (3) Counter-argument exposure ·
+        (4) Emotional weight · (5) Structural clarity.
+        <br><br>
+        Compute your argument's λ. Is it below your reader's threshold? Where will they hit κ*?
+        Revise one section to reduce the load by at least 5 points.
+      </div>
+      <div class="ex-prompt">
+        Write your seed sentence here:<br>
+        "The argument that ____________ is supported by ____________,<br>
+         but its allostatic cost for the reader is ____________<br>
+         because ____________."
+      </div>
+    </div>
+
+    <div class="exercise">
+      <div class="ex-label">Exercise 2.2 — B1 reading task</div>
+      <div class="ex-title">Map a text's load profile</div>
+      <div class="ex-body">
+        Take any academic article or long news piece (minimum 800 words).
+        Read it once. Then assign a λ score (0–10) to each paragraph — how much cognitive
+        load does this paragraph add to the reader? Plot the scores in order.
+        Identify the two highest-load paragraphs. For each, write one sentence that
+        could be inserted before it to reduce the load (a signpost, a summary, a bridge).
+      </div>
+      <div class="ex-prompt">
+        Paragraph λ scores: [__], [__], [__], [__], [__], [__], [__] …<br>
+        Peak at paragraph __: "Before this paragraph, I would insert:<br>
+        '____________'"
+      </div>
+    </div>
+
+    <div class="section-head">Chapter summary</div>
+
+    <div class="callout">
+      <div class="callout-label">What this chapter established</div>
+      <p>
+        Allostatic load λ = Σ wᵢ sᵢ is the body's accounting of adaptive cost.
+        It accumulates through repeated compression events (C operator) across five physiological
+        systems: HPA axis, cardiovascular, metabolic, immune, and sleep/circadian.
+        When λ exceeds the threshold κ*, the K operator fires — the body stops compensating
+        and either adapts to a new equilibrium or breaks down.
+        The same grammar governs well-constructed argument: compression accumulates,
+        the reader reaches threshold, release must follow.
+        Chapter 3 (Circadian Rhythm) is where the threshold fires for the first time.
+      </p>
+    </div>
+
+    <!-- Chapter nav -->
+    <div style="display:flex;gap:10px;margin-top:24px;flex-wrap:wrap">
+      <a href="ch1-seed.html" style="display:inline-flex;align-items:center;gap:6px;font-family:'Courier New',monospace;font-size:.72rem;color:#2a2040;text-decoration:none;padding:6px 12px;border:1px solid #1e1840;border-radius:4px;transition:all .2s">
+        ← Ch.1: The Seed
+      </a>
+      <a href="ch3-circadian.html" style="display:inline-flex;align-items:center;gap:6px;font-family:'Courier New',monospace;font-size:.72rem;color:#c9a84c;text-decoration:none;padding:6px 12px;border:1px solid rgba(201,168,76,.3);border-radius:4px;transition:all .2s;background:rgba(201,168,76,.05)">
+        Ch.3: Circadian Rhythm →
+      </a>
+    </div>
+
+  </div><!-- .prose -->
+
+  <!-- ── SIDEBAR ── -->
+  <div class="sidebar">
+
+    <div class="side-card">
+      <div class="side-label">Chapter at a glance</div>
+      <span class="side-eq">λ = Σ wᵢ sᵢ</span>
+      <div class="side-item"><div class="side-dot" style="background:#4a9eff"></div><span>Phase C — Compression</span></div>
+      <div class="side-item"><div class="side-dot" style="background:#4a9eff"></div><span>CEFR B1 · Week 4</span></div>
+      <div class="side-item"><div class="side-dot" style="background:#4a9eff"></div><span>Symbol λ (lambda)</span></div>
+      <div class="side-item"><div class="side-dot" style="background:#c9a84c"></div><span>Next: K threshold (Ch.3)</span></div>
+      <div class="side-label" style="margin-top:10px">Language level</div>
+      <div class="cefr-bar">
+        <div class="cefr-pip active" title="A2"></div>
+        <div class="cefr-pip active" title="B1"></div>
+        <div class="cefr-pip" title="B2"></div>
+        <div class="cefr-pip" title="C1"></div>
+        <div class="cefr-pip" title="D1"></div>
+        <div class="cefr-pip" title="D2"></div>
+      </div>
+      <div style="font-family:'Courier New',monospace;font-size:.58rem;color:#2a2040;margin-top:4px">A2 · B1 ← · B2 · C1 · D1 · D2</div>
+    </div>
+
+    <div class="side-card">
+      <div class="side-label">dm³ connections</div>
+      <div class="side-item"><div class="side-dot" style="background:#4a9eff"></div><span>C operator: compression of stress into biomarker signal</span></div>
+      <div class="side-item"><div class="side-dot" style="background:#4a9eff"></div><span>V = (r−1)² — Lyapunov analogue of allostatic load</span></div>
+      <div class="side-item"><div class="side-dot" style="background:#e05a3a"></div><span>κ* threshold: stability radius ε₀ = 1/3 in dm³</span></div>
+      <div class="side-item"><div class="side-dot" style="background:#c9a84c"></div><span>Re-entrainment time τ = 2: recovery window</span></div>
+    </div>
+
+    <div class="side-card">
+      <div class="side-label">Key biomarkers (clinical)</div>
+      <div class="side-item"><div class="side-dot" style="background:#9ac8ff"></div><span>Cortisol — HPA axis marker</span></div>
+      <div class="side-item"><div class="side-dot" style="background:#9ac8ff"></div><span>Systolic BP — cardiovascular</span></div>
+      <div class="side-item"><div class="side-dot" style="background:#9ac8ff"></div><span>HDL cholesterol — metabolic</span></div>
+      <div class="side-item"><div class="side-dot" style="background:#9ac8ff"></div><span>CRP (C-reactive protein) — immune</span></div>
+      <div class="side-item"><div class="side-dot" style="background:#9ac8ff"></div><span>Waist-to-hip ratio — metabolic</span></div>
+      <div class="side-item"><div class="side-dot" style="background:#9ac8ff"></div><span>Sleep duration below 6h</span></div>
+    </div>
+
+    <div class="side-card">
+      <div class="side-label">Chapter navigator</div>
+      <div class="chapter-nav">
+        <a href="ch00-introduction.html" class="ch-nav-row">
+          <span class="ch-num">0</span>
+          <div class="ch-dot" style="background:#4a9eff"></div>
+          <span>Introduction</span>
+        </a>
+        <a href="ch1-seed.html" class="ch-nav-row">
+          <span class="ch-num">1</span>
+          <div class="ch-dot" style="background:#4a9eff"></div>
+          <span>The Seed</span>
+        </a>
+        <a href="ch2-allostatic.html" class="ch-nav-row current">
+          <span class="ch-num">2</span>
+          <div class="ch-dot" style="background:#4a9eff;box-shadow:0 0 5px #4a9eff"></div>
+          <span>Allostatic Load ← now</span>
+        </a>
+        <a href="ch3-circadian.html" class="ch-nav-row">
+          <span class="ch-num">3</span>
+          <div class="ch-dot" style="background:#1a1530"></div>
+          <span>Circadian Rhythm</span>
+        </a>
+        <a href="ch4-neural.html" class="ch-nav-row">
+          <span class="ch-num">4</span>
+          <div class="ch-dot" style="background:#1a1530"></div>
+          <span>Neural Oscillations</span>
+        </a>
+        <a href="ch5-immune.html" class="ch-nav-row">
+          <span class="ch-num">5</span>
+          <div class="ch-dot" style="background:#1a1530"></div>
+          <span>Immune Adaptation</span>
+        </a>
+        <a href="ch6-resonant.html" class="ch-nav-row">
+          <span class="ch-num">6</span>
+          <div class="ch-dot" style="background:#1a1530"></div>
+          <span>Resonance</span>
+        </a>
+        <a href="chH-collatz.html" class="ch-nav-row" style="margin-top:4px;border-top:1px solid #1a1530;padding-top:6px">
+          <span class="ch-num">H</span>
+          <div class="ch-dot" style="background:#67e8f9"></div>
+          <span style="color:#67e8f9">Collatz · Bonus</span>
+        </a>
+      </div>
+    </div>
+
+  </div><!-- .sidebar -->
+
+</div><!-- .page -->
+
+<footer class="site-footer">
+  <span class="footer-chain">C → K → F → U → ∞</span>
+  <div class="footer-links">
+    <a href="index.html">← Hub</a>
+    <a href="https://github.com/TOTOGT/AXLE" target="_blank">AXLE</a>
+    <a href="https://doi.org/10.5281/zenodo.19117399" target="_blank">Series Root</a>
+    <a href="https://doi.org/10.5281/zenodo.19162012" target="_blank">G6 Crystal</a>
+    <a href="https://brodanova6.gumroad.com/sourdworks" target="_blank">Membership</a>
   </div>
+  <div class="footer-copy">
+    © G6 LLC · Newark, NJ · 2026 · Book 3: The Mini-Beast · Ch.2 · MIT (code) · CC BY-NC-ND 4.0 (content)
+  </div>
+</footer>
+
+<script>
+function updateStress(){
+  const vals=[1,2,3,4,5].map(i=>parseInt(document.getElementById('s'+i).value));
+  vals.forEach((v,i)=>{ document.getElementById('v'+(i+1)).textContent=v; });
+  const total=vals.reduce((a,b)=>a+b,0);
+  const max=50;
+  const pct=(total/max*100).toFixed(0);
+  const threshold=35;
+  document.getElementById('lambdaTotal').textContent=total+' / '+max;
+  const bar=document.getElementById('lambdaBar');
+  bar.style.width=pct+'%';
+  const status=document.getElementById('lambdaStatus');
+  if(total<threshold){
+    bar.style.background='#4a9eff';
+    status.textContent='λ = '+total+' · below threshold κ* = '+threshold+' · system stable';
+    status.style.color='#4a9eff';
+  } else if(total<45){
+    bar.style.background='#c9a84c';
+    status.textContent='λ = '+total+' · approaching threshold κ* = '+threshold+' · K operator warming';
+    status.style.color='#c9a84c';
+  } else {
+    bar.style.background='#e05a3a';
+    status.textContent='λ = '+total+' · threshold exceeded · K operator fires — system must adapt or break';
+    status.style.color='#e05a3a';
+  }
+}
+updateStress();
+</script>
+
 </body>
 </html>
