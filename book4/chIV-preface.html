@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter 0 · Preface — Lemniscata & Analemma · GTCT Vol IV</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@300;400;700&family=Cinzel:wght@400;600;900&display=swap" rel="stylesheet">
+<style>
+:root{--void:#04040a;--gold:#c9a84c;--gold2:#e8c96a;--teal:#2dd4bf;--text:#e8e4d8;--muted:#6b6757;--dim:#3a3828;--border:rgba(201,168,76,0.12);--border2:rgba(201,168,76,0.28);}
+*{box-sizing:border-box;margin:0;padding:0;}html{scroll-behavior:smooth;}
+body{font-family:'Cormorant Garamond',serif;background:var(--void);color:var(--text);min-height:100vh;font-size:18px;line-height:1.85;}
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");pointer-events:none;z-index:999;}
+nav{position:fixed;top:0;width:100%;z-index:500;display:flex;justify-content:space-between;align-items:center;padding:0.8rem 3rem;border-bottom:1px solid var(--border);background:rgba(4,4,10,0.92);backdrop-filter:blur(16px);}
+.nav-mark{font-family:'Cinzel',serif;font-size:0.7rem;letter-spacing:0.25em;color:var(--gold);text-decoration:none;}
+.nav-links{display:flex;gap:1.5rem;}.nav-links a{font-family:'JetBrains Mono',monospace;font-size:0.58rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color 0.2s;}.nav-links a:hover{color:var(--gold);}
+.chapter-hero{padding:7rem 3rem 3rem;max-width:900px;margin:0 auto;}
+.ch-vol{font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--teal);margin-bottom:0.8rem;}
+.ch-num{font-family:'JetBrains Mono',monospace;font-size:0.65rem;letter-spacing:0.2em;color:var(--muted);margin-bottom:0.4rem;}
+.ch-title{font-family:'Cinzel',serif;font-size:clamp(2rem,5vw,3.8rem);font-weight:600;line-height:1.05;color:var(--gold);margin-bottom:0.5rem;}
+.ch-pt{font-style:italic;color:var(--muted);font-size:1.05rem;margin-bottom:1.2rem;}
+.gold-rule{width:40px;height:2px;background:var(--gold);margin:2rem 0;}
+.chapter-body{max-width:820px;margin:0 auto;padding:0 3rem 6rem;}
+.sec{margin-bottom:3rem;}
+.sec-label{font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:0.25em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem;}
+p{margin-bottom:1.1rem;color:rgba(232,228,216,0.82);}
+.epigraph{font-style:italic;color:var(--muted);border-left:2px solid var(--border2);padding-left:1.5rem;margin:2rem 0;font-size:1rem;line-height:1.9;}
+.epigraph cite{display:block;font-style:normal;font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:0.1em;color:var(--gold);margin-top:0.6rem;}
+.structure-block{background:rgba(201,168,76,0.04);border:1px solid var(--border);padding:1.4rem 1.8rem;margin:1.5rem 0;font-family:'JetBrains Mono',monospace;font-size:0.78rem;color:var(--text);line-height:2;}
+.structure-block .hl{color:var(--gold);}
+.structure-block .arr{color:var(--muted);}
+.parents-box{border:1px solid var(--border2);padding:1.8rem 2rem;margin:2rem 0;background:rgba(201,168,76,0.03);}
+.parents-box .quote{font-size:1.15rem;font-style:italic;color:var(--gold2);margin-bottom:0.5rem;}
+.parents-box .attribution{font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--muted);letter-spacing:0.1em;}
+.parents-box .lesson{font-size:0.95rem;color:rgba(232,228,216,0.7);margin-top:0.8rem;line-height:1.75;}
+.ch-nav{display:flex;justify-content:space-between;padding:2rem 3rem;border-top:1px solid var(--border);}
+.ch-nav a{font-family:'JetBrains Mono',monospace;font-size:0.62rem;letter-spacing:0.1em;color:var(--muted);text-decoration:none;transition:color 0.2s;}.ch-nav a:hover{color:var(--gold);}
+.ch-nav .next{text-align:right;}
+footer{text-align:center;padding:2rem;font-family:'JetBrains Mono',monospace;font-size:0.58rem;letter-spacing:0.1em;color:var(--dim);border-top:1px solid var(--border);}
+footer a{color:var(--gold);text-decoration:none;}
+@media(max-width:700px){nav{padding:0.8rem 1.2rem;}.chapter-hero,.chapter-body{padding-left:1.2rem;padding-right:1.2rem;}.ch-nav{padding:1.5rem 1.2rem;}}
+</style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-mark">Principia Orthogona · Vol IV</a>
+  <div class="nav-links">
+    <a href="chIV-preface.html" style="color:var(--gold)">Preface</a>
+    <a href="chIV-axioms.html">Ch 1 · Axioms</a>
+    <a href="chIV-field.html">Ch 2</a>
+    <a href="chIV-operators.html">Ch 3</a>
+    <a href="chIV-correspondence.html">Ch 4</a>
+    <a href="chIV-orthogonality.html">Ch 5</a>
+    <a href="chIV-recursion.html">Ch 6</a>
+    <a href="chIV-emergence.html">Ch 7</a>
+    <a href="chIV-time.html">Ch 8 · Time</a>
+  </div>
+</nav>
+
+<div class="chapter-hero">
+  <div class="ch-vol">Vol IV · Generative Temporal Contact Theory</div>
+  <div class="ch-num">Chapter 0 — Capítulo 0</div>
+  <h1 class="ch-title">Preface</h1>
+  <div class="ch-pt">Prefácio</div>
+  <div class="gold-rule"></div>
+  <div class="epigraph">
+    "The lemniscata is the analemma and the analemma is the lemniscata."
+    <cite>— A student in Newark, New Jersey, twenty-six years ago</cite>
+  </div>
+</div>
+
+<div class="chapter-body">
+
+  <div class="sec">
+    <div class="sec-label">0.1 Purpose / Propósito</div>
+    <p>This volume develops the dimensional theory of the Generative Temporal Contact Theory (GTCT) from first principles. No result is assumed without proof or explicit citation. A formal referee process has strengthened the proofs of Chapters 5–7; all corrected statements are explicitly marked [v2].</p>
+    <p>Este volume desenvolve a teoria dimensional da GTCT a partir de primeiros princípios. Nenhum resultado é assumido sem prova ou citação explícita. Um processo formal de arbitragem fortaleceu as provas dos Capítulos 5–7; todos os enunciados corrigidos são marcados [v2].</p>
+  </div>
+
+  <div class="sec">
+    <div class="sec-label">0.2 Structure / Estrutura</div>
+    <p>Seven chapters and six appendices. The logical dependency chain is strict:</p>
+    <div class="structure-block">
+      <span class="hl">Ch 1</span> Axioms <span class="arr">→</span>
+      <span class="hl">Ch 2</span> Dimensional Field <span class="arr">→</span>
+      <span class="hl">Ch 3</span> Operators <span class="arr">→</span>
+      <span class="hl">Ch 4</span> Correspondence <span class="arr">→</span>
+      <span class="hl">Ch 5</span> Orthogonality [v2] <span class="arr">→</span>
+      <span class="hl">Ch 6</span> Recursion [v2] <span class="arr">→</span>
+      <span class="hl">Ch 7</span> Emergence [v2]
+      <br>
+      <span class="arr">+</span> <span class="hl">Ch 8</span> The Nature of Time (conceptual, depends on Ch 1–7)
+      <br>
+      <span class="arr">+</span> <span class="hl">App A–F</span> Notation · Operator Tables · Diagrams · Proofs · Glossary · Correspondence
+    </div>
+    <p>Statement statuses throughout: (A) Axiom — accepted without proof; (D) Definition — stipulative; (T) Theorem/Lemma — proved; ✓ Lean 4 — machine-verified in AXLE. Structural Hypothesis blocks mark hypotheses on the operator matrices $A_i$ that are admissible within the existing Lean 4 formalization.</p>
+  </div>
+
+  <div class="sec">
+    <div class="sec-label">0.3 The Lemniscata and the Analemma</div>
+    <p>Twenty-six years ago I was teaching English as a Second Language in Newark. My students had arrived from everywhere — Brazil, Colombia, Mexico, West Africa, Eastern Europe — and they sat in rows trying to learn a language that was not theirs while also trying to understand a country that was not yet theirs either.</p>
+    <p>One afternoon I drew a figure-eight on the board. Not the number 8. The curve. Horizontal, smooth, crossing itself once at the center. I told them: this is the lemniscata. It is also the symbol for infinity. And then I asked: have any of you ever seen this shape in the sky?</p>
+    <p>None of them had. So I explained the analemma: if you photograph the Sun at the same hour of day, every day, for an entire year, and overlay all the photographs, the Sun traces a figure-eight in the sky. The top loop belongs to summer; the bottom loop belongs to winter. The crossing point is the equinox. Two independent causes — elliptical orbit and axial tilt — produce one shared curve.</p>
+    <p>A teenager from Guatemala who rarely spoke said quietly: <em>the lemniscata is the analemma and the analemma is the lemniscata.</em></p>
+    <p>That sentence has stayed with me for twenty-six years. It is the seed of this book. One shape, two origins. The same invariant, two generating mechanisms. This is what the Coherence Bridge Theorem (5.4) proves in the formal language of contact geometry: that seventeen orders of magnitude of physical reality share a single geometric invariant, reachable from multiple directions, always the same curve.</p>
+  </div>
+
+  <div class="sec">
+    <div class="sec-label">Two Lessons from My Parents</div>
+    <div class="parents-box">
+      <div class="quote">"Education is yours. They cannot take it away from you."</div>
+      <div class="attribution">— My mother</div>
+      <div class="lesson">What she meant: property can be seized, money can be lost — but what you have truly learned becomes part of your structure. It is yours at the first dimension (D₁) and it moves with you into the second (D₂). This is a description of the compression operator C: what enters C is transformed, not stored. You do not carry knowledge as cargo. You carry it as geometry.</div>
+    </div>
+    <div class="parents-box">
+      <div class="quote">"If you want something, buy wholesale, sell retail."</div>
+      <div class="attribution">— My father</div>
+      <div class="lesson">Go to the source. Acquire at the root. Then transmit at value. This is a precise description of the C → U transition: compress at the source (operator C), accumulate structure, and then unfold at scale (operator U). Buy at D₁. Sell at D₂. The operator chain is not metaphor — it is the formalization of what my parents already knew.</div>
+    </div>
+    <p>This volume is dedicated to them. They taught me the theory before I wrote it down.</p>
+  </div>
+
+</div>
+
+<div class="ch-nav">
+  <a href="index.html">← Index</a>
+  <a href="chIV-axioms.html" class="next">Ch 1 · The Seven Axioms →</a>
+</div>
+
+<footer>
+  Chapter 0 · Preface &nbsp;·&nbsp; Principia Orthogona Vol IV · GTCT &nbsp;·&nbsp;
+  <a href="https://github.com/TOTOGT/AXLE">AXLE</a> &nbsp;·&nbsp;
+  <a href="https://doi.org/10.5281/zenodo.19117400">doi:10.5281/zenodo.19117400</a> &nbsp;·&nbsp;
+  G6 LLC · Pablo Nogueira Grossi · Newark NJ · 2026
+</footer>
+</body>
+</html>
