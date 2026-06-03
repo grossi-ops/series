@@ -50,6 +50,19 @@ nav.top{position:fixed;top:0;width:100%;z-index:500;display:flex;justify-content
 .s-current{background:rgba(201,168,76,0.06);}
 footer{text-align:center;padding:2rem;font-family:'JetBrains Mono',monospace;font-size:0.56rem;letter-spacing:0.08em;color:var(--dim);border-top:1px solid var(--border);}footer a{color:var(--gold);text-decoration:none;}
 @media(max-width:700px){nav.top{padding:0.8rem 1rem;}.hero,.main{padding-left:1.2rem;padding-right:1.2rem;}.stats{grid-template-columns:repeat(2,1fr);}.sec-sub{display:none;}}
+
+/* ── Overflow: wide equations/code scroll inside boxes ── */
+.proof, .block, .axiom-block, .remark, .dep-chain, .time-sec,
+.math-block, .theorem-box, .insight-box, .falsify-box,
+.coherence-row, .table-wrap, pre, code, .code-block,
+.po-ring-strip { overflow-x: auto; }
+mjx-container { overflow-x: auto; max-width: 100%; display: block !important; }
+.MJX-TEX { max-width: 100%; }
+.block-math, .formal, .axiom-formal, .math-block {
+  overflow-x: auto; white-space: pre; word-break: normal;
+}
+table { min-width: max-content; }
+.table-wrap { overflow-x: auto; }
 </style>
 </head>
 <body>

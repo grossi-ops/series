@@ -135,6 +135,19 @@ canvas{display:block;border-radius:8px;width:100%;max-width:820px}
 }
 .chapter-nav a:hover{background:rgba(245,158,11,.1);border-color:var(--acc)}
 .chapter-nav .center{color:var(--mut);font-size:.8rem;text-align:center}
+
+/* ── Overflow: wide equations/code scroll inside boxes ── */
+.proof, .block, .axiom-block, .remark, .dep-chain, .time-sec,
+.math-block, .theorem-box, .insight-box, .falsify-box,
+.coherence-row, .table-wrap, pre, code, .code-block,
+.po-ring-strip { overflow-x: auto; }
+mjx-container { overflow-x: auto; max-width: 100%; display: block !important; }
+.MJX-TEX { max-width: 100%; }
+.block-math, .formal, .axiom-formal, .math-block {
+  overflow-x: auto; white-space: pre; word-break: normal;
+}
+table { min-width: max-content; }
+.table-wrap { overflow-x: auto; }
 </style>
 </head>
 <body>

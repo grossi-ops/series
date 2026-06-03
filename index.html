@@ -136,6 +136,19 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .boonton-line{font-family:'Cormorant Garamond',serif;font-size:clamp(1.4rem,2.5vw,2rem);font-style:italic;color:var(--teal-soft);opacity:.8;letter-spacing:.02em}
 footer{position:relative;z-index:2;text-align:center;padding:2.5rem 2rem;border-top:1px solid rgba(10,186,181,.07)}
 .footer-copy{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.18em;color:var(--teal);opacity:.28;line-height:2.4}
+
+/* ── Overflow: wide equations/code scroll inside boxes ── */
+.proof, .block, .axiom-block, .remark, .dep-chain, .time-sec,
+.math-block, .theorem-box, .insight-box, .falsify-box,
+.coherence-row, .table-wrap, pre, code, .code-block,
+.po-ring-strip { overflow-x: auto; }
+mjx-container { overflow-x: auto; max-width: 100%; display: block !important; }
+.MJX-TEX { max-width: 100%; }
+.block-math, .formal, .axiom-formal, .math-block {
+  overflow-x: auto; white-space: pre; word-break: normal;
+}
+table { min-width: max-content; }
+.table-wrap { overflow-x: auto; }
 </style>
 </head>
 <body>

@@ -252,6 +252,19 @@ h1 em { color: var(--gold); }
 /* FOOTER */
 footer { padding: 3rem var(--margin); text-align: center; font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.15em; color: var(--gold-dim); border-top: 1px solid #1a1a2e; }
 footer a { color: var(--gold-dim); }
+
+/* ── Overflow: wide equations/code scroll inside boxes ── */
+.proof, .block, .axiom-block, .remark, .dep-chain, .time-sec,
+.math-block, .theorem-box, .insight-box, .falsify-box,
+.coherence-row, .table-wrap, pre, code, .code-block,
+.po-ring-strip { overflow-x: auto; }
+mjx-container { overflow-x: auto; max-width: 100%; display: block !important; }
+.MJX-TEX { max-width: 100%; }
+.block-math, .formal, .axiom-formal, .math-block {
+  overflow-x: auto; white-space: pre; word-break: normal;
+}
+table { min-width: max-content; }
+.table-wrap { overflow-x: auto; }
 </style>
 </head>
 <body>

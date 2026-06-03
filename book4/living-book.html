@@ -82,6 +82,19 @@ nav{
 .btn-teal{color:var(--teal);}
 
 footer{text-align:center;padding:3rem 2rem;font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.1em;color:var(--muted);border-top:1px solid var(--border);margin-top:4rem;}
+
+/* ── Overflow: wide equations/code scroll inside boxes ── */
+.proof, .block, .axiom-block, .remark, .dep-chain, .time-sec,
+.math-block, .theorem-box, .insight-box, .falsify-box,
+.coherence-row, .table-wrap, pre, code, .code-block,
+.po-ring-strip { overflow-x: auto; }
+mjx-container { overflow-x: auto; max-width: 100%; display: block !important; }
+.MJX-TEX { max-width: 100%; }
+.block-math, .formal, .axiom-formal, .math-block {
+  overflow-x: auto; white-space: pre; word-break: normal;
+}
+table { min-width: max-content; }
+.table-wrap { overflow-x: auto; }
 </style>
 </head>
 <body>
