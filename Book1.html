@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Principia Orthogona · 40-Language Template</title>
+
+<!--
+  ═══════════════════════════════════════════════════════════════════════
+  PRINCIPIA ORTHOGONA · 40-LANGUAGE EBOOK TEMPLATE
+  ═══════════════════════════════════════════════════════════════════════
+  HOW TO ADD A NEW LANGUAGE:
+  1. Add entry to LANGUAGES object (code, name, native, dir, script, font)
+  2. Add translations to CONTENT[lang] for each key
+  3. Done. The layout, fonts, and RTL/LTR handling are automatic.
+
+  HOW TO ADD A NEW CONTENT BLOCK:
+  1. Add a key to CONTENT["en"] (the source)
+  2. Add the same key to all other languages (or leave absent → shows "·")
+  3. Add the block to the renderBlocks() function if it's a new type
+
+  SCRIPTS COVERED: Latin · Cyrillic · Greek · Arabic · Hebrew · Persian
+                   Devanagari · Bengali · Tamil · Telugu · Kannada
+                   Malayalam · Gujarati · Gurmukhi · CJK · Hangul
+                   Thai · Myanmar · Ethiopic
+  ═══════════════════════════════════════════════════════════════════════
+-->
+
+<!-- Noto font stack — covers all 40 language scripts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,600;1,400&family=Noto+Serif+SC&family=Noto+Serif+TC&family=Noto+Serif+JP&family=Noto+Serif+KR&family=Noto+Serif+Devanagari&family=Noto+Serif+Bengali&family=Noto+Serif+Tamil&family=Noto+Serif+Telugu&family=Noto+Serif+Kannada&family=Noto+Serif+Malayalam&family=Noto+Serif+Gujarati&family=Noto+Serif+Gurmukhi&family=Noto+Serif+Hebrew&family=Noto+Serif+Ethiopic&family=Noto+Serif+Thai&family=Noto+Naskh+Arabic&family=Noto+Nastaliq+Urdu&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+/* ── VARIABLES ─────────────────────────────────────────────────────── */
+:root {
+  --void:    #04040a;
+  --surface: #0c0d16;
+  --card:    #10111c;
+  --gold:    #c9a84c;
+  --teal:    #0ABAB5;
+  --text:    #e8e4d8;
+  --muted:   #6b6757;
+  --dim:     #2a2920;
+  --rule:    rgba(201,168,76,0.18);
+  --col-gap: 3rem;
+  --col-w:   46%;
+  --serif:   'Noto Serif', Georgia, serif;
+  --mono:    'JetBrains Mono', 'Courier New', monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--serif);
+  background: var(--void);
+  color: var(--text);
+  font-size: 17px;
+  line-height: 1.8;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── NAV ────────────────────────────────────────────────────────────── */
+nav {
+  position: sticky; top: 0; z-index: 200;
+  background: rgba(4,4,10,0.96); backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--rule);
+  padding: .6rem 2rem;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: .6rem;
+}
+.nav-series {
+  font-family: var(--mono); font-size: .6rem;
+  letter-spacing: .28em; text-transform: uppercase; color: var(--gold);
+}
+.nav-controls { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+
+/* ── LANGUAGE PICKER ────────────────────────────────────────────────── */
+.lang-picker {
+  display: flex; align-items: center; gap: .5rem;
+  font-family: var(--mono); font-size: .65rem;
+}
+.lang-picker label { color: var(--muted); letter-spacing: .1em; }
+.lang-picker select {
+  background: var(--surface); color: var(--gold);
+  border: 1px solid var(--rule); border-radius: 3px;
+  font-family: var(--mono); font-size: .7rem;
+  padding: .25rem .5rem; cursor: pointer;
+  appearance: none; -webkit-appearance: none;
+  padding-right: 1.4rem;
+}
+.lang-picker .sel-wrap { position: relative; }
+.lang-picker .sel-wrap::after {
+  content: '▾'; position: absolute; right: .4rem; top: 50%;
+  transform: translateY(-50%); color: var(--gold); pointer-events: none;
+  font-size: .6rem;
+}
+.script-note {
+  font-family: var(--mono); font-size: .58rem; color: var(--muted);
+  letter-spacing: .08em; padding: .15rem .5rem;
+  border: 1px solid var(--dim); border-radius: 2px;
+}
+
+/* ── HERO ───────────────────────────────────────────────────────────── */
+.hero {
+  padding: 5rem 2rem 4rem; text-align: center;
+  border-bottom: 1px solid var(--rule); position: relative; overflow: hidden;
+}
+.hero::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse 60% 40% at 50% 40%, rgba(201,168,76,.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-tag {
+  font-family: var(--mono); font-size: .6rem; letter-spacing: .32em;
+  text-transform: uppercase; color: var(--teal);
+  border: 1px solid currentColor; padding: .2rem .65rem; display: inline-block; margin-bottom: 2rem;
+}
+.hero h1 {
+  font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 400; letter-spacing: .06em;
+  color: var(--gold); margin-bottom: 1rem; line-height: 1.2;
+}
+.hero-sub {
+  font-size: 1rem; color: var(--muted); max-width: 520px; margin: 0 auto;
+  font-style: italic; line-height: 1.65;
+}
+.hero-eq {
+  margin-top: 1.8rem; font-family: var(--mono); font-size: .95rem;
+  letter-spacing: .12em; color: rgba(201,168,76,.5);
+}
+
+/* ── TWO-COLUMN LAYOUT ──────────────────────────────────────────────── */
+.page { max-width: 1200px; margin: 0 auto; padding: 4rem 2rem; }
+
+.chapter-header {
+  text-align: center; margin-bottom: 3rem; padding-bottom: 2rem;
+  border-bottom: 1px solid var(--rule);
+}
+.chapter-header .ch-num {
+  font-family: var(--mono); font-size: .62rem; letter-spacing: .3em;
+  color: var(--gold); text-transform: uppercase; display: block; margin-bottom: .6rem;
+}
+.chapter-header h2 { font-size: 1.6rem; font-weight: 400; color: var(--text); letter-spacing: .04em; }
+.chapter-header .ch-sub { font-style: italic; color: var(--muted); margin-top: .4rem; font-size: .95rem; }
+
+/* Two-column container */
+.bilingual {
+  display: grid;
+  grid-template-columns: var(--col-w) var(--col-w);
+  gap: var(--col-gap);
+  justify-content: center;
+}
+@media (max-width: 800px) {
+  .bilingual { grid-template-columns: 1fr; }
+}
+
+/* Column headers */
+.col-header {
+  font-family: var(--mono); font-size: .6rem; letter-spacing: .22em;
+  text-transform: uppercase; color: var(--muted);
+  padding-bottom: .6rem; border-bottom: 1px solid var(--rule);
+  margin-bottom: 2rem; display: flex; align-items: center; gap: .6rem;
+}
+.col-header .lang-flag { font-size: .9rem; }
+.col-header .lang-native { color: var(--gold); }
+
+/* Content blocks */
+.block { margin-bottom: 2.5rem; }
+
+.block-section {
+  font-family: var(--mono); font-size: .58rem; letter-spacing: .25em;
+  text-transform: uppercase; color: var(--teal); display: block;
+  margin-bottom: .5rem;
+}
+
+.block-axiom, .block-theorem, .block-definition {
+  border-left: 2px solid var(--rule); padding: 1rem 1.4rem; margin: 1.5rem 0;
+  background: rgba(201,168,76,.025);
+}
+.block-axiom { border-color: var(--gold); }
+.block-theorem { border-color: var(--teal); }
+.block-definition { border-color: var(--muted); }
+
+.block-label {
+  font-family: var(--mono); font-size: .6rem; letter-spacing: .2em;
+  text-transform: uppercase; margin-bottom: .5rem; display: block;
+}
+.block-axiom .block-label { color: var(--gold); }
+.block-theorem .block-label { color: var(--teal); }
+.block-definition .block-label { color: var(--muted); }
+
+.block-body { font-size: .95rem; line-height: 1.78; color: var(--text); }
+
+.block-math {
+  font-family: var(--mono); font-size: .9rem; color: var(--gold);
+  background: var(--surface); border: 1px solid var(--dim);
+  padding: .8rem 1.2rem; margin: 1.2rem 0; letter-spacing: .06em; overflow-x: auto;
+}
+
+.block-prose { font-size: 1rem; line-height: 1.8; margin-bottom: 1.3rem; }
+.block-prose:last-child { margin-bottom: 0; }
+
+/* RTL support */
+.col-rtl { direction: rtl; text-align: right; }
+.col-rtl .block-axiom, .col-rtl .block-theorem, .col-rtl .block-definition {
+  border-left: none; border-right: 2px solid var(--rule);
+}
+.col-rtl .block-axiom { border-right-color: var(--gold); }
+.col-rtl .block-theorem { border-right-color: var(--teal); }
+
+/* Operator chain inline display */
+.op-chain { display: flex; gap: .4rem; flex-wrap: wrap; align-items: center; margin: 1rem 0; }
+.op { font-family: var(--mono); font-size: .78rem; padding: .2rem .55rem; border-radius: 2px; }
+.op-c { background: rgba(10,186,181,.12); color: #0ABAB5; border: 1px solid rgba(10,186,181,.3); }
+.op-k { background: rgba(224,90,58,.12); color: #e05a3a; border: 1px solid rgba(224,90,58,.3); }
+.op-f { background: rgba(80,200,120,.12); color: #50c878; border: 1px solid rgba(80,200,120,.3); }
+.op-u { background: rgba(192,132,252,.12); color: #c084fc; border: 1px solid rgba(192,132,252,.3); }
+.op-arr { color: var(--muted); font-size: .8rem; }
+
+/* Divider */
+.section-rule { border: none; border-top: 1px solid var(--rule); margin: 3rem 0; }
+
+/* Missing translation indicator */
+.missing { color: var(--dim); font-style: italic; font-size: .85rem; }
+
+/* ── FOOTER ─────────────────────────────────────────────────────────── */
+footer {
+  text-align: center; padding: 3rem 2rem;
+  font-family: var(--mono); font-size: .6rem; letter-spacing: .1em; color: var(--muted);
+  border-top: 1px solid var(--rule); margin-top: 4rem;
+}
+footer a { color: var(--gold); text-decoration: none; }
+</style>
+</head>
+
+<body>
+
+<!-- ─── NAV ─────────────────────────────────────────────────────────── -->
+<nav>
+  <span class="nav-series">Principia Orthogona · G = U ∘ F ∘ K ∘ C</span>
+  <div class="nav-controls">
+    <div class="lang-picker">
+      <label>TRANSLATION</label>
+      <div class="sel-wrap">
+        <select id="langSelect" onchange="setLang(this.value)">
+          <!-- populated by JS -->
+        </select>
+      </div>
+    </div>
+    <span class="script-note" id="scriptNote">Latin</span>
+  </div>
+</nav>
+
+<!-- ─── HERO ─────────────────────────────────────────────────────────── -->
+<section class="hero">
+  <div class="hero-tag">Principia Orthogona · Vol I · DOI 10.5281/zenodo.19117399</div>
+  <h1>The Mathematics of Generative Transitions</h1>
+  <p class="hero-sub">A unified framework for compression, curvature intensification, loss of injectivity, and stabilization — acting on trajectories in a Riemannian manifold.</p>
+  <div class="hero-eq">G = U ∘ F ∘ K ∘ C · κ* = 1/foc(x) · ε₀ = 1/3</div>
+</section>
+
+<!-- ─── BILINGUAL CONTENT ─────────────────────────────────────────── -->
+<div class="page">
+
+  <div class="chapter-header">
+    <span class="ch-num">Principia Orthogona · Vol I · Preface &amp; §0.1–0.3</span>
+    <h2 id="ch-title">The Mathematics of Generative Transitions</h2>
+    <p class="ch-sub" id="ch-sub">G6 LLC · Newark, NJ · <a href="https://doi.org/10.5281/zenodo.19117399" style="color:var(--gold);text-decoration:none;" target="_blank">DOI 10.5281/zenodo.19117399</a> · MSC 2020: 37C10, 37C75, 53D10</p>
+  </div>
+
+  <div class="bilingual" id="bilingualGrid">
+    <!-- Column A: English (fixed) -->
+    <div class="col-en" id="colA">
+      <div class="col-header">
+        <span class="lang-flag">🇺🇸</span>
+        <span>English</span>
+        <span class="lang-native">English</span>
+      </div>
+      <div id="contentA"><!-- filled by JS --></div>
+    </div>
+    <!-- Column B: Selected language -->
+    <div id="colB">
+      <div class="col-header" id="colBHeader">
+        <!-- filled by JS -->
+      </div>
+      <div id="contentB"><!-- filled by JS --></div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  Principia Orthogona · The Mini-Beast · Vol III &nbsp;·&nbsp; G6 LLC · Newark NJ · 2026<br>
+  Pablo Nogueira Grossi · ORCID: 0009-0000-6496-2186<br>
+  <a href="https://doi.org/10.5281/zenodo.19117399">DOI 10.5281/zenodo.19117399</a> &nbsp;·&nbsp;
+  ISBN 979-8-9954416-5-6 (eBook · Complete Completeness G5) &nbsp;·&nbsp;
+  <a href="https://github.com/TOTOGT/AXLE">AXLE ↗</a> &nbsp;·&nbsp;
+  MSC 2020: 37C10 · 37C75 · 53D10 · 92C20 · 91B55<br>
+  Template: add a language in 60 s — one entry in LANGUAGES + one entry in CONTENT
+</footer>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════════════
+   LANGUAGE REGISTRY — 40 languages, 19 scripts
+   To add a language: copy a row, set the code, name, native, dir, script, font.
+   Font must be loaded in the <link> above (Noto family covers almost everything).
+   ═══════════════════════════════════════════════════════════════════════ */
+const LANGUAGES = {
+  // ── Tier 1 · Core academic ──────────────────────────────────────────
+  "pt": { name:"Portuguese",            native:"Português",        dir:"ltr", script:"Latin",       font:"'Noto Serif', serif",                  flag:"🇧🇷" },
+  "ru": { name:"Russian",               native:"Русский",          dir:"ltr", script:"Cyrillic",    font:"'Noto Serif', serif",                  flag:"🇷🇺" },
+  "hi": { name:"Hindi",                 native:"हिन्दी",              dir:"ltr", script:"Devanagari", font:"'Noto Serif Devanagari', serif",        flag:"🇮🇳" },
+  "zh": { name:"Mandarin (Simplified)", native:"普通话",             dir:"ltr", script:"CJK",        font:"'Noto Serif SC', serif",               flag:"🇨🇳" },
+  // ── Tier 2 · Major world ────────────────────────────────────────────
+  "es": { name:"Spanish",               native:"Español",          dir:"ltr", script:"Latin",       font:"'Noto Serif', serif",                  flag:"🇪🇸" },
+  "ar": { name:"Arabic",                native:"العربية",           dir:"rtl", script:"Arabic",      font:"'Noto Naskh Arabic', serif",           flag:"🇸🇦" },
+  "bn": { name:"Bengali",               native:"বাংলা",              dir:"ltr", script:"Bengali",     font:"'Noto Serif Bengali', serif",          flag:"🇧🇩" },
+  "ta": { name:"Tamil",                 native:"தமிழ்",              dir:"ltr", script:"Tamil",       font:"'Noto Serif Tamil', serif",            flag:"🇮🇳" },
+  // ── Tier 3 · Academic European + East Asian ─────────────────────────
+  "fr": { name:"French",                native:"Français",         dir:"ltr", script:"Latin",       font:"'Noto Serif', serif",                  flag:"🇫🇷" },
+  "de": { name:"German",                native:"Deutsch",          dir:"ltr", script:"Latin",       font:"'Noto Serif', serif",                  flag:"🇩🇪" },
+  "ja": { name:"Japanese",              native:"日本語",              dir:"ltr", script:"CJK",        font:"'Noto Serif JP', serif",               flag:"🇯🇵" },
+  "ko": { name:"Korean",                native:"한국어",              dir:"ltr", script:"Hangul",     font:"'Noto Serif KR', serif",               flag:"🇰🇷" },
+  "it": { name:"Italian",               native:"Italiano",         dir:"ltr", script:"Latin",       font:"'Noto Serif', serif",                  flag:"🇮🇹" },
+  // ── Tier 4 · European ───────────────────────────────────────────────
+  "nl": { name:"Dutch",                 native:"Nederlands",       dir:"ltr", script:"Latin",       font:"'Noto Serif', serif",                  flag:"🇳🇱" },
+  "pl": { name:"Polish",                native:"Polski",           dir:"ltr", script:"Latin",       font:"'Noto Serif', serif",                  flag:"🇵🇱" },
+  "uk": { name:"Ukrainian",             native:"Українська",       dir:"ltr", script:"Cyrillic",    font:"'Noto Serif', serif",                  flag:"🇺🇦" },
+  "el": { name:"Greek",                 native:"Ελληνικά",         dir:"ltr", script:"Greek",       font:"'Noto Serif', serif",                  flag:"🇬🇷" },
+  "tr": { name:"Turkish",               native:"Türkçe",           dir:"ltr", script:"Latin",       font:"'Noto Serif', serif",                  flag:"🇹🇷" },
+  "ro": { name:"Romanian",              native:"Română",           dir:"ltr", script:"Latin",       font:"'Noto Serif', serif",                  flag:"🇷🇴" },
+  "cs": { name:"Czech",                 native:"Čeština",          dir:"ltr", script:"Latin",       font:"'Noto Serif', serif",                  flag:"🇨🇿" },
+  // ── Tier 5 · South Asian ────────────────────────────────────────────
+  "te": { name:"Telugu",                native:"తెలుగు",             dir:"ltr", script:"Telugu",      font:"'Noto Serif Telugu', serif",           flag:"🇮🇳" },
+  "mr": { name:"Marathi",               native:"मराठी",              dir:"ltr", script:"Devanagari", font:"'Noto Serif Devanagari', serif",        flag:"🇮🇳" },
+  "gu": { name:"Gujarati",              native:"ગુજરાતી",            dir:"ltr", script:"Gujarati",    font:"'Noto Serif Gujarati', serif",          flag:"🇮🇳" },
+  "kn": { name:"Kannada",               native:"ಕನ್ನಡ",              dir:"ltr", script:"Kannada",     font:"'Noto Serif Kannada', serif",           flag:"🇮🇳" },
+  "ml": { name:"Malayalam",             native:"മലയാളം",             dir:"ltr", script:"Malayalam",   font:"'Noto Serif Malayalam', serif",         flag:"🇮🇳" },
+  "ur": { name:"Urdu",                  native:"اردو",              dir:"rtl", script:"Arabic",      font:"'Noto Nastaliq Urdu', serif",          flag:"🇵🇰" },
+  "pa": { name:"Punjabi (Gurmukhi)",    native:"ਪੰਜਾਬੀ",             dir:"ltr", script:"Gurmukhi",    font:"'Noto Serif Gurmukhi', serif",          flag:"🇮🇳" },
+  // ── Tier 6 · Middle East + Africa ───────────────────────────────────
+  "sw": { name:"Swahili",               native:"Kiswahili",        dir:"ltr", script:"Latin",       font:"'Noto Serif', serif",                  flag:"🇰🇪" },
+  "am": { name:"Amharic",               native:"አማርኛ",              dir:"ltr", script:"Ethiopic",    font:"'Noto Serif Ethiopic', serif",          flag:"🇪🇹" },
+  "fa": { name:"Persian",               native:"فارسی",             dir:"rtl", script:"Arabic",      font:"'Noto Naskh Arabic', serif",           flag:"🇮🇷" },
+  "he": { name:"Hebrew",                native:"עברית",             dir:"rtl", script:"Hebrew",      font:"'Noto Serif Hebrew', serif",           flag:"🇮🇱" },
+  "ha": { name:"Hausa",                 native:"Hausa",            dir:"ltr", script:"Latin",       font:"'Noto Serif', serif",                  flag:"🇳🇬" },
+  // ── Tier 7 · Southeast Asian ────────────────────────────────────────
+  "id": { name:"Indonesian",            native:"Bahasa Indonesia", dir:"ltr", script:"Latin",       font:"'Noto Serif', serif",                  flag:"🇮🇩" },
+  "vi": { name:"Vietnamese",            native:"Tiếng Việt",       dir:"ltr", script:"Latin",       font:"'Noto Serif', serif",                  flag:"🇻🇳" },
+  "th": { name:"Thai",                  native:"ภาษาไทย",           dir:"ltr", script:"Thai",        font:"'Noto Serif Thai', serif",             flag:"🇹🇭" },
+  "my": { name:"Burmese",               native:"မြန်မာ",              dir:"ltr", script:"Myanmar",     font:"'Noto Sans Myanmar', sans-serif",      flag:"🇲🇲" },
+  // ── Tier 8 · Additional ─────────────────────────────────────────────
+  "hu": { name:"Hungarian",             native:"Magyar",           dir:"ltr", script:"Latin",       font:"'Noto Serif', serif",                  flag:"🇭🇺" },
+  "sr": { name:"Serbian",               native:"Српски",           dir:"ltr", script:"Cyrillic",    font:"'Noto Serif', serif",                  flag:"🇷🇸" },
+  "zh-tw":{ name:"Mandarin (Traditional)", native:"繁體中文",         dir:"ltr", script:"CJK",        font:"'Noto Serif TC', serif",               flag:"🇹🇼" },
+  "la": { name:"Latin",                 native:"Lingua Latina",    dir:"ltr", script:"Latin",       font:"'Noto Serif', serif",                  flag:"🏛" },
+};
+
+/* ═══════════════════════════════════════════════════════════════════════
+   CONTENT — add a key for each language, matching the English keys.
+   Blocks: { type, label?, text } or { type:"math", text }
+   Types: "prose" | "axiom" | "theorem" | "definition" | "math" | "chain"
+   ═══════════════════════════════════════════════════════════════════════ */
+/* ── SOURCE TEXT — Vol I · DOI 10.5281/zenodo.19117399 ─────────────────── */
+const CONTENT = {
+
+  "en": [
+    { type:"prose",
+      text:"The series is a circuit, not a staircase. Each volume is a complete entry point. Every book loops back to the same operator chain. You do not need to have read the others to use this one." },
+    { type:"prose",
+      text:"This volume develops a unified mathematical framework for generative transitions: localized geometric events in which a trajectory undergoes compression, curvature intensification, loss of injectivity, and stabilization." },
+    { type:"definition", label:"Definition 0.1 · Generative Transition",
+      text:"Let (X, g) be a smooth Riemannian manifold. A <em>generative transition</em> is a localized event along a trajectory γ: [0, T] → X consisting of four sequential phases governed by the composite operator: G = U ∘ F ∘ K ∘ C : X → X." },
+    { type:"chain" },
+    { type:"definition", label:"Definition 0.3.1 · Compression Operator C",
+      text:"C : X → X_C projects onto a lower-dimensional submanifold X_C ⊂ X, bi-Lipschitz with constant δ > 0. It reduces degrees of freedom while retaining essential structure. C is injective and contractive." },
+    { type:"definition", label:"Definition 0.3.2 · Curvature Operator K",
+      text:"K modifies the tangent field by d/ds [K(γ_C)(s)] = γ̇_C(s) + α(s) n(s), where α(s) = λ(κ*(γ_C(s)) − κ(s))₊, λ > 0. K drives curvature monotonically toward κ* but never beyond it. K alone does not trigger folding." },
+    { type:"definition", label:"Definition 0.3.3 · Folding Operator F",
+      text:"A fold occurs at s₀ when |κ_K(s₀)| = κ*(γ_K(s₀)). The Jacobian dF loses rank by exactly 1 at fold points (Whitney A₁ normal form locally). F produces the topological change — the branch from which there is no return." },
+    { type:"definition", label:"Definition 0.3.4 · Unfolding Operator U",
+      text:"U is the gradient flow of the stability functional Φ: Ẋ = −∇Φ(x). U decreases Φ and drives orbits toward the fixed point x* = lim G^n(x₀). The new stable topology is selected exponentially." },
+    { type:"math",
+      text:"Critical threshold:  κ*(x) = 1/foc(x)  [focal radius]
+With positive sectional curvature (Rauch): κ*(x) = min{‖II_x‖, √K_sec(x)}
+Stability radius: ε₀ = 1/3
+Contact normal form: ρ̇ = μ_max(1 − e^{−βz})ρ,  θ̇ = ω,  ż = ω − |μ_max|ρ²e^{−βz}" },
+    { type:"theorem", label:"Theorem A · Existence of Generative Transition",
+      text:"Under Assumptions 0.2.1–0.2.6, the composite operator G = U ∘ F ∘ K ∘ C is well-defined on a neighbourhood of any trajectory with |κ| < κ*. The generative transition exists and produces a unique stable branch." },
+    { type:"theorem", label:"Theorem D · Structural Stability",
+      text:"The dm³ limit cycle Γ is C¹-structurally stable: there exists ε₀ = 1/3 such that any perturbation with ‖δG‖ < ε₀ produces a topologically equivalent limit cycle Γ' with an explicit conjugacy." },
+    { type:"prose",
+      text:"Several results are presented with proof sketches rather than complete proofs. These include the symplectic preservation across the fold, the classification theorem for admissible singularities, and the stability of κ* under perturbations. Each can be completed with standard tools from differential geometry. The incompleteness is honest. The seed is real." },
+  ],
+
+  "pt": [
+    { type:"prose",
+      text:"A série é um circuito, não uma escada. Cada volume é um ponto de entrada completo. Todo livro retorna à mesma cadeia de operadores. Você não precisa ter lido os outros para usar este." },
+    { type:"prose",
+      text:"Este volume desenvolve um framework matemático unificado para transições generativas: eventos geométricos localizados nos quais uma trajetória sofre compressão, intensificação de curvatura, perda de injetividade e estabilização." },
+    { type:"definition", label:"Definição 0.1 · Transição Generativa",
+      text:"Seja (X, g) uma variedade Riemanniana suave. Uma <em>transição generativa</em> é um evento localizado ao longo de uma trajetória γ: [0, T] → X consistindo de quatro fases sequenciais governadas pelo operador composto: G = U ∘ F ∘ K ∘ C : X → X." },
+    { type:"chain" },
+    { type:"definition", label:"Definição 0.3.1 · Operador de Compressão C",
+      text:"C : X → X_C projeta sobre uma subvariedade de dimensão menor X_C ⊂ X, bi-Lipschitz com constante δ > 0. Reduz graus de liberdade preservando a estrutura essencial. C é injetora e contrativa." },
+    { type:"definition", label:"Definição 0.3.2 · Operador de Curvatura K",
+      text:"K modifica o campo tangente por d/ds [K(γ_C)(s)] = γ̇_C(s) + α(s) n(s), onde α(s) = λ(κ*(γ_C(s)) − κ(s))₊. K conduz a curvatura monotonicamente em direção a κ* mas nunca além. K sozinho não dispara o dobramento." },
+    { type:"definition", label:"Definição 0.3.3 · Operador de Dobramento F",
+      text:"Um dobramento ocorre em s₀ quando |κ_K(s₀)| = κ*(γ_K(s₀)). O jacobiano dF perde posto em exatamente 1 nos pontos de dobramento (forma normal Whitney A₁ localmente). F produz a mudança topológica." },
+    { type:"math",
+      text:"Limiar crítico: κ*(x) = 1/foc(x)  [raio focal]
+Raio de estabilidade: ε₀ = 1/3
+Forma normal de contato: ρ̇ = μ_max(1 − e^{−βz})ρ,  θ̇ = ω,  ż = ω − |μ_max|ρ²e^{−βz}" },
+    { type:"theorem", label:"Teorema D · Estabilidade Estrutural",
+      text:"O ciclo limite dm³ Γ é C¹-estruturalmente estável: existe ε₀ = 1/3 tal que qualquer perturbação com ‖δG‖ < ε₀ produz um ciclo limite Γ' topologicamente equivalente com uma conjugação explícita." },
+    { type:"prose",
+      text:"Alguns resultados são apresentados com esboços de prova em vez de provas completas. A incompletude é honesta. A semente é real." },
+  ],
+
+  "ru": [
+    { type:"prose", text:"Серия — это цепь, а не лестница. Каждый том является полной точкой входа. Каждая книга возвращается к той же цепочке операторов." },
+    { type:"prose", text:"Этот том разрабатывает унифицированную математическую основу для порождающих переходов: локализованных геометрических событий, в которых траектория претерпевает сжатие, нарастание кривизны, потерю инъективности и стабилизацию." },
+    { type:"definition", label:"Определение 0.1 · Порождающий переход",
+      text:"Пусть (X, g) — гладкое риманово многообразие. Порождающий переход — локализованное событие вдоль траектории γ: [0, T] → X, состоящее из четырёх последовательных фаз, управляемых составным оператором: G = U ∘ F ∘ K ∘ C." },
+    { type:"chain" },
+    { type:"math", text:"Критический порог: κ*(x) = 1/foc(x)
+Радиус устойчивости: ε₀ = 1/3" },
+    { type:"prose", text:"Неполнота честна. Семя реально." },
+  ],
+
+  "hi": [
+    { type:"prose", text:"यह श्रृंखला एक सर्किट है, सीढ़ी नहीं। प्रत्येक खंड एक पूर्ण प्रवेश बिंदु है। प्रत्येक पुस्तक उसी संक्रिया श्रृंखला पर वापस आती है।" },
+    { type:"prose", text:"यह खंड उत्पादक संक्रमणों के लिए एक एकीकृत गणितीय ढांचा विकसित करता है: स्थानीयकृत ज्यामितीय घटनाएं जिनमें एक पथ संपीड़न, वक्रता तीव्रता, इंजेक्टिविटी की हानि और स्थिरीकरण से गुजरती है।" },
+    { type:"definition", label:"परिभाषा 0.1 · उत्पादक संक्रमण",
+      text:"G = U ∘ F ∘ K ∘ C : X → X" },
+    { type:"chain" },
+    { type:"math", text:"क्रांतिक सीमा: κ*(x) = 1/foc(x)
+स्थिरता त्रिज्या: ε₀ = 1/3" },
+  ],
+
+  "zh": [
+    { type:"prose", text:"这个系列是一个回路，而不是阶梯。每卷都是一个完整的入口点。每本书都回归到同一个算子链。" },
+    { type:"prose", text:"本卷为生成性转变建立统一的数学框架：轨迹经历压缩、曲率增强、内射性丧失和稳定化的局部几何事件。" },
+    { type:"definition", label:"定义 0.1 · 生成性转变",
+      text:"设 (X, g) 为光滑黎曼流形。生成性转变是沿轨迹 γ: [0, T] → X 的局部事件，由复合算子 G = U ∘ F ∘ K ∘ C 的四个连续阶段控制。" },
+    { type:"chain" },
+    { type:"math", text:"临界阈值: κ*(x) = 1/foc(x)
+稳定半径: ε₀ = 1/3" },
+    { type:"prose", text:"不完整性是诚实的。种子是真实的。" },
+  ],
+
+  "ar": [
+    { type:"prose", text:"السلسلة دائرة، وليست سلماً. كل مجلد نقطة دخول كاملة. كل كتاب يعود إلى نفس سلسلة المؤثرات." },
+    { type:"prose", text:"يطور هذا المجلد إطاراً رياضياً موحداً للانتقالات التوليدية: أحداث هندسية موضعية تخضع فيها المسارات للضغط، وتكثيف الانحناء، وفقدان الإنجكتيفية، والاستقرار." },
+    { type:"definition", label:"تعريف 0.1 · الانتقال التوليدي",
+      text:"ليكن (X, g) مشعباً ريمانياً أملساً. الانتقال التوليدي حدث موضعي على طول مسار γ تحكمه: G = U ∘ F ∘ K ∘ C." },
+    { type:"chain" },
+    { type:"math", text:"العتبة الحرجة: κ*(x) = 1/foc(x)
+نصف قطر الاستقرار: ε₀ = 1/3" },
+    { type:"prose", text:"النقص صادق. البذرة حقيقية." },
+  ],
+
+  "es": [
+    { type:"prose", text:"La serie es un circuito, no una escalera. Cada volumen es un punto de entrada completo. Cada libro vuelve a la misma cadena de operadores." },
+    { type:"prose", text:"Este volumen desarrolla un marco matemático unificado para las transiciones generativas: eventos geométricos localizados en los que una trayectoria experimenta compresión, intensificación de la curvatura, pérdida de inyectividad y estabilización." },
+    { type:"definition", label:"Definición 0.1 · Transición Generativa",
+      text:"Sea (X, g) una variedad Riemanniana suave. Una transición generativa es un evento localizado a lo largo de una trayectoria γ: [0, T] → X gobernado por G = U ∘ F ∘ K ∘ C." },
+    { type:"chain" },
+    { type:"math", text:"Umbral crítico: κ*(x) = 1/foc(x)
+Radio de estabilidad: ε₀ = 1/3" },
+    { type:"prose", text:"La incompletitud es honesta. La semilla es real." },
+  ],
+
+  "fr": [
+    { type:"prose", text:"La série est un circuit, pas un escalier. Chaque volume est un point d'entrée complet. Chaque livre revient à la même chaîne d'opérateurs." },
+    { type:"prose", text:"Ce volume développe un cadre mathématique unifié pour les transitions génératives : des événements géométriques localisés au cours desquels une trajectoire subit compression, intensification de la courbure, perte d'injectivité et stabilisation." },
+    { type:"definition", label:"Définition 0.1 · Transition Générative",
+      text:"Soit (X, g) une variété Riemannienne lisse. Une transition générative est un événement localisé le long d'une trajectoire γ gouverné par G = U ∘ F ∘ K ∘ C." },
+    { type:"chain" },
+    { type:"math", text:"Seuil critique : κ*(x) = 1/foc(x)
+Rayon de stabilité : ε₀ = 1/3" },
+    { type:"prose", text:"L'incomplétude est honnête. La graine est réelle." },
+  ],
+
+  "de": [
+    { type:"prose", text:"Die Serie ist ein Kreislauf, keine Treppe. Jeder Band ist ein vollständiger Einstiegspunkt. Jedes Buch kehrt zur gleichen Operatorkette zurück." },
+    { type:"prose", text:"Dieser Band entwickelt einen einheitlichen mathematischen Rahmen für generative Übergänge: lokalisierte geometrische Ereignisse, bei denen eine Trajektorie Kompression, Krümmungsverstärkung, Verlust der Injektivität und Stabilisierung durchläuft." },
+    { type:"definition", label:"Definition 0.1 · Generativer Übergang",
+      text:"Sei (X, g) eine glatte Riemannsche Mannigfaltigkeit. Ein generativer Übergang ist ein lokalisiertes Ereignis entlang einer Trajektorie γ, gesteuert durch G = U ∘ F ∘ K ∘ C." },
+    { type:"chain" },
+    { type:"math", text:"Kritische Schwelle: κ*(x) = 1/foc(x)
+Stabilitätsradius: ε₀ = 1/3" },
+    { type:"prose", text:"Die Unvollständigkeit ist ehrlich. Der Samen ist real." },
+  ],
+
+  "ja": [
+    { type:"prose", text:"このシリーズは階段ではなく、回路である。各巻は完全な入り口である。すべての本は同じ演算子連鎖に戻る。" },
+    { type:"prose", text:"本巻は生成的遷移のための統一された数学的枠組みを発展させる：軌道が圧縮、曲率強化、単射性の喪失、安定化を経る局所化された幾何学的事象。" },
+    { type:"definition", label:"定義 0.1 · 生成的遷移",
+      text:"(X, g) を滑らかなリーマン多様体とする。生成的遷移とは、軌道 γ に沿った局所事象であり、G = U ∘ F ∘ K ∘ C により支配される。" },
+    { type:"chain" },
+    { type:"math", text:"臨界閾値: κ*(x) = 1/foc(x)
+安定半径: ε₀ = 1/3" },
+    { type:"prose", text:"不完全性は正直である。種は本物である。" },
+  ],
+
+  "ko": [
+    { type:"prose", text:"이 시리즈는 계단이 아니라 회로다. 각 권은 완전한 진입점이다. 모든 책은 동일한 연산자 체인으로 돌아온다." },
+    { type:"chain" },
+    { type:"math", text:"임계 임계값: κ*(x) = 1/foc(x)
+안정성 반경: ε₀ = 1/3" },
+  ],
+
+  "sw": [
+    { type:"prose", text:"Mfululizo huu ni mzunguko, si ngazi. Kila kitabu ni mahali kamili pa kuanzia. Kila kitabu kinarudi kwenye mlolongo sawa wa waendeshaji." },
+    { type:"chain" },
+    { type:"math", text:"Kizingiti cha muhimu: κ*(x) = 1/foc(x)
+Radius ya utulivu: ε₀ = 1/3" },
+  ],
+
+  "am": [
+    { type:"prose", text:"ሰንሰለቱ ደረጃ አይደለም — ዑደት ነው። እያንዳንዱ ጥራዝ ሙሉ የመግቢያ ነጥብ ነው።" },
+    { type:"chain" },
+    { type:"math", text:"κ*(x) = 1/foc(x)  |  ε₀ = 1/3" },
+  ],
+
+  "fa": [
+    { type:"prose", text:"این مجموعه یک مدار است، نه یک نردبان. هر جلد یک نقطه ورود کامل است." },
+    { type:"chain" },
+    { type:"math", text:"آستانه بحرانی: κ*(x) = 1/foc(x)
+شعاع پایداری: ε₀ = 1/3" },
+  ],
+
+  "he": [
+    { type:"prose", text:"הסדרה היא מעגל, לא סולם. כל כרך הוא נקודת כניסה מלאה. כל ספר חוזר לאותה שרשרת אופרטורים." },
+    { type:"chain" },
+    { type:"math", text:"סף קריטי: κ*(x) = 1/foc(x)
+רדיוס יציבות: ε₀ = 1/3" },
+  ],
+
+  "bn": [
+    { type:"prose", text:"এই সিরিজটি একটি সার্কিট, একটি সিঁড়ি নয়। প্রতিটি খণ্ড একটি সম্পূর্ণ প্রবেশ বিন্দু।" },
+    { type:"chain" },
+    { type:"math", text:"সংকটিক প্রান্তিক: κ*(x) = 1/foc(x)  |  ε₀ = 1/3" },
+  ],
+
+  "ta": [
+    { type:"prose", text:"இந்த தொடர் ஒரு சுற்று, ஏணி அல்ல. ஒவ்வொரு தொகுதியும் முழுமையான நுழைவு புள்ளி." },
+    { type:"chain" },
+    { type:"math", text:"κ*(x) = 1/foc(x)  |  ε₀ = 1/3" },
+  ],
+
+  "it": [
+    { type:"prose", text:"La serie è un circuito, non una scala. Ogni volume è un punto di ingresso completo. Ogni libro torna alla stessa catena di operatori." },
+    { type:"prose", text:"Questo volume sviluppa un quadro matematico unificato per le transizioni generative: eventi geometrici localizzati in cui una traiettoria subisce compressione, intensificazione della curvatura, perdita di iniettività e stabilizzazione." },
+    { type:"definition", label:"Definizione 0.1 · Transizione Generativa",
+      text:"Sia (X, g) una varietà Riemanniana liscia. Una transizione generativa è un evento localizzato lungo una traiettoria γ governato da G = U ∘ F ∘ K ∘ C." },
+    { type:"chain" },
+    { type:"math", text:"Soglia critica: κ*(x) = 1/foc(x)
+Raggio di stabilità: ε₀ = 1/3" },
+    { type:"prose", text:"L'incompletezza è onesta. Il seme è reale." },
+  ],
+
+  // ── Languages — translation forthcoming ────────────────────────────────
+};
+
+/* Fallback for languages without full translation yet */
+function getFallback(lang) {
+  const l = LANGUAGES[lang];
+  return [
+    { type:"prose",
+      text:`[Translation forthcoming · ${l.native} · ${l.script} script]` },
+    { type:"axiom", label:"Axiom 1 · The Space",
+      text:"[Translation forthcoming — to contribute, see github.com/TOTOGT/AXLE]" },
+    { type:"chain" },
+    { type:"prose",
+      text:`Your education is yours. No one can take it away from you. — [${l.native}]` },
+  ];
+}
+
+/* ── OPERATOR CHAIN HTML ─────────────────────────────────────────────── */
+function chainHTML() {
+  return `<div class="op-chain">
+    <span class="op op-c">C</span><span class="op-arr">∘</span>
+    <span class="op op-k">K</span><span class="op-arr">∘</span>
+    <span class="op op-f">F</span><span class="op-arr">∘</span>
+    <span class="op op-u">U</span>
+    <span style="color:var(--muted);font-size:.8rem;margin-left:.3rem">= G</span>
+  </div>`;
+}
+
+/* ── RENDER A BLOCK ──────────────────────────────────────────────────── */
+function renderBlock(b) {
+  if (!b) return '';
+  switch(b.type) {
+    case "prose":
+      return `<p class="block-prose">${b.text}</p>`;
+    case "axiom":
+      return `<div class="block-axiom"><span class="block-label">${b.label||'Axiom'}</span><div class="block-body">${b.text}</div></div>`;
+    case "theorem":
+      return `<div class="block-theorem"><span class="block-label">${b.label||'Theorem'}</span><div class="block-body">${b.text}</div></div>`;
+    case "definition":
+      return `<div class="block-definition"><span class="block-label">${b.label||'Definition'}</span><div class="block-body">${b.text}</div></div>`;
+    case "math":
+      return `<div class="block-math">${b.text}</div>`;
+    case "chain":
+      return chainHTML();
+    default:
+      return `<p class="block-prose">${b.text||''}</p>`;
+  }
+}
+
+/* ── POPULATE LANGUAGE SELECTOR ─────────────────────────────────────── */
+const sel = document.getElementById('langSelect');
+const tiers = [
+  ["Tier 1 — Core academic",   ["pt","ru","hi","zh"]],
+  ["Tier 2 — Major world",     ["es","ar","bn","ta"]],
+  ["Tier 3 — Academic + East Asian", ["fr","de","ja","ko","it"]],
+  ["Tier 4 — European",        ["nl","pl","uk","el","tr","ro","cs"]],
+  ["Tier 5 — South Asian",     ["te","mr","gu","kn","ml","ur","pa"]],
+  ["Tier 6 — Middle East + Africa", ["sw","am","fa","he","ha"]],
+  ["Tier 7 — Southeast Asian", ["id","vi","th","my"]],
+  ["Tier 8 — Additional",      ["hu","sr","zh-tw","la"]],
+];
+tiers.forEach(([label, codes]) => {
+  const grp = document.createElement('optgroup');
+  grp.label = label;
+  codes.forEach(code => {
+    const l = LANGUAGES[code];
+    if (!l) return;
+    const opt = document.createElement('option');
+    opt.value = code;
+    opt.textContent = `${l.flag} ${l.name} · ${l.native}`;
+    grp.appendChild(opt);
+  });
+  sel.appendChild(grp);
+});
+
+/* ── RENDER COLUMNS ─────────────────────────────────────────────────── */
+function renderContent(blocks) {
+  return blocks.map(renderBlock).join('');
+}
+
+function setLang(code) {
+  const l = LANGUAGES[code];
+  if (!l) return;
+
+  const blocks = CONTENT[code] || getFallback(code);
+  const enBlocks = CONTENT["en"];
+
+  /* Column A (English) */
+  document.getElementById('contentA').innerHTML = renderContent(enBlocks);
+
+  /* Column B (selected language) */
+  const colB = document.getElementById('colB');
+  colB.setAttribute('dir', l.dir);
+  colB.style.fontFamily = l.font;
+  colB.className = l.dir === 'rtl' ? 'col-rtl' : '';
+
+  document.getElementById('colBHeader').innerHTML =
+    `<span class="lang-flag">${l.flag}</span>
+     <span>${l.name}</span>
+     <span class="lang-native">${l.native}</span>`;
+
+  document.getElementById('contentB').innerHTML = renderContent(blocks);
+
+  /* Script note */
+  document.getElementById('scriptNote').textContent = l.script;
+
+  /* Flip grid for RTL: translation left, English right */
+  const grid = document.getElementById('bilingualGrid');
+  if (l.dir === 'rtl') {
+    grid.style.direction = 'rtl';
+    document.getElementById('colA').style.order = '2';
+    colB.style.order = '1';
+  } else {
+    grid.style.direction = 'ltr';
+    document.getElementById('colA').style.order = '';
+    colB.style.order = '';
+  }
+
+  /* Update <html> for accessibility */
+  // Keep html[lang=en] to not break the English column
+}
+
+/* Init with Portuguese */
+setLang('pt');
+</script>
+
+</body>
+</html>
