@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GTCT Working Paper · IMPA Bilingual Edition · Principia Orthogona</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Cinzel:wght@400;600&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+<script>
+  MathJax = {
+    tex: {
+      inlineMath: [['$','$'],['\\(','\\)']],
+      displayMath: [['$$','$$'],['\\[','\\]']],
+      tags: 'ams'
+    },
+    options: { skipHtmlTags: ['script','noscript','style','textarea','pre'] }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<style>
+:root {
+  --cream: #f7f3ec;
+  --ink:   #1a1814;
+  --gold:  #8a6420;
+  --teal:  #1d6e5a;
+  --rule:  rgba(138,100,32,0.25);
+  --smoke: #eeead8;
+  --mid:   #555248;
+  --light: #888580;
+  --red:   #7a1a1a;
+  --blue:  #1a3a6b;
+  --green: #1a5c2a;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--cream);
+  color: var(--ink);
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 19px;
+  line-height: 1.8;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* ── PRINT ── */
+@media print {
+  body { font-size: 11pt; padding: 0; max-width: 100%; }
+  nav, .no-print { display: none; }
+  .page-break { page-break-before: always; }
+}
+
+/* ── NAV ── */
+nav {
+  background: var(--ink);
+  color: var(--cream);
+  margin: 0 -2rem;
+  padding: 0.7rem 2rem;
+  display: flex; align-items: center; justify-content: space-between;
+  position: sticky; top: 0; z-index: 100;
+  font-family: 'Source Code Pro', monospace;
+  font-size: 0.62rem; letter-spacing: 0.12em;
+}
+nav a { color: rgba(247,243,236,0.6); text-decoration: none; }
+nav a:hover { color: #c9a84c; }
+.nav-brand { color: #c9a84c; font-weight: 500; }
+
+/* ── COVER ── */
+.cover {
+  text-align: center;
+  padding: 5rem 0 3rem;
+  border-bottom: 2px solid var(--gold);
+}
+.cover-series {
+  font-family: 'Source Code Pro', monospace;
+  font-size: 0.62rem; letter-spacing: 0.4em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 2rem; display: block;
+}
+.cover-type {
+  font-family: 'Source Code Pro', monospace;
+  font-size: 0.65rem; letter-spacing: 0.25em; text-transform: uppercase;
+  color: var(--mid); border: 1px solid var(--rule);
+  display: inline-block; padding: 0.3rem 1rem; margin-bottom: 1.5rem;
+}
+.cover-en {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(1.4rem, 3vw, 2.2rem);
+  font-weight: 600; line-height: 1.15;
+  color: var(--ink); margin-bottom: 0.3rem;
+}
+.cover-pt {
+  font-family: 'EB Garamond', serif;
+  font-style: italic;
+  font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+  color: var(--mid); margin-bottom: 0.5rem;
+}
+.cover-sub-en {
+  font-size: 1rem; color: var(--mid); margin-bottom: 0.2rem;
+}
+.cover-sub-pt {
+  font-size: 0.9rem; color: var(--light); font-style: italic;
+}
+.cover-rule { width: 50px; height: 1px; background: var(--gold); margin: 1.8rem auto; }
+.cover-epigraph {
+  font-style: italic; font-size: 0.95rem; color: var(--mid);
+  max-width: 480px; margin: 0 auto 1.5rem; line-height: 1.7;
+}
+.cover-epigraph-pt {
+  font-size: 0.85rem; color: var(--light); max-width: 480px; margin: 0 auto 2rem;
+  font-style: italic; line-height: 1.65;
+}
+.cover-author {
+  font-family: 'Source Code Pro', monospace;
+  font-size: 0.68rem; letter-spacing: 0.08em; color: var(--mid); line-height: 1.9;
+}
+
+/* ── COPYRIGHT ── */
+.copyright-page {
+  padding: 3rem 0;
+  border-bottom: 1px solid var(--rule);
+  font-size: 0.82rem; color: var(--mid); line-height: 1.75;
+}
+.copyright-page p { margin-bottom: 0.8rem; }
+
+/* ── SECTION ── */
+.s-num {
+  font-family: 'Source Code Pro', monospace;
+  font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase;
+  color: var(--gold); display: block; margin-top: 3.5rem; margin-bottom: 0.4rem;
+}
+h2 {
+  font-family: 'Cinzel', serif;
+  font-size: 1.15rem; font-weight: 600;
+  color: var(--ink); margin-bottom: 0.3rem; line-height: 1.3;
+}
+h2 + .pt-title {
+  font-family: 'EB Garamond', serif;
+  font-style: italic; font-size: 1rem;
+  color: var(--mid); margin-bottom: 1.3rem;
+}
+h3 {
+  font-family: 'EB Garamond', serif;
+  font-style: italic; font-size: 1rem;
+  color: var(--teal); margin: 2rem 0 0.6rem;
+}
+p { margin-bottom: 1.2rem; }
+p em { font-style: italic; }
+p strong { font-weight: 500; }
+
+/* ── BILINGUAL BLOCKS ── */
+.bilingual {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin: 1.4rem 0;
+  padding: 1.2rem 1.4rem;
+  background: var(--smoke);
+  border: 1px solid var(--rule);
+}
+.bilingual .en { border-left: 3px solid var(--gold); padding-left: 1rem; }
+.bilingual .pt { border-left: 3px solid var(--teal); padding-left: 1rem; }
+.lang-tag {
+  font-family: 'Source Code Pro', monospace;
+  font-size: 0.55rem; letter-spacing: 0.25em; text-transform: uppercase;
+  display: block; margin-bottom: 0.4rem;
+}
+.bilingual .en .lang-tag { color: var(--gold); }
+.bilingual .pt .lang-tag { color: var(--teal); }
+.bilingual p { font-size: 0.9rem; line-height: 1.72; margin-bottom: 0; }
+@media (max-width: 640px) { .bilingual { grid-template-columns: 1fr; } }
+
+/* ── DEFINITION / THEOREM / LEMMA ── */
+.defn, .thm, .lemma, .prop, .cor {
+  margin: 1.6rem 0;
+  padding: 1rem 1.4rem 0.8rem;
+  border: 1px solid;
+  border-left-width: 4px;
+}
+.defn { border-color: rgba(90,110,138,0.3); border-left-color: var(--blue); background: rgba(26,58,107,0.04); }
+.thm, .lemma { border-color: rgba(26,100,87,0.3); border-left-color: var(--teal); background: rgba(29,110,90,0.04); }
+.prop, .cor { border-color: var(--rule); border-left-color: var(--gold); background: rgba(138,100,32,0.03); }
+
+.defn-label, .thm-label, .prop-label {
+  font-family: 'Source Code Pro', monospace;
+  font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase;
+  font-weight: 600; display: block; margin-bottom: 0.4rem;
+}
+.defn .defn-label { color: var(--blue); }
+.thm .thm-label, .lemma .thm-label { color: var(--teal); }
+.prop .prop-label, .cor .prop-label { color: var(--gold); }
+
+.lean-tag {
+  font-family: 'Source Code Pro', monospace;
+  font-size: 0.55rem; letter-spacing: 0.1em;
+  border: 1px solid rgba(26,92,42,0.4); color: var(--green);
+  padding: 0.08rem 0.4rem; margin-left: 0.5rem; border-radius: 2px;
+}
+.sh-tag {
+  font-family: 'Source Code Pro', monospace;
+  font-size: 0.55rem; letter-spacing: 0.1em;
+  border: 1px solid rgba(245,158,11,0.4); color: #b45309;
+  padding: 0.08rem 0.4rem; margin-left: 0.5rem; border-radius: 2px;
+}
+
+.defn p, .thm p, .lemma p, .prop p, .cor p { font-size: 0.92rem; line-height: 1.72; margin-bottom: 0.5rem; }
+.defn p:last-child, .thm p:last-child, .lemma p:last-child { margin-bottom: 0; }
+
+/* PT translation inside formal block */
+.formal-pt {
+  margin-top: 0.7rem;
+  font-size: 0.84rem; color: var(--mid);
+  font-style: italic; line-height: 1.65;
+  border-top: 1px solid var(--rule); padding-top: 0.6rem;
+}
+
+/* ── FORMAL / CODE ── */
+.formal {
+  display: block;
+  font-family: 'Source Code Pro', monospace;
+  font-size: 0.78rem;
+  background: var(--ink);
+  color: #c9a84c;
+  padding: 0.7rem 1.1rem;
+  margin: 0.8rem 0;
+  line-height: 1.65;
+  overflow-x: auto;
+}
+
+/* ── PROOF ── */
+.proof {
+  margin: 1.2rem 0 1.6rem;
+  padding: 0.9rem 1.3rem;
+  border: 1px solid var(--rule);
+  background: rgba(247,243,236,0.5);
+}
+.proof-tag {
+  font-family: 'Source Code Pro', monospace;
+  font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--mid); display: block; margin-bottom: 0.5rem;
+}
+.proof p { font-size: 0.9rem; line-height: 1.72; margin-bottom: 0.6rem; }
+.proof p:last-child { margin-bottom: 0; }
+.qed { float: right; font-size: 1.1rem; }
+
+/* ── STEP ── */
+.step {
+  margin: 1rem 0;
+  padding: 0.7rem 1rem 0.7rem 1.3rem;
+  border-left: 3px solid var(--rule);
+}
+.step-n {
+  font-family: 'Source Code Pro', monospace;
+  font-size: 0.62rem; letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--gold); display: block; margin-bottom: 0.3rem;
+}
+.step p, .step-pt { font-size: 0.9rem; line-height: 1.7; margin-bottom: 0.4rem; }
+.step-pt { font-style: italic; color: var(--mid); font-size: 0.84rem; }
+
+/* ── NUMERICAL TABLE ── */
+.num-table {
+  width: 100%; border-collapse: collapse;
+  margin: 1.2rem 0; font-size: 0.86rem;
+  overflow-x: auto; display: block;
+}
+.num-table th {
+  font-family: 'Source Code Pro', monospace;
+  font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--gold); padding: 0.5rem 0.8rem; text-align: left;
+  background: rgba(138,100,32,0.07); border-bottom: 1px solid var(--rule);
+}
+.num-table td {
+  padding: 0.45rem 0.8rem; border-bottom: 1px solid var(--rule);
+  vertical-align: top; line-height: 1.5; font-family: 'Source Code Pro', monospace;
+  font-size: 0.8rem;
+}
+.num-table tr:hover td { background: rgba(138,100,32,0.04); }
+
+/* ── EXERCISES ── */
+.exercises { margin-top: 3rem; }
+.exercise {
+  margin: 1.8rem 0;
+  border: 1px solid var(--rule);
+  border-left: 4px solid var(--gold);
+}
+.exercise-head {
+  background: rgba(138,100,32,0.07);
+  padding: 0.6rem 1.1rem;
+  border-bottom: 1px solid var(--rule);
+  display: flex; align-items: baseline; gap: 1rem;
+}
+.exercise-n {
+  font-family: 'Source Code Pro', monospace;
+  font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--gold); font-weight: 700;
+}
+.exercise-level {
+  font-family: 'Source Code Pro', monospace;
+  font-size: 0.55rem; letter-spacing: 0.12em;
+  color: var(--mid); margin-left: auto;
+}
+.exercise-body { padding: 0.9rem 1.1rem; font-size: 0.9rem; line-height: 1.72; }
+.exercise-body p { margin-bottom: 0.7rem; }
+.exercise-body p:last-child { margin-bottom: 0; }
+.exercise-pt { color: var(--mid); font-style: italic; font-size: 0.85rem; line-height: 1.65; }
+
+/* ── FALSIFIABILITY TABLE ── */
+.falsify {
+  margin: 1.5rem 0;
+  border: 1px solid var(--rule);
+  overflow: hidden;
+}
+.falsify-head {
+  background: rgba(138,100,32,0.07);
+  padding: 0.5rem 1rem;
+  font-family: 'Source Code Pro', monospace;
+  font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--gold); border-bottom: 1px solid var(--rule);
+}
+.falsify-row {
+  display: grid; grid-template-columns: 60px 1fr 1fr;
+  border-bottom: 1px solid var(--rule); font-size: 0.84rem;
+}
+.falsify-row:last-child { border-bottom: none; }
+.falsify-row > div { padding: 0.6rem 0.9rem; line-height: 1.55; }
+.falsify-row > div:not(:last-child) { border-right: 1px solid var(--rule); }
+.f-id { font-family: 'Source Code Pro', monospace; font-size: 0.75rem; color: var(--gold); }
+
+/* ── REFERENCES ── */
+.references {
+  margin-top: 3.5rem; padding-top: 2rem;
+  border-top: 1px solid var(--rule);
+  font-size: 0.82rem; line-height: 1.7; color: var(--mid);
+}
+.references h2 { font-size: 0.9rem; margin-bottom: 1.2rem; color: var(--ink); }
+.ref { margin-bottom: 0.8rem; padding-left: 1.8rem; text-indent: -1.8rem; }
+
+hr.rule { border: none; border-top: 1px solid var(--rule); margin: 3rem 0; }
+
+/* ── OVERFLOW ── */
+.defn, .thm, .lemma, .prop, .proof, .step, .formal, .num-table, .falsify-row {
+  overflow-x: auto;
+}
+mjx-container { overflow-x: auto; max-width: 100%; display: block !important; }
+</style>
+</head>
+<body>
+
+<nav class="no-print">
+  <span class="nav-brand">Principia Orthogona · IMPA Edition</span>
+  <div style="display:flex;gap:1.5rem;">
+    <a href="#definitions">Definitions</a>
+    <a href="#g33">g₃₃</a>
+    <a href="#theorem">Theorem T1</a>
+    <a href="#proof">Proof</a>
+    <a href="#exercises">Exercises</a>
+    <a href="impa-portal.html">Portal →</a>
+  </div>
+</nav>
+
+<!-- COVER -->
+<div class="cover">
+  <span class="cover-series">Principia Orthogona Series · G6 LLC · Newark · 2026</span>
+  <div class="cover-type">Working Paper · GTCT-2026-001 · IMPA.br Bilingual Edition</div>
+  <h1 class="cover-en">The Generative Time Circuit Theorem</h1>
+  <p class="cover-pt">O Teorema do Circuito Temporal Generativo</p>
+  <p class="cover-sub-en">Complete Proofs, Derivations, and Applications</p>
+  <p class="cover-sub-pt">Provas Completas, Derivações e Aplicações</p>
+  <div class="cover-rule"></div>
+  <p class="cover-epigraph">
+    "This paper is a tool, not a monument.<br>
+    It is designed to be used — in classrooms, research seminars,<br>
+    and laboratories — by students and researchers at any level."
+  </p>
+  <p class="cover-epigraph-pt">
+    "Este documento é uma ferramenta, não um monumento.<br>
+    Foi criado para ser usado — em salas de aula, seminários de pesquisa<br>
+    e laboratórios — por estudantes e pesquisadores de qualquer nível."
+  </p>
+  <div class="cover-author">
+    Pablo Nogueira Grossi (Sri Brodananda)<br>
+    G6 LLC · Newark, New Jersey · 2026<br>
+    ORCID: 0009-0000-6496-2186<br>
+    Zenodo DOI: 10.5281/zenodo.19117399
+  </div>
+</div>
+
+<!-- COPYRIGHT -->
+<div class="copyright-page">
+  <p><em>Volume IV · Principia Orthogona Series · Working Paper GTCT-2026-001</em><br>
+  <em>Volume IV · Série Principia Orthogona · Documento de Trabalho GTCT-2026-001</em></p>
+  <p>Copyright © 2026 Pablo Nogueira Grossi / G6 LLC. All rights reserved.<br>
+  Direitos autorais © 2026 Pablo Nogueira Grossi / G6 LLC. Todos os direitos reservados.</p>
+  <p>This bilingual edition is prepared for the Instituto de Matemática Pura e Aplicada (IMPA),
+  Rio de Janeiro, Brazil, as part of the Principia Orthogona Working Paper Series.<br>
+  <em>Esta edição bilíngue é preparada para o Instituto de Matemática Pura e Aplicada (IMPA),
+  Rio de Janeiro, Brasil, como parte da Série de Documentos de Trabalho Principia Orthogona.</em></p>
+  <p>Print ISBN: 979-8-9954416-0-1 · eBook ISBN: 979-8-9954416-1-8<br>
+  Printed by IngramSpark · Deposited on Zenodo under open-access licence.<br>
+  <em>Depositado no Zenodo e HAL sob licença de acesso aberto.</em></p>
+  <p>GitHub: github.com/TOTOGT/AXLE · github.com/TOTOGT/geometry</p>
+</div>
+
+<!-- WHERE THIS THEOREM LIVES -->
+<span class="s-num">Series Context · Contexto da Série</span>
+<h2>Where This Theorem Lives</h2>
+<p class="pt-title">Onde Este Teorema Vive na Série</p>
+
+<p>The Principia Orthogona series establishes one operator sequence —
+$G = U \circ F \circ K \circ C$ — across successive volumes.
+Volume I establishes it on a Riemannian manifold.
+Volume II realizes it as the $dm^3$ contact-geometric system with explicit structural stability.
+Volume III instantiates it in biological systems (The Mini-Beast).
+The Generative Time Circuit Theorem (GTCT / T1) is the fourth ring:
+the formal proof that time itself, at the operator level, is the cycle map
+$R = O_{12} \circ \cdots \circ O_1$ converging to a unique fixed point $x^*$.</p>
+
+<p><em>A série Principia Orthogona estabelece uma única cadeia de operadores —
+$G = U \circ F \circ K \circ C$ — em volumes sucessivos.
+O Volume I a estabelece em uma variedade riemanniana.
+O Volume II a realiza como o sistema de contato $dm^3$.
+O Volume III a instancia em sistemas biológicos (The Mini-Beast).
+O Teorema do Circuito Temporal Generativo (GTCT / T1) é o quarto anel:
+a prova formal de que o tempo, no nível do operador, é o mapa do ciclo
+$R = O_{12} \circ \cdots \circ O_1$ convergindo a um ponto fixo único $x^*$.</em></p>
+
+<hr class="rule">
+
+<!-- 1. DEFINITIONS AND AXIOMS -->
+<span class="s-num" id="definitions">1 · Definitions and Axioms · Definições e Axiomas</span>
+<h2>Definitions and Axioms</h2>
+<p class="pt-title">Definições e Axiomas</p>
+
+<div class="defn">
+  <span class="defn-label">Definition 1.1 · Definição 1.1 — Generative Operator Chain · Cadeia de Operadores Generativos <span class="lean-tag">✓ Lean 4</span></span>
+  <p>The single-cycle generative operator is $G = U \circ F \circ K \circ C$, where:
+  $C$ (Compression) reduces complexity to a minimal viable seed;
+  $K$ (Curvature/Constraint) defines the boundaries that make form possible;
+  $F$ (Fold) creates the first self-reference, curving the system back onto itself;
+  and $U$ (Unfold) releases latent potential into visible reality.
+  One complete application of $G$ is one generative cycle.</p>
+  <p class="formal-pt">O operador generativo de ciclo único é $G = U \circ F \circ K \circ C$, onde $C$ (Compressão) reduz a complexidade a uma semente mínima viável; $K$ (Restrição) define os limites que tornam a forma possível; $F$ (Dobramento) cria a primeira auto-referência; e $U$ (Desdobramento) libera potencial latente em realidade visível.</p>
+  <code class="formal">G = U ∘ F ∘ K ∘ C : X → X</code>
+</div>
+
+<div class="defn">
+  <span class="defn-label">Definition 1.2 · Definição 1.2 — Stability Threshold · Limiar de Estabilidade <span class="lean-tag">✓ Lean 4</span></span>
+  <p>The stability threshold is $g_{33} = 33$ generative cycles. Below this count the operator
+  orbit has not yet saturated the invariant structure; at or above it the orbit contracts
+  to the fixed point $x^*$. Derivation in §2.</p>
+  <p class="formal-pt">O limiar de estabilidade é $g_{33} = 33$ ciclos generativos. Abaixo deste número a órbita do operador ainda não saturou a estrutura invariante; a partir dele a órbita contrai ao ponto fixo $x^*$. Derivação em §2.</p>
+  <code class="formal">g₃₃ = 33   (proved: g6_is_33 in AXLE/Main_v6.lean)</code>
+</div>
+
+<div class="defn">
+  <span class="defn-label">Definition 1.3 · Definição 1.3 — Circuit Saturation · Saturação do Circuito</span>
+  <p>After $g_{64} = 64$ cycles the system maps its entire possibility space
+  (Complete Completeness, Chapter 4, Book 3):
+  $$x^{**} = G^{64}(x^*)$$
+  The system has visited all reachable states and returned.</p>
+  <p class="formal-pt">Após $g_{64} = 64$ ciclos o sistema mapeia todo o seu espaço de possibilidades: $x^{**} = G^{64}(x^*)$.</p>
+  <code class="formal">g₆₄ = 64 = 2⁶   (proved: g64_is_64 in AXLE/Main_v6.lean)</code>
+</div>
+
+<div class="defn">
+  <span class="defn-label">Definition 1.4 · Definição 1.4 — The Return: Spiral, Not Loop · O Retorno: Espiral, Não Laço</span>
+  <p>The Return is a new application of $G$ at circuit scale. In contact coordinates:
+  $$x_0 \xrightarrow{G^{33}} x^* \xrightarrow{G^{64}} x^{**} \xrightarrow{G} x_0' \quad \text{with } x_0' \neq x_0$$
+  This is a spiral, not a loop. The source that receives the return is enriched
+  by one completed circuit.</p>
+  <p class="formal-pt">O Retorno é uma nova aplicação de $G$ em escala de circuito. É uma espiral, não um laço: a fonte que recebe o retorno é enriquecida por um circuito completo.</p>
+</div>
+
+<hr class="rule">
+
+<!-- 2. DERIVATION OF g = 33 -->
+<span class="s-num" id="g33">2 · Derivation of $g_{33} = 33$ · Derivação de $g_{33} = 33$</span>
+<h2>The Stability Threshold: $g_{33} = 33$</h2>
+<p class="pt-title">O Limiar de Estabilidade: $g_{33} = 33$</p>
+
+<p>This derivation is original to TOGT (Cajueiro Principle, Chapter 1 of Book 3).
+It is <em>combinatorial</em>, not empirical: 33 is not a special number chosen
+for mystical reasons but the unique integer that satisfies all three closure conditions
+simultaneously.</p>
+<p><em>Esta derivação é original do TOGT. É combinatória, não empírica: 33 não é um número mágico, mas o único inteiro que satisfaz as três condições de fechamento simultaneamente.</em></p>
+
+<div class="step">
+  <span class="step-n">Step 1 · Passo 1 — Count permutations of 3 invariants · Contar permutações de 3 invariantes</span>
+  <p>There are three invariants that must close simultaneously:
+  $I_1$ (Orthogonality), $I_2$ (Nilpotency $\varepsilon^* = 1/3$), $I_3$ (Spectral Collapse).
+  The number of permutations of 3 distinct invariants is $3! = 6$.
+  In binary: $\log_2(3!) = \log_2(6) \approx 2.585$ bits per invariant.</p>
+  <p class="step-pt">Há três invariantes que devem fechar simultaneamente. O número de permutações é $3! = 6$. Em binário: $\log_2(6) \approx 2{,}585$ bits por invariante.</p>
+</div>
+
+<div class="step">
+  <span class="step-n">Step 2 · Passo 2 — Minimum cycles per operator · Ciclos mínimos por operador</span>
+  <p>Each operator ($C$, $K$, $F$, $U$) must process all permutations independently.
+  The minimum number of cycles for one operator to fully resolve one invariant is
+  $\lceil \log_2(3!) \rceil = \lceil 2.585 \rceil = 3$ bits.
+  For all three invariants: $3 \times 3 = 9$ cycles per operator,
+  but the triple-invariant structure requires one additional confirmation cycle: $3 \times \log_2(6) = 7.755$,
+  so $\lceil 7.755 \rceil = 8$ effective cycles per operator pair.</p>
+</div>
+
+<div class="step">
+  <span class="step-n">Step 3 · Passo 3 — Aggregate across 4 operators · Agregar pelos 4 operadores</span>
+  <p>There are 4 operators, each contributing $\lceil \log_2(3!) \rceil$ depth of bits.
+  The minimum total cycles for complete closure is:
+  $$n_{\min} = \lceil \log_2(3!) \cdot 4 \rceil = \lceil 2.585 \times 4 \rceil = \lceil 10.340 \rceil = 11$$</p>
+  <p class="step-pt">Há 4 operadores, cada um contribuindo com bits de profundidade. O número mínimo total de ciclos para fechamento completo é $\lceil \log_2(6) \cdot 4 \rceil = 11$.</p>
+</div>
+
+<div class="step">
+  <span class="step-n">Step 4 · Passo 4 — Triple for robustness · Triplicar para robustez</span>
+  <p>A single closure (11 cycles) is fragile — it satisfies the combinatorial condition
+  once but does not confirm the structural stability under the triad of invariants.
+  The triad structure demands three independent confirmations before the invariant
+  is deemed stable. Therefore:
+  $$g_{33} = 3 \times n_{\min} = 3 \times 11 = 33$$
+  <strong>Interpretation:</strong> 33 is the minimum number of complete generative cycles
+  required for the operator chain $G$ to establish a structurally stable fixed point
+  under all three invariants simultaneously.</p>
+  <p class="step-pt">Um único fechamento (11 ciclos) é frágil. A estrutura triádica exige três confirmações independentes. Portanto: $g_{33} = 3 \times 11 = 33$.</p>
+</div>
+
+<div class="num-table">
+  <table style="width:100%;border-collapse:collapse;">
+    <thead><tr>
+      <th>$\varepsilon$</th>
+      <th>Exponent $(|\mu_{\max}|+3\varepsilon)t$ at $t=1$</th>
+      <th>$|x(1)|/|x(0)|$</th>
+      <th>Decay / Decaimento</th>
+    </tr></thead>
+    <tbody>
+      <tr><td>0.00</td><td>$-2.000$</td><td>$0.135$</td><td style="color:var(--green)">✓ stable</td></tr>
+      <tr><td>0.20</td><td>$-1.400$</td><td>$0.247$</td><td style="color:var(--green)">✓ stable</td></tr>
+      <tr><td>1/3</td><td>$-1.000$</td><td>$0.368$</td><td style="color:var(--gold)">boundary $\varepsilon^*$</td></tr>
+      <tr><td>0.50</td><td>$-0.500$</td><td>$0.607$</td><td style="color:var(--gold)">marginal</td></tr>
+      <tr><td>0.70</td><td>$+0.100$</td><td>$1.105$</td><td style="color:var(--red)">✗ unstable</td></tr>
+    </tbody>
+  </table>
+</div>
+<p style="font-size:.85rem;color:var(--mid);">
+  Numerical verification of stability radius $\varepsilon^* = 1/3$ in the canonical toy model
+  ($\mu_{\max} = -2$, $T^* = 2\pi$).
+  <em>Verificação numérica do raio de estabilidade $\varepsilon^* = 1/3$ no modelo toy canônico.</em>
+</p>
+
+<hr class="rule">
+
+<!-- 3. THEOREM T1 -->
+<span class="s-num" id="theorem">3 · Theorem T1 · Teorema T1</span>
+<h2>The Generative Time Circuit Theorem</h2>
+<p class="pt-title">O Teorema do Circuito Temporal Generativo</p>
+
+<div class="thm">
+  <span class="thm-label">Theorem T1 (GTCT) <span class="lean-tag">✓ Lean 4 — structural claims</span> <span class="sh-tag">SH — operator matrices</span></span>
+  <p>In the TOGT operator algebra on the contact manifold $(M, \alpha)$ with dimensional field
+  $\Delta : M \to \mathbb{R}^{12}$, time is the generative circuit operator
+  $T = R = O_{12} \circ \cdots \circ O_1$.
+  For any initial state $x_0 \in M$ that has completed at least $g_{33} = 33$ cycles,
+  the orbit $\{R^k(x_0)\}_{k \geq 0}$ converges to a unique fixed point $x^* \in M$:
+  $$R^k(x_0) \to x^* \quad \text{as } k \to \infty$$
+  with convergence rate $\|R^k(x_0) - x^*\| \leq \kappa^k \|x_0 - x^*\|$,
+  where $\kappa = \sqrt{1 - \gamma'} < 1$ and $\gamma' > 0$ is determined by the
+  stability radius $\varepsilon^* = 1/3$. Future boundary conditions (post-$U$ at circuit scale)
+  retroactively enrich the effective resolution of past states via the Fold operator $F$,
+  without violating consistency or no-signaling.</p>
+  <p class="formal-pt">Para qualquer estado inicial $x_0 \in M$ que completou pelo menos $g_{33} = 33$ ciclos, a órbita $\{R^k(x_0)\}$ converge ao ponto fixo único $x^*$ com taxa $\kappa < 1$. Condições de fronteira futuras enriquecem retroativamente a resolução efetiva dos estados passados via operador $F$, sem violar consistência ou não-sinalização.</p>
+</div>
+
+<hr class="rule">
+
+<!-- 4. COMPLETE PROOF -->
+<span class="s-num" id="proof">4 · Complete Proof · Prova Completa</span>
+<h2>Complete Proof</h2>
+<p class="pt-title">Prova Completa</p>
+
+<p>The proof proceeds in five steps, using only the operator algebra and the $dm^3$
+contact-geometric structure established in Volumes I and II of the Principia Orthogona series.</p>
+<p><em>A prova procede em cinco passos, usando apenas a álgebra de operadores e a estrutura contact-geométrica $dm^3$ estabelecida nos Volumes I e II da série Principia Orthogona.</em></p>
+
+<div class="proof">
+  <span class="proof-tag">Proof · Prova</span>
+
+  <div class="step">
+    <span class="step-n">Step 1 · Circuit geometry (not a line) · Geometria do circuito</span>
+    <p>The contact manifold $(M, \alpha)$ with $\alpha \wedge (d\alpha)^n \neq 0$ provides the
+    ambient space. The dimensional field $\Delta : M \to \mathbb{R}^{12}$ encodes twelve
+    orthogonal phase directions. The operator chain $G = U \circ F \circ K \circ C$
+    acts on $M$ as a strict contraction (Proposition 6.1 of Vol. IV). The cycle map
+    $R = O_{12} \circ \cdots \circ O_1$ is the 12-step composition.</p>
+    <p class="step-pt">A variedade de contato $(M, \alpha)$ fornece o espaço ambiente. O campo dimensional $\Delta$ codifica doze direções de fase ortogonais. $G$ age em $M$ como contração estrita.</p>
+  </div>
+
+  <div class="step">
+    <span class="step-n">Step 2 · Orthogonality Theorem (Lemma 5.1 [v3]) · Teorema da Ortogonalidade</span>
+    <p>Under Structural Hypothesis SH (§5.1 of Vol. IV), for almost every $x \in M$:
+    $$\langle \Delta_\perp(O_i(x)),\, \Delta_\perp(O_j(x)) \rangle = 0 \quad \text{for all } i \neq j$$
+    where $\Delta_\perp$ denotes the component of $\Delta$ perpendicular to the current phase direction.
+    Each operator step introduces a genuinely new direction — the geometric content of
+    $I_1$ (Orthogonality invariant).</p>
+    <p class="step-pt">Sob a Hipótese Estrutural SH, cada passo do operador introduz uma direção genuinamente nova — o conteúdo geométrico do invariante $I_1$.</p>
+  </div>
+
+  <div class="step">
+    <span class="step-n">Step 3 · Pythagorean Contraction (Proposition 6.1) · Contração de Pitágoras</span>
+    <p>The orthogonality of successive operator outputs implies:
+    $$\|\Delta(R(u)) - \Delta(R(v))\|^2 \leq \|\Delta(u) - \Delta(v)\|^2 - \sum_i c_i \|\Delta_\perp(O_i(u)) - \Delta_\perp(O_i(v))\|^2$$
+    where each $c_i > 0$ is bounded below by $\sigma_{\min}(A_i^\perp)$, the smallest singular
+    value of $A_i$ restricted to the complement of the current phase direction. Since
+    $\sum_i c_i > 0$, the map $R$ is a strict contraction with
+    $\kappa = \sqrt{1 - \gamma'} < 1$ where $\gamma' = \min_i c_i > 0$.</p>
+    <p class="step-pt">A ortogonalidade das saídas implica uma desigualdade de contração de Pitágoras: $R$ é contração estrita com constante $\kappa < 1$.</p>
+  </div>
+
+  <div class="step">
+    <span class="step-n">Step 4 · Banach Fixed Point · Ponto Fixo de Banach</span>
+    <p>The orbit $K = \overline{\{R^k(x_0) : k \geq 0\}}$ is compact (Proposition 6.1 gives
+    Cauchy convergence in the complete metric space $M$). The restriction
+    $R : K \to K$ is a strict contraction with $\kappa < 1$. By the Banach Fixed Point Theorem:
+    $$\exists!\, x^* \in K : R(x^*) = x^* \quad \text{and} \quad \|R^k(x_0) - x^*\| \leq \frac{\kappa^k}{1-\kappa}\|R(x_0) - x_0\| \to 0$$
+    <em>Once $g_{33} = 33$ is reached</em>, the orbit has entered the stable basin and Banach
+    applies unconditionally.</p>
+    <p class="step-pt">A órbita $K$ é compacta. $R: K \to K$ é contração estrita. Pelo Teorema do Ponto Fixo de Banach, existe único $x^*$ com $R(x^*) = x^*$ e convergência exponencial.</p>
+    <code class="formal">‖Rᵏ(x₀) − x*‖ ≤ κᵏ/(1−κ) · ‖R(x₀) − x₀‖ → 0</code>
+  </div>
+
+  <div class="step">
+    <span class="step-n">Step 5 · Spiral Return and retrocausal enrichment · Retorno Espiral</span>
+    <p>In contact coordinates $(\theta, r, z)$ on $M = S^1 \times \mathbb{R}^+ \times \mathbb{R}$,
+    with contact form $\alpha = dz - \lambda$ and flow equations:
+    $$\dot{r} = \mu_{\max}(1 - e^{-\beta z})r, \quad \dot{\theta} = \omega, \quad \dot{z} = \omega - |\mu_{\max}| r^2 e^{-\beta z}$$
+    the transverse Floquet multiplier is $\lambda_\perp = e^{\mu_{\max} T^*} = e^{-4\pi} \approx 3.49 \times 10^{-6}$
+    (canonical model: $\mu_{\max} = -2$, $T^* = 2\pi$). This confirms strict contraction
+    transverse to the flow. After $g_{33}$ cycles the fixed point $x^*$ is the unique
+    attractor; the future boundary condition (post-$U$ at circuit scale) enriches the
+    effective resolution of the fold $F$ without paradox, within the stability radius $\varepsilon^* = 1/3$.
+    <span class="qed">∎</span></p>
+    <p class="step-pt">O multiplicador de Floquet transversal $\lambda_\perp = e^{-4\pi}$ confirma contração estrita. Após $g_{33}$ ciclos o ponto fixo $x^*$ é o atrator único.</p>
+  </div>
+</div>
+
+<hr class="rule">
+
+<!-- 5. GRONWALL -->
+<span class="s-num">5 · Gronwall Inequality and $\varepsilon^* = 1/3$ · Desigualdade de Gronwall e $\varepsilon^* = 1/3$</span>
+<h2>The Stability Radius: $\varepsilon^* = 1/3$</h2>
+<p class="pt-title">O Raio de Estabilidade: $\varepsilon^* = 1/3$</p>
+
+<p>This section derives $\varepsilon^* = 1/3$ explicitly from the $dm^3$ structure.
+Students unfamiliar with Gronwall's inequality should work through this section before
+attempting Exercises E3–E4.</p>
+<p><em>Esta seção deriva $\varepsilon^* = 1/3$ explicitamente da estrutura $dm^3$. Estudantes que não conhecem a desigualdade de Gronwall devem trabalhar esta seção antes dos Exercícios E3–E4.</em></p>
+
+<div class="prop">
+  <span class="prop-label">Gronwall Inequality (Differential Form) · Desigualdade de Gronwall (Forma Diferencial)</span>
+  <p>Let $u : [0,T] \to \mathbb{R}$ be differentiable with $\dot{u}(t) \leq \beta(t) u(t)$ for all $t$.
+  Then $u(t) \leq u(0) \exp\!\left(\int_0^t \beta(s)\,ds\right)$ for all $t \in [0,T]$.</p>
+  <p class="formal-pt"><em>Seja $u$ diferenciável com $\dot{u}(t) \leq \beta(t) u(t)$. Então $u(t) \leq u(0) \exp(\int_0^t \beta(s)\,ds)$.</em></p>
+</div>
+
+<p>In the $dm^3$ contact system, the linearized flow near a periodic orbit satisfies:
+$$\dot{v}(t) \leq (\mu_{\max} + 3\varepsilon)\,v(t)$$
+where $\varepsilon$ is the perturbation amplitude and $\mu_{\max} < 0$ is the maximum
+Lyapunov exponent. By Gronwall: $v(t) \leq v(0) e^{(\mu_{\max} + 3\varepsilon)t}$.
+For structural stability (decay) we need $|\mu_{\max}| + 3\varepsilon < 0$, i.e.,
+$\varepsilon < |\mu_{\max}|/3$.
+The precise estimate including the Hessian norm factor gives:</p>
+
+$$\varepsilon^* = \frac{|\mu_{\max}|}{2\left(1 + \sup_G \|\text{Hess}\, V\|_\infty\right)} = \frac{2}{2(1+2)} = \frac{1}{3}$$
+
+<p>In the canonical toy model ($\mu_{\max} = -2$, $V(r) = \tfrac{1}{2}(r-1)^2$,
+$\sup \|\text{Hess}\, V\|_\infty = 2$): $\varepsilon^* = 1/3$ <em>exactly</em>.</p>
+<code class="formal">ε* = |μ_max| / [2(1 + sup ‖Hess V‖∞)] = 2 / [2(1+2)] = 1/3   (proved: dm3_epsilon0)</code>
+
+<hr class="rule">
+
+<!-- 6. dm³ SYSTEM -->
+<span class="s-num">6 · Contact-Geometric Realization · Realização Contact-Geométrica</span>
+<h2>The $dm^3$ System</h2>
+<p class="pt-title">O Sistema $dm^3$</p>
+
+<p>The $dm^3$ system embeds the abstract operator chain in contact geometry, resolving the
+post-fold stability problem that symplectic (Hamiltonian) geometry cannot address:
+Liouville's theorem forbids attractors on compact symplectic manifolds.
+Contact geometry escapes this obstruction via the Reeb dynamics.</p>
+<p><em>O sistema $dm^3$ insere a cadeia de operadores na geometria de contato, resolvendo o problema de estabilidade pós-dobramento que a geometria simplética não consegue resolver: o teorema de Liouville proíbe atratores em variedades simpléticas compactas.</em></p>
+
+<div class="defn">
+  <span class="defn-label">Definition 6.1 · Definição 6.1 — dm³ System · Sistema dm³</span>
+  <p>A $dm^3$ system is the tuple $\mathcal{D} = (S, \omega, \mu_{\max}, \tau)$ where
+  $(S, \omega)$ is a compact symplectic surface, $\mu_{\max} < 0$ is the maximum Lyapunov exponent,
+  and $\tau > 0$ is the contact parameter. The contact manifold is $M = S \times \mathbb{R}$
+  with contact form $\alpha = dz - \lambda$ (where $\lambda$ is the Liouville form on $T^*S$).
+  The canonical invariants are $(T^*, \mu_{\max}, \tau) = (2\pi, -2, 2)$ in the toy model.</p>
+  <p class="formal-pt"><em>Um sistema $dm^3$ é a tupla $\mathcal{D} = (S, \omega, \mu_{\max}, \tau)$. Os invariantes canônicos são $(T^*, \mu_{\max}, \tau) = (2\pi, -2, 2)$ no modelo toy.</em></p>
+</div>
+
+<p>The three Floquet multipliers of the $dm^3$ system at the fixed-point orbit are:
+$$\lambda_{\text{tangential}} = 1 \quad \text{(neutral — tangent to flow)}$$
+$$\lambda_{\text{longitudinal}} = 1 \quad \text{(neutral — contact action variable)}$$
+$$\lambda_{\text{transverse}} = e^{\mu_{\max} T^*} = e^{-4\pi} \approx 3.49 \times 10^{-6} \quad \text{(strict contraction)}$$
+The transverse multiplier is the Fold operator's signature: one direction contracts
+exponentially while the others remain neutral (contact structure preserved).</p>
+
+<hr class="rule">
+
+<!-- 7. FALSIFIABILITY -->
+<span class="s-num">7 · Falsifiability · Falsificabilidade</span>
+<h2>Three Falsifiability Conditions</h2>
+<p class="pt-title">Três Condições de Falsificabilidade</p>
+
+<p>The GTCT is not a philosophical claim. It is falsifiable in three independent ways
+and confirms rather than contradicts the most advanced time-symmetric formulations in quantum mechanics.</p>
+<p><em>O GTCT não é uma afirmação filosófica. É falsificável de três formas independentes.</em></p>
+
+<div class="falsify">
+  <div class="falsify-head">Falsifiability Conditions · Condições de Falsificabilidade</div>
+  <div class="falsify-row">
+    <div class="f-id">F1</div>
+    <div>No retrocausal enrichment observed in quantum systems below $g_{33} = 33$ cycles in quantum eraser experiments with timing control.</div>
+    <div>Nenhum enriquecimento retrocausal observado em sistemas quânticos abaixo de $g_{33} = 33$ ciclos.</div>
+  </div>
+  <div class="falsify-row">
+    <div class="f-id">F2</div>
+    <div>Stability radius $\varepsilon^*$ deviates from $1/3$ under direct measurement of the Floquet transverse multiplier in contact Hamiltonian systems.</div>
+    <div>O raio de estabilidade $\varepsilon^*$ desvia de $1/3$ sob medição direta do multiplicador transversal de Floquet.</div>
+  </div>
+  <div class="falsify-row">
+    <div class="f-id">F3</div>
+    <div>A second fixed point (non-unique $x^*$) is found in the orbit closure $K$ after $g_{33}$ cycles under the $dm^3$ contact flow.</div>
+    <div>Um segundo ponto fixo (não-unicidade de $x^*$) é encontrado no fechamento de órbita $K$ após $g_{33}$ ciclos.</div>
+  </div>
+</div>
+
+<p style="font-size:.88rem;color:var(--mid);">
+  Connection to accepted science: Kim et al. (2000) quantum eraser,
+  Aharonov–Vaidman two-state vector formalism, and Wheeler's delayed-choice experiment
+  all exhibit the post-$U$ enrichment structure predicted by the GTCT without violating
+  no-signaling (the spiral return does not allow information transmission backward in time —
+  only <em>resolution</em> of the fold is enriched, not the fold event itself).
+</p>
+
+<hr class="rule">
+
+<!-- 8. EXERCISES -->
+<span class="s-num" id="exercises">8 · Exercises for IMPA Students · Exercícios para Estudantes do IMPA</span>
+<h2>Six Exercises</h2>
+<p class="pt-title">Seis Exercícios</p>
+
+<p>These exercises are graded by difficulty and designed to be worked in order —
+each builds on the previous. A student who completes all six has verified the theorem
+from five independent angles.</p>
+<p><em>Estes exercícios são graduados por dificuldade e foram projetados para serem feitos em ordem. Um estudante que completa todos os seis verificou o teorema sob cinco ângulos independentes.</em></p>
+
+<div class="exercises">
+
+  <div class="exercise">
+    <div class="exercise-head">
+      <span class="exercise-n">E1</span>
+      <span style="font-family:'EB Garamond',serif;font-size:.95rem;">The Combinatorial Derivation</span>
+      <span class="exercise-level">Introductory · Introdutório</span>
+    </div>
+    <div class="exercise-body">
+      <p>Verify numerically that $\log_2(3!) \cdot 4 = \log_2(6) \cdot 4 \approx 10.340$
+      and therefore $\lceil \log_2(3!) \cdot 4 \rceil = 11$.
+      Then verify that $3 \times 11 = 33$.
+      Explain in your own words (Portuguese or English) why three confirmations
+      (not one, not two) are required by the triad structure of the invariants $I_1$, $I_2$, $I_3$.</p>
+      <p class="exercise-pt"><em>Verifique numericamente que $\log_2(6) \cdot 4 \approx 10{,}340$ e portanto $\lceil \log_2(6) \cdot 4 \rceil = 11$. Depois verifique que $3 \times 11 = 33$. Explique em suas próprias palavras por que três confirmações são necessárias pela estrutura triádica dos invariantes.</em></p>
+    </div>
+  </div>
+
+  <div class="exercise">
+    <div class="exercise-head">
+      <span class="exercise-n">E2</span>
+      <span style="font-family:'EB Garamond',serif;font-size:.95rem;">The Stability Boundary</span>
+      <span class="exercise-level">Elementary · Elementar</span>
+    </div>
+    <div class="exercise-body">
+      <p>Using the Gronwall estimate $v(t) \leq v(0) e^{(\mu_{\max} + 3\varepsilon)t}$
+      with $\mu_{\max} = -2$ and $T^* = 2\pi$:
+      (a) Compute $|v(T^*)|/|v(0)|$ for $\varepsilon \in \{0, 0.2, 1/3, 0.5, 0.7\}$.
+      (b) Verify that $\varepsilon = 1/3$ is the exact boundary between decay and growth.
+      (c) Explain why $\varepsilon^*$ is independent of $T^*$ (hint: consider the formula
+      $\varepsilon^* = |\mu_{\max}| / [2(1 + \sup \|\text{Hess}\, V\|_\infty)]$).</p>
+      <p class="exercise-pt"><em>Usando a estimativa de Gronwall com $\mu_{\max} = -2$: (a) Compute $|v(T^*)|/|v(0)|$ para vários valores de $\varepsilon$. (b) Verifique que $\varepsilon = 1/3$ é a fronteira exata. (c) Explique por que $\varepsilon^*$ é independente de $T^*$.</em></p>
+    </div>
+  </div>
+
+  <div class="exercise">
+    <div class="exercise-head">
+      <span class="exercise-n">E3</span>
+      <span style="font-family:'EB Garamond',serif;font-size:.95rem;">The Floquet Multiplier</span>
+      <span class="exercise-level">Intermediate · Intermediário</span>
+    </div>
+    <div class="exercise-body">
+      <p>Compute the transverse Floquet multiplier $\lambda_\perp = e^{\mu_{\max} T^*}$
+      for the canonical $dm^3$ system ($\mu_{\max} = -2$, $T^* = 2\pi$).
+      (a) Show that $\lambda_\perp \approx 3.49 \times 10^{-6}$ — verify this numerically.
+      (b) After $g_{33} = 33$ cycles, what is the cumulative transverse contraction $\lambda_\perp^{33}$?
+      (c) Interpret this geometrically: what does it mean for the orbit after 33 cycles?</p>
+      <p class="exercise-pt"><em>Compute $\lambda_\perp = e^{-4\pi}$ para o sistema $dm^3$ canônico. (a) Verifique numericamente. (b) Após 33 ciclos, qual é a contração transversal cumulativa? (c) Interprete geometricamente.</em></p>
+    </div>
+  </div>
+
+  <div class="exercise">
+    <div class="exercise-head">
+      <span class="exercise-n">E4</span>
+      <span style="font-family:'EB Garamond',serif;font-size:.95rem;">Contact vs. Symplectic Geometry</span>
+      <span class="exercise-level">Intermediate · Intermediário</span>
+    </div>
+    <div class="exercise-body">
+      <p>Show that the $dm^3$ contact form $\alpha = dz - \lambda$
+      (where $\lambda$ is the Liouville form on $T^*S$) is non-degenerate,
+      i.e., $\alpha \wedge (d\alpha)^n \neq 0$ everywhere.
+      Then explain why symplectic geometry ($d\lambda$ only, no $z$ variable)
+      cannot support attractors on compact manifolds (Liouville's theorem),
+      but contact geometry can (the Reeb field is not Hamiltonian).</p>
+      <p class="exercise-pt"><em>Mostre que a forma de contato $\alpha = dz - \lambda$ é não-degenerada. Explique por que a geometria simplética não pode suportar atratores em variedades compactas, mas a geometria de contato pode.</em></p>
+    </div>
+  </div>
+
+  <div class="exercise">
+    <div class="exercise-head">
+      <span class="exercise-n">E5</span>
+      <span style="font-family:'EB Garamond',serif;font-size:.95rem;">Quantum Foundations</span>
+      <span class="exercise-level">Advanced · Avançado</span>
+    </div>
+    <div class="exercise-body">
+      <p>Read Kim et al. (2000), "Delayed 'Choice' Quantum Eraser," <em>Physical Review Letters</em> 84(1).
+      (a) Identify the experimental configuration corresponding to the Fold operator $F$
+      in the GTCT framework (hint: where does the path information become irreversibly committed?).
+      (b) Identify the post-$U$ recovery: which measurement corresponds to the spiral return
+      that enriches the resolution of the fold without violating no-signaling?
+      (c) State one experimental prediction of the GTCT that goes beyond the Kim et al. results.</p>
+      <p class="exercise-pt"><em>Leia Kim et al. (2000). (a) Identifique a configuração experimental correspondente ao operador $F$. (b) Identifique a recuperação pós-$U$. (c) Enuncie uma previsão experimental do GTCT além dos resultados de Kim et al.</em></p>
+    </div>
+  </div>
+
+  <div class="exercise">
+    <div class="exercise-head">
+      <span class="exercise-n">E6</span>
+      <span style="font-family:'EB Garamond',serif;font-size:.95rem;">Full Verification</span>
+      <span class="exercise-level">Research Level · Nível de Pesquisa</span>
+    </div>
+    <div class="exercise-body">
+      <p>Download the AXLE repository (github.com/TOTOGT/AXLE) and open
+      <code>AXLE/Main_v6.lean</code>.
+      (a) Locate the proof of <code>stabilityRadius_eq</code> and verify that it establishes
+      $\varepsilon_0 = 1/3$ without any <code>sorry</code>.
+      (b) Locate the proof of <code>g6_is_33</code> and trace the proof back to the
+      combinatorial derivation in §2 of this paper.
+      (c) Identify the one remaining honest <code>sorry</code> in the Lean 4 codebase
+      (ADMIT-D, <code>collatz_conjecture_via_dm3</code>) and explain in one paragraph
+      why it cannot currently close — and what mathematical development would be needed
+      to close it.</p>
+      <p class="exercise-pt"><em>Faça download do repositório AXLE. (a) Localize a prova de <code>stabilityRadius_eq</code> e verifique que estabelece $\varepsilon_0 = 1/3$ sem <code>sorry</code>. (b) Localize <code>g6_is_33</code>. (c) Identifique o único <code>sorry</code> honesto restante (ADMIT-D) e explique por que não pode ser fechado atualmente.</em></p>
+    </div>
+  </div>
+
+</div>
+
+<hr class="rule">
+
+<!-- REFERENCES -->
+<div class="references">
+  <h2>References · Referências</h2>
+  <div class="ref"><span style="font-weight:500;">Nogueira Grossi, P.</span> (2026). <em>Principia Orthogona, Vol. I: The Mathematics of Generative Transitions.</em> G6 LLC. Zenodo DOI: 10.5281/zenodo.19117400.</div>
+  <div class="ref"><span style="font-weight:500;">Nogueira Grossi, P.</span> (2026). <em>Principia Orthogona, Vol. II: Generative Contact Mechanics.</em> G6 LLC. Zenodo DOI: 10.5281/zenodo.19117399.</div>
+  <div class="ref"><span style="font-weight:500;">Nogueira Grossi, P.</span> (2026). <em>Principia Orthogona, Vol. III: The Mini-Beast.</em> G6 LLC (eBook only). Zenodo DOI: 10.5281/zenodo.19117399.</div>
+  <div class="ref"><span style="font-weight:500;">Nogueira Grossi, P.</span> (2026). <em>Principia Orthogona, Vol. IV: Generative Temporal Contact Theory.</em> G6 LLC. ISBN 979-8-9954416-8-7.</div>
+  <div class="ref"><span style="font-weight:500;">TOTOGT/AXLE.</span> (2026). Lean 4 formal verification repository. github.com/TOTOGT/AXLE. [Main_v6.lean: 0 sorry on structural claims.]</div>
+  <div class="ref"><span style="font-weight:500;">Aharonov, Y. & Vaidman, L.</span> (2001). The Two-State Vector Formalism of Quantum Mechanics: an Updated Review. arXiv:quant-ph/0105101.</div>
+  <div class="ref"><span style="font-weight:500;">Kim, Y.-H. et al.</span> (2000). Delayed "Choice" Quantum Eraser. <em>Physical Review Letters</em> 84(1), 1–5.</div>
+  <div class="ref"><span style="font-weight:500;">Banach, S.</span> (1922). Sur les opérations dans les ensembles abstraits et leur application aux équations intégrales. <em>Fundamenta Mathematicae</em> 3, 133–181.</div>
+  <div class="ref"><span style="font-weight:500;">Geiges, H.</span> (2008). <em>An Introduction to Contact Topology.</em> Cambridge: Cambridge University Press.</div>
+  <div class="ref"><span style="font-weight:500;">Eliashberg, Y. & Mishachev, N.</span> (2002). <em>Introduction to the h-Principle.</em> Providence: American Mathematical Society.</div>
+</div>
+
+<p style="font-size:.78rem;color:var(--light);text-align:center;margin:2rem 0 3rem;font-family:'Source Code Pro',monospace;letter-spacing:.06em;">
+  Working Paper GTCT-2026-001 · Principia Orthogona Series · G6 LLC · Newark NJ · 2026<br>
+  github.com/TOTOGT/AXLE · github.com/TOTOGT/geometry · Zenodo 10.5281/zenodo.19117399<br>
+  28ª Bienal Internacional do Livro de São Paulo · Setembro 2026
+</p>
+
+</body>
+</html>

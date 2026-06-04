@@ -100,7 +100,7 @@ mjx-container {
     <div class="block violet">
       <span class="block-tag">★ Theorem 4.1 (Phase–Operator Correspondence) <span class="lean-badge">✓ Lean 4</span></span>
       <div class="block-title">Unique bijection $\Phi : \{D_1,\ldots,D_{12}\} 	o \{O_1,\ldots,O_{12}\}$</div>
-      <div class="block-en">There is a unique bijection $\Phi$ satisfying: (i) $\Phi(D_i) = O_i$; (ii) $O_i$ maps $D_i$ to $D_{i+1 mod 12}$; (iii) cyclic invariance.</div>
+      <div class="block-en">There is a unique bijection $\Phi$ satisfying: (i) $\Phi(D_i) = O_i$; (ii) $O_i$ maps $D_i$ to $D_{i+1 \bmod 12}$; (iii) cyclic invariance.</div>
       <div class="block-pt">Existe única bijeção $\Phi$ satisfazendo: (i) $\Phi(D_i) = O_i$; (ii) avanço de fase; (iii) invariância cíclica.</div>
       <code class="formal">Φ(D_i) = O_i   (unique / único)</code>
     </div>
@@ -111,8 +111,7 @@ mjx-container {
     <div class="proof">
       <span class="proof-tag">Proof · Prova</span>
       <p><strong>(1) Existence.</strong> Axiom 6 asserts the existence of a bijection $\Phi$ with $\Phi(D_i) = O_i$. This is the existence clause — Axiom 6 does not prove uniqueness.</p>
-      <p><strong>(2) Injectivity.</strong> Suppose $\Phi(D_i) = \Phi(D_j) = O_k$ for $i 
-eq j$. Then $O_k$ would need to advance two source phases simultaneously — $D_i$ and $D_j$ — both into $D_{k+1 mod 12}$. But Definition 3.2 requires $O_k(D_k) \subseteq D_{k+1 mod 12}$ with $k$ uniquely determined. Contradiction.</p>
+      <p><strong>(2) Injectivity.</strong> Suppose $\Phi(D_i) = \Phi(D_j) = O_k$ for $i \neq j$. Then $O_k$ would need to advance two source phases simultaneously — $D_i$ and $D_j$ — both into $D_{k+1 \bmod 12}$. But Definition 3.2 requires $O_k(D_k) \subseteq D_{k+1 \bmod 12}$ with $k$ uniquely determined. Contradiction.</p>
       <p><strong>(3) Surjectivity.</strong> $|\{D_i\}| = |\{O_i\}| = 12$. Injectivity on a finite set of equal cardinality implies surjectivity.</p>
       <p><strong>(4) Uniqueness.</strong> The cyclic ordering forces $\Phi(D_i) = O_i$ by induction from base case $\Phi(D_1) = O_1$: if $O_1$ advances $D_1$ to $D_2$, then $\Phi(D_2)$ must be the operator that advances $D_2$ — which is $O_2$ by Definition 3.2. Continuing cyclically fixes all twelve assignments uniquely. $\square$</p>
       <span class="qed">∎</span>
