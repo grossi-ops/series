@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Generative Contact Mechanics · GCM Framework · Principia Orthogona</title>
+<meta name="description" content="Generative Contact Mechanics: A Geometric Framework for Dissipative Systems with Structured Limit Cycles. Pablo Nogueira Grossi. DOI 10.5281/zenodo.20230610. Submitted J. Geom. Mech. 2026.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+<script>MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']],tags:'ams'},options:{skipHtmlTags:['script','noscript','style','textarea']}};</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+<style>
+:root{
+  --navy:#1a2744;--navy2:#0f1a30;--navy3:#0a1628;
+  --gold:#c9a84c;--gold2:#e8d49a;
+  --cream:#faf7f0;--smoke:#f0ece4;
+  --teal:#1a6b5a;--teal2:#2a7f7f;--teal3:#d0ece5;
+  --mid:#3a4f7a;--rule:#8a7340;
+  --rose:#c0392b;--violet:#6c3483;--green:#1a5a2a;
+  --text:#1c1c1c;--light:#e8e2d4;
+  --ff-serif:'Crimson Pro',Georgia,serif;
+  --ff-sans:'Outfit',system-ui,sans-serif;
+  --ff-mono:'JetBrains Mono','Courier New',monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--ff-serif);color:var(--text);background:var(--cream);line-height:1.7;}
+nav{background:var(--navy2);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;
+    position:sticky;top:0;z-index:200;height:52px;border-bottom:1px solid rgba(201,168,76,.2);}
+.nav-logo{color:var(--gold);font-family:var(--ff-sans);font-weight:600;font-size:.85rem;
+          letter-spacing:.18em;text-decoration:none;text-transform:uppercase;}
+.nav-links{display:flex;gap:1.4rem;align-items:center;}
+.nav-links a{color:#aaa;font-family:var(--ff-sans);font-size:.79rem;text-decoration:none;
+             letter-spacing:.05em;transition:color .2s;}
+.nav-links a:hover{color:var(--gold);}
+.nav-toc-btn{background:none;border:1px solid rgba(201,168,76,.4);color:var(--gold);
+             font-family:var(--ff-sans);font-size:.75rem;padding:.3rem .8rem;
+             cursor:pointer;letter-spacing:.1em;text-transform:uppercase;}
+.nav-toc-btn:hover{background:var(--gold);color:var(--navy);}
+#toc-drawer{position:fixed;top:52px;right:0;width:270px;height:calc(100vh - 52px);
+            background:var(--navy2);border-left:1px solid rgba(201,168,76,.2);
+            overflow-y:auto;z-index:190;transform:translateX(100%);
+            transition:transform .3s ease;padding:1.5rem 1.2rem;}
+#toc-drawer.open{transform:translateX(0);}
+#toc-drawer h3{color:var(--gold);font-family:var(--ff-sans);font-size:.75rem;
+               letter-spacing:.2em;text-transform:uppercase;margin-bottom:1rem;
+               padding-bottom:.5rem;border-bottom:1px solid rgba(201,168,76,.2);}
+.toc-item{display:block;color:#aaa;font-family:var(--ff-sans);font-size:.79rem;
+          text-decoration:none;padding:.3rem 0;border-bottom:1px solid rgba(255,255,255,.04);
+          transition:color .2s;}
+.toc-item:hover{color:var(--gold);}
+.toc-sub{padding-left:.8rem;font-size:.73rem;color:#666;}
+.hero{background:linear-gradient(160deg,var(--navy3) 0%,#0a1a2a 60%,#091520 100%);
+      padding:4rem 2rem 3rem;text-align:center;position:relative;overflow:hidden;}
+.hero::after{content:'G = U ∘ F ∘ K ∘ C';position:absolute;bottom:1rem;right:2rem;
+             font-family:var(--ff-mono);font-size:1.8rem;color:rgba(201,168,76,.06);
+             pointer-events:none;}
+.hero-eyebrow{font-family:var(--ff-sans);font-size:.72rem;letter-spacing:.3em;
+              color:var(--gold);text-transform:uppercase;margin-bottom:1rem;}
+.hero-title{font-family:var(--ff-serif);font-size:clamp(1.8rem,4vw,2.9rem);
+            color:white;font-weight:300;line-height:1.15;margin-bottom:.5rem;}
+.hero-title strong{font-weight:600;}
+.hero-subtitle{font-family:var(--ff-serif);font-size:1.05rem;color:var(--gold2);
+               font-style:italic;margin-bottom:1.5rem;}
+.gold-rule{width:60px;height:2px;background:var(--gold);margin:1.2rem auto;}
+.hero-meta{font-family:var(--ff-sans);font-size:.78rem;color:#999;letter-spacing:.05em;line-height:2;}
+.hero-meta a{color:var(--gold2);text-decoration:none;}
+.hero-badges{display:flex;gap:.7rem;justify-content:center;flex-wrap:wrap;margin-top:1.2rem;}
+.badge{background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.3);color:var(--gold2);
+       font-family:var(--ff-sans);font-size:.7rem;padding:.22rem .65rem;letter-spacing:.1em;text-transform:uppercase;}
+.badge.jgm{background:rgba(26,107,90,.15);border-color:rgba(26,107,90,.3);color:#6ecfb8;}
+
+/* AXIOM CARDS */
+.axiom-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.9rem;margin:1.5rem 0;}
+@media(max-width:600px){.axiom-grid{grid-template-columns:1fr;}}
+.axiom-card{border:1px solid var(--light);background:white;padding:1rem;border-left:3px solid var(--gold);}
+.axiom-num{font-family:var(--ff-mono);font-size:.65rem;color:var(--rule);letter-spacing:.15em;
+           text-transform:uppercase;margin-bottom:.3rem;}
+.axiom-name{font-family:var(--ff-serif);font-size:1rem;font-weight:600;color:var(--navy);margin-bottom:.3rem;}
+.axiom-body{font-size:.88rem;line-height:1.65;color:#444;}
+
+/* THEOREM CARDS TOP */
+.thm-row{max-width:760px;margin:2rem auto;padding:0 2rem;
+         display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;}
+@media(max-width:600px){.thm-row{grid-template-columns:1fr;}}
+.thm-card{border:1px solid var(--light);padding:1rem;background:white;}
+.thm-card.A{border-top:4px solid var(--mid);}
+.thm-card.B{border-top:4px solid var(--teal2);}
+.thm-card.C{border-top:4px solid var(--violet);}
+.thm-card.D{border-top:4px solid var(--rose);}
+.thm-card-label{font-family:var(--ff-sans);font-size:.67rem;letter-spacing:.2em;
+                text-transform:uppercase;color:var(--navy);margin-bottom:.35rem;font-weight:600;}
+.thm-card-body{font-size:.88rem;line-height:1.65;color:#333;}
+
+.abstract-band{background:white;border-left:5px solid var(--gold);max-width:760px;
+               margin:2rem auto;padding:1.5rem 2rem;box-shadow:0 2px 16px rgba(0,0,0,.06);}
+.abs-label{font-family:var(--ff-sans);font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;
+           color:var(--rule);margin-bottom:.7rem;}
+.abstract-band p{font-size:.97rem;line-height:1.8;color:#333;margin-bottom:.7rem;}
+
+.page{max-width:760px;margin:0 auto;padding:0 2rem 4rem;}
+.sec-header{margin:3rem 0 1.1rem;padding-bottom:.5rem;border-bottom:2px solid var(--light);
+            display:flex;align-items:baseline;gap:.8rem;}
+.sec-num{font-family:var(--ff-sans);font-size:.75rem;color:var(--gold);letter-spacing:.15em;font-weight:500;min-width:2.5rem;}
+.sec-title{font-family:var(--ff-serif);font-size:1.4rem;font-weight:600;color:var(--navy);}
+.subsec-title{font-family:var(--ff-serif);font-size:1.05rem;font-weight:600;color:var(--navy);font-style:italic;margin:1.8rem 0 .7rem;}
+.page p{line-height:1.85;margin-bottom:1rem;font-size:1.01rem;}
+.page ul,.page ol{margin:.7rem 0 1rem 1.8rem;}
+.page li{line-height:1.75;margin-bottom:.4rem;font-size:.98rem;}
+
+.env-box{margin:1.2rem 0;border-left:4px solid var(--gold);background:white;padding:.9rem 1.2rem;box-shadow:0 1px 5px rgba(0,0,0,.04);}
+.env-box.thm{border-color:var(--navy);background:var(--smoke);}
+.env-box.thm-teal{border-color:var(--teal2);background:#f0faf7;}
+.env-box.thm-violet{border-color:var(--violet);background:#f8f4ff;}
+.env-box.thm-rose{border-color:var(--rose);background:#fff4f4;}
+.env-box.prop{border-color:var(--mid);background:#f4f6fb;}
+.env-box.defn{border-color:var(--teal);background:#f4fbf7;}
+.env-label{font-family:var(--ff-sans);font-size:.67rem;letter-spacing:.18em;text-transform:uppercase;
+           color:var(--rule);margin-bottom:.35rem;}
+.env-box p{margin-bottom:.45rem;font-size:.96rem;line-height:1.75;}
+.env-box p:last-child{margin-bottom:0;}
+
+.math-display{background:var(--smoke);border-left:3px solid var(--gold);padding:.8rem 1.2rem;margin:.8rem 0;overflow-x:auto;}
+
+.op-table{width:100%;border-collapse:collapse;margin:1.1rem 0;font-size:.88rem;}
+.op-table th{background:var(--navy);color:var(--gold);padding:.5rem .8rem;text-align:left;
+             font-family:var(--ff-sans);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;font-weight:400;}
+.op-table td{padding:.5rem .8rem;border-bottom:1px solid var(--light);vertical-align:top;line-height:1.5;}
+.op-table tr:nth-child(even) td{background:rgba(0,0,0,.02);}
+.op-table .mono{font-family:var(--ff-mono);font-size:.85rem;font-weight:600;color:var(--navy);}
+
+/* STABILITY DIAGRAM */
+.fig-wrap{margin:1.8rem 0;background:#0d1117;border:1px solid rgba(201,168,76,.15);}
+.fig-header{background:var(--navy);padding:.6rem 1rem;}
+.fig-title{font-family:var(--ff-sans);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);}
+.fig-caption{background:#0d1117;padding:.45rem 1rem;font-family:var(--ff-sans);font-size:.7rem;color:#666;font-style:italic;border-top:1px solid rgba(255,255,255,.04);}
+.fig-controls{padding:.6rem 1rem;background:rgba(0,0,0,.22);border-top:1px solid rgba(255,255,255,.04);
+              display:flex;flex-wrap:wrap;gap:.4rem .9rem;font-family:var(--ff-sans);font-size:.72rem;color:#aaa;align-items:center;}
+.fig-controls label{display:flex;align-items:center;gap:.35rem;}
+.fig-controls input[type=range]{width:70px;accent-color:var(--gold);}
+.fig-controls .val{color:var(--gold);font-family:var(--ff-mono);min-width:28px;}
+
+.doi-box{background:var(--navy);color:var(--gold2);font-family:var(--ff-mono);font-size:.85rem;
+         padding:1rem 1.5rem;margin:1.5rem 0;border-left:4px solid var(--gold);line-height:2;}
+.doi-box a{color:var(--gold);text-decoration:none;}
+.doi-box a:hover{text-decoration:underline;}
+
+.cta-band{background:var(--navy);color:white;padding:2.5rem 2rem;text-align:center;margin-top:3rem;}
+.cta-band h2{font-family:var(--ff-serif);font-size:1.5rem;font-weight:300;margin-bottom:.6rem;}
+.cta-band p{color:#aaa;max-width:480px;margin:0 auto 1.4rem;font-size:.95rem;line-height:1.75;}
+.btn-gold{background:var(--gold);color:var(--navy);padding:.7rem 1.7rem;font-family:var(--ff-sans);
+          font-size:.87rem;font-weight:600;text-decoration:none;display:inline-block;margin:.3rem;transition:opacity .2s;}
+.btn-gold:hover{opacity:.88;}
+.btn-outline{background:transparent;color:var(--gold);padding:.7rem 1.7rem;border:1.5px solid var(--gold);
+             font-family:var(--ff-sans);font-size:.87rem;text-decoration:none;display:inline-block;
+             margin:.3rem;transition:all .2s;}
+.btn-outline:hover{background:var(--gold);color:var(--navy);}
+
+.ref-list{list-style:none;margin:.7rem 0;}
+.ref-list li{display:flex;gap:.8rem;padding:.5rem 0;border-bottom:1px solid var(--light);
+             font-size:.87rem;line-height:1.6;}
+.ref-num{font-family:var(--ff-mono);color:var(--gold);font-size:.78rem;min-width:2.5rem;font-weight:500;}
+.ref-list a{color:var(--teal);}
+
+footer{background:var(--navy2);color:#666;padding:2rem;text-align:center;
+       font-family:var(--ff-sans);font-size:.75rem;line-height:2;}
+footer a{color:#777;text-decoration:none;}
+footer a:hover{color:var(--gold);}
+.section-anchor{scroll-margin-top:64px;}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="impa-portal.html" class="nav-logo">Principia Orthogona</a>
+  <div class="nav-links">
+    <a href="vol1-mathematics.html">Vol I</a>
+    <a href="vol2-contact.html">Vol II</a>
+    <a href="vol2-toymodel.html">Toy Model</a>
+    <a href="vol2-dashboard.html">Dashboard</a>
+    <a href="https://github.com/TOTOGT/AXLE" target="_blank">AXLE</a>
+    <a href="https://doi.org/10.5281/zenodo.20230610" target="_blank">Zenodo</a>
+    <button class="nav-toc-btn" onclick="document.getElementById('toc-drawer').classList.toggle('open')">Contents</button>
+  </div>
+</nav>
+
+<div id="toc-drawer">
+  <h3>Contents</h3>
+  <a class="toc-item" href="#abstract">Abstract</a>
+  <a class="toc-item" href="#sec1">1 · Introduction</a>
+  <a class="toc-item" href="#sec2">2 · The dm³ System · Eight Axioms</a>
+  <a class="toc-item" href="#sec3">3 · Operator Algebra</a>
+  <a class="toc-sub" href="#sec3-g">g-, L-, R-, U-operators</a>
+  <a class="toc-item" href="#sec4">4 · Contact Geometry Embedding</a>
+  <a class="toc-item" href="#sec5">5 · Main Results</a>
+  <a class="toc-sub" href="#thmA">Theorem A · Existence</a>
+  <a class="toc-sub" href="#thmB">Theorem B · Unification</a>
+  <a class="toc-sub" href="#thmC">Theorem C · Normal Form</a>
+  <a class="toc-sub" href="#thmD">Theorem D · Stability</a>
+  <a class="toc-item" href="#sec6">6 · Stability Radius</a>
+  <a class="toc-item" href="#sec7">7 · Relation to Companion Papers</a>
+  <a class="toc-item" href="#references">References</a>
+  <div style="margin-top:1.2rem;padding-top:.8rem;border-top:1px solid rgba(201,168,76,.2);">
+    <a class="toc-item" href="vol2-toymodel.html" style="color:var(--gold);">Toy Model →</a>
+    <a class="toc-item" href="vol2-contact.html" style="color:#888;">Vol II Contact →</a>
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eyebrow">Preprint · Journal of Geometric Mechanics · DOI 10.5281/zenodo.20230610</div>
+  <h1 class="hero-title"><strong>Generative Contact Mechanics:</strong><br>A Geometric Framework for Dissipative Systems<br>with Structured Limit Cycles</h1>
+  <div class="hero-subtitle">Eight Axioms · Four Theorems · Operator Algebra · Stability Radius ε₀ = |μ_max| / [2(1 + sup‖Hess V‖)]</div>
+  <div class="gold-rule"></div>
+  <div class="hero-meta">
+    Pablo Nogueira Grossi · G6 LLC · Newark, New Jersey, USA<br>
+    ORCID: <a href="https://orcid.org/0009-0000-6496-2186">0009-0000-6496-2186</a> ·
+    <a href="mailto:pgrossi888@outlook.com">pgrossi888@outlook.com</a>
+  </div>
+  <div class="hero-badges">
+    <span class="badge jgm">J. Geom. Mech. — Submitted 2026</span>
+    <span class="badge">DOI 10.5281/zenodo.20230610</span>
+    <span class="badge">MSC 37C10 · 37C27 · 37D30 · 53D10 · 60H10</span>
+    <span class="badge">CC BY-NC-ND 4.0</span>
+  </div>
+</div>
+
+<!-- FOUR THEOREM CARDS -->
+<div class="thm-row">
+  <div class="thm-card A">
+    <div class="thm-card-label">Theorem A · Existence</div>
+    <div class="thm-card-body">Any dm³ system admits a unique exponentially stable hyperbolic limit cycle with topological winding invariant and stochastic stability below the embodiment threshold \(\tau\).</div>
+  </div>
+  <div class="thm-card B">
+    <div class="thm-card-label">Theorem B · Unification</div>
+    <div class="thm-card-body">The category dm³ is closed under the unification operator \(U\), with the quantitative prediction \(\tau_{12} \leq \min(\tau_1, \tau_2)\): unification weakens noise tolerance.</div>
+  </div>
+  <div class="thm-card C">
+    <div class="thm-card-label">Theorem C · Normal Form</div>
+    <div class="thm-card-body">Every dm³ system near its limit cycle is locally contact-diffeomorphic to the universal three-parameter normal form \((\mu_{\max}, \omega, \beta)\).</div>
+  </div>
+  <div class="thm-card D">
+    <div class="thm-card-label">Theorem D · C¹ Stability</div>
+    <div class="thm-card-body">The full operator algebra is C¹-structurally stable with explicit stability radius \(\varepsilon_0 = |\mu_{\max}| / [2(1 + \sup\|\text{Hess}\, V\|)]\).</div>
+  </div>
+</div>
+
+<!-- ABSTRACT -->
+<div id="abstract" class="section-anchor" style="max-width:760px;margin:0 auto;padding:0 2rem;">
+  <div class="abstract-band">
+    <div class="abs-label">Abstract</div>
+    <p>We introduce a geometric framework for dissipative dynamical systems whose limit cycles carry structured phase, multi-scale coherence, and stochastic stability. The central object is the <strong>dm³ system</strong> — a smooth Riemannian manifold equipped with a hyperbolic limit cycle, a Lyapunov function, and a stochastic extension — formalized through eight axioms. On this foundation we construct a complete operator algebra (the g-, L-, R-, and U-operators) governing expansion, coherence, resonance, and unification, and embed the entire structure in contact geometry.</p>
+    <p>Four main results are established. <strong>Theorem A:</strong> any dm³ system admits a unique exponentially stable hyperbolic limit cycle with a topological invariant (the winding integral) and stochastic stability below an embodiment threshold \(\tau\). <strong>Theorem B:</strong> the category dm³ is closed under a unification operator, with \(\tau_{12} \leq \min(\tau_1, \tau_2)\). <strong>Theorem C:</strong> every dm³ system near its limit cycle is locally contact-diffeomorphic to a universal three-parameter normal form \((\mu_{\max}, \omega, \beta)\). <strong>Theorem D:</strong> the full operator algebra is C¹-structurally stable with explicit stability radius \(\varepsilon_0 = |\mu_{\max}| / [2(1 + \sup\|\text{Hess}\,V\|)]\). Complete verification on an explicit toy model appears in the companion paper [2].</p>
+  </div>
+</div>
+
+<div class="page">
+
+<div class="doi-box">
+  <strong>DOI:</strong> <a href="https://doi.org/10.5281/zenodo.20230610" target="_blank">10.5281/zenodo.20230610</a><br>
+  <strong>Status:</strong> Preprint. Submitted to <em>Journal of Geometric Mechanics</em>, 2026.<br>
+  <strong>Companion:</strong> <a href="vol2-toymodel.html">The dm³ Operator: Explicit Toy Model</a> — DOI 10.5281/zenodo.20230624<br>
+  <strong>Series root:</strong> <a href="https://doi.org/10.5281/zenodo.19117399" target="_blank">10.5281/zenodo.19117399</a>
+</div>
+
+<!-- §1 Introduction -->
+<div id="sec1" class="section-anchor">
+  <div class="sec-header"><span class="sec-num">1</span><span class="sec-title">Introduction</span></div>
+  <p>A wide class of natural systems — neural circuits, circadian clocks, cardiac oscillators, allostatic stress responses, plasma reconnection events — are governed by dissipative dynamics whose long-run behavior is not mere convergence to a fixed point but <em>structured</em> convergence to a periodic orbit with phase. The orbit encodes an organizing principle: it persists under noise, survives perturbation, and reestablishes itself after disruption. Classical dynamical systems theory provides Poincaré–Bendixson, normal hyperbolicity, and Floquet theory; classical stochastic analysis provides Fokker–Planck and Itô calculus. What has been lacking is a unified axiomatic framework that simultaneously accounts for the geometric structure of the orbit, the operator algebra governing the approach to it, and the stochastic stability threshold.</p>
+  <p>The Generative Contact Mechanics (GCM) framework proposed here fills this gap. The central observation is that contact geometry — specifically, the odd-dimensional counterpart of symplectic geometry introduced by Gibbs, developed by Eliashberg and Etnyre — is the natural home for dissipative limit-cycle systems. Liouville's theorem forbids attractors in compact symplectic systems; contact geometry overcomes this by adding a dissipation direction \(z\) whose evolution records accumulated phase. The contact form \(\alpha = dz - \lambda\) (with \(d\lambda = \omega\) the symplectic form of the reduced system) provides the invariant structure.</p>
+  <p>The paper is organized as follows. §2 defines the dm³ system axiomatically. §3 constructs the operator algebra. §4 embeds everything in contact geometry. §5 states and proves the four main theorems. §6 derives the explicit stability radius formula. The companion paper [2] provides complete numerical verification on an explicit three-dimensional toy model.</p>
+</div>
+
+<!-- §2 The dm³ System — Eight Axioms -->
+<div id="sec2" class="section-anchor">
+  <div class="sec-header"><span class="sec-num">2</span><span class="sec-title">The dm³ System — Eight Axioms</span></div>
+  <p>A <strong>dm³ system</strong> is a quintuple \((M, g, \Gamma, V, \xi)\) satisfying the following axioms.</p>
+
+  <div class="axiom-grid">
+    <div class="axiom-card">
+      <div class="axiom-num">Axiom 1 · Manifold</div>
+      <div class="axiom-name">Smooth Riemannian base</div>
+      <div class="axiom-body">\(M\) is a smooth connected Riemannian manifold (possibly non-compact) with metric \(g\) and smooth flow \(\Phi^t\).</div>
+    </div>
+    <div class="axiom-card">
+      <div class="axiom-num">Axiom 2 · Lyapunov</div>
+      <div class="axiom-name">Hyperbolic limit cycle</div>
+      <div class="axiom-body">\(\Gamma \subset M\) is a smooth closed orbit of \(\Phi^t\) with period \(T^*\) and maximal transverse Lyapunov exponent \(\mu_{\max} < 0\).</div>
+    </div>
+    <div class="axiom-card">
+      <div class="axiom-num">Axiom 3 · Lyapunov Function</div>
+      <div class="axiom-name">Gradient structure</div>
+      <div class="axiom-body">There exists a smooth \(V: M \to \mathbb{R}_{\geq 0}\) with \(V^{-1}(0) = \Gamma\), \(\dot V < 0\) on \(M \setminus \Gamma\), and \(\text{Hess}\,V|_\Gamma\) non-degenerate.</div>
+    </div>
+    <div class="axiom-card">
+      <div class="axiom-num">Axiom 4 · Stochastic</div>
+      <div class="axiom-name">SDE extension</div>
+      <div class="axiom-body">The system admits an SDE extension \(dX = f(X)\,dt + \sigma\,dW\) on \(M\), with stationary measure \(\rho_\sigma\) for \(\sigma < \tau\).</div>
+    </div>
+    <div class="axiom-card">
+      <div class="axiom-num">Axiom 5 · Winding</div>
+      <div class="axiom-name">Topological invariant</div>
+      <div class="axiom-body">The winding integral \(W(\gamma) = \oint_\gamma \lambda\) is a topological invariant: \(W(\Gamma) = \oint_\Gamma r^2\,d\theta\) in local coordinates.</div>
+    </div>
+    <div class="axiom-card">
+      <div class="axiom-num">Axiom 6 · Contact</div>
+      <div class="axiom-name">Contact embedding</div>
+      <div class="axiom-body">The system embeds in a contact manifold \(\hat M = M \times \mathbb{R}\) with contact form \(\alpha = dz - \lambda\), \(d\lambda = \omega\) the symplectic form of the reduced system.</div>
+    </div>
+    <div class="axiom-card">
+      <div class="axiom-num">Axiom 7 · Operator Chain</div>
+      <div class="axiom-name">G-factorization</div>
+      <div class="axiom-body">The flow \(\Phi^T\) (one period) factors as \(G = U \circ F \circ K \circ C\), where each operator is the geometric realization of Compression, Curvature, Fold, and Unfolding.</div>
+    </div>
+    <div class="axiom-card">
+      <div class="axiom-num">Axiom 8 · Generativity</div>
+      <div class="axiom-name">Structural persistence</div>
+      <div class="axiom-body">The system is <em>generative</em>: \(\Gamma\) persists under C¹-perturbations of \(f\) within a neighborhood of diameter \(\varepsilon_0\) (the stability radius).</div>
+    </div>
+  </div>
+</div>
+
+<!-- §3 Operator Algebra -->
+<div id="sec3" class="section-anchor">
+  <div class="sec-header"><span class="sec-num">3</span><span class="sec-title">Operator Algebra</span></div>
+
+  <p>On a dm³ system \((M, g, \Gamma, V, \xi)\) we define four canonical families of operators acting on smooth functions on \(M\) (or on trajectories).</p>
+
+  <table class="op-table">
+    <thead><tr><th>Operator</th><th>Symbol</th><th>Action</th><th>Geometric meaning</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Compression</strong></td><td class="mono">C: X → X_C</td><td>Reduces degrees of freedom; projects onto slow manifold</td><td>Singularity theory: rank drop before the fold</td></tr>
+      <tr><td><strong>Curvature drive</strong></td><td class="mono">K: κ ↑ κ*</td><td>Accumulates curvature \(|\kappa|\) to threshold \(\kappa^*\)</td><td>Geodesic focusing; Whitney A₁ precursor</td></tr>
+      <tr><td><strong>Fold</strong></td><td class="mono">F: rank(J)↓1</td><td>Whitney A₁ fold — Jacobian loses one rank</td><td>Singularity of first kind; contact Hopf bifurcation</td></tr>
+      <tr><td><strong>Unfolding</strong></td><td class="mono">U: ∇Φ-flow</td><td>New topology emerges; post-fold stable branch</td><td>Thom–Mather unfolding; \(\Gamma\) is the stable post-fold orbit</td></tr>
+    </tbody>
+  </table>
+
+  <p>The operators satisfy an algebra over composition: \(G = U \circ F \circ K \circ C\) is one full generative cycle. The g-operators \(\{g_t\}_{t \geq 0}\) form a one-parameter semigroup (expansion); the L-operators are Lie-bracket derived from \([F, K]\); the R-operators are resonance selectors; and the U-operator is the unification map between two dm³ systems (Theorem B).</p>
+
+  <div class="env-box defn">
+    <div class="env-label">Definition 3.1 — Unification Operator</div>
+    <p>Given two dm³ systems \(X_1 = (M_1, g_1, \Gamma_1, V_1, \xi_1)\) and \(X_2 = (M_2, g_2, \Gamma_2, V_2, \xi_2)\), their <em>unification</em> is the dm³ system \(X_{12} = U(X_1, X_2)\) on \(M_1 \times M_2\) with contact form \(\alpha_{12} = \alpha_1 + \alpha_2\) and threshold \(\tau_{12} = \sqrt{\mu_1^2 + \mu_2^2} / \max(\kappa_1, \kappa_2)\).</p>
+  </div>
+</div>
+
+<!-- §4 Contact Geometry -->
+<div id="sec4" class="section-anchor">
+  <div class="sec-header"><span class="sec-num">4</span><span class="sec-title">Contact Geometry Embedding</span></div>
+
+  <p>The passage from symplectic to contact geometry is forced by a classical obstruction:</p>
+
+  <div class="env-box prop">
+    <div class="env-label">Liouville Obstruction (standard)</div>
+    <p>On a compact symplectic manifold \((N, \omega)\), every Hamiltonian flow preserves the Liouville measure. Hence no compact attractor (limit cycle or otherwise) can exist. Dissipative systems with attractors require a non-exact structure.</p>
+  </div>
+
+  <p>Contact geometry resolves this by passing from \((M, \omega)\) to the contact manifold \((\hat M, \alpha)\) where \(\hat M = M \times \mathbb{R}\) and \(\alpha = dz - \lambda\) (with \(d\lambda = \omega\)). The variable \(z\) records accumulated dissipation. The Reeb vector field of \(\alpha\) is \(\partial_z\), and orbits of the dm³ system spiral in the \(z\)-direction as they approach \(\Gamma\).</p>
+
+  <div class="math-display">\[ \alpha \wedge (d\alpha)^n = (-1)^{n(n+1)/2} \lambda \wedge \omega^n \neq 0 \quad \text{on } \hat M. \]</div>
+
+  <p>The contact normal form of Theorem C expresses every dm³ system near \(\Gamma\) in canonical coordinates as:</p>
+  <div class="math-display">\[ \dot\rho = \mu_{\max}(1 - e^{-\beta z})\rho + O(\rho^2), \quad \dot\theta = \omega + O(\rho), \quad \dot z = \omega - |\mu_{\max}|\rho^2 e^{-\beta z} + O(\rho^3). \]</div>
+</div>
+
+<!-- §5 Main Results -->
+<div id="sec5" class="section-anchor">
+  <div class="sec-header"><span class="sec-num">5</span><span class="sec-title">Main Results</span></div>
+
+  <div id="thmA" class="env-box thm section-anchor">
+    <div class="env-label">Theorem A · Existence and Embodiment Threshold</div>
+    <p>Let \((M, g, \Gamma, V, \xi)\) be a dm³ system. Then:</p>
+    <p>(i) \(\Gamma\) is the unique exponentially stable hyperbolic limit cycle in the Gronwall basin \(\mathcal{B}(\Gamma)\). The exponential rate is \(|\mu_{\max}|\).</p>
+    <p>(ii) The winding integral \(W(\Gamma) = \oint_\Gamma \lambda \in \mathbb{Z}\) is a topological invariant of the contact class of \(\alpha\).</p>
+    <p>(iii) For the stochastic extension with noise amplitude \(\sigma\), the stationary measure \(\rho_\sigma\) concentrates on \(\Gamma\) as \(\sigma \to 0\), and the system is stochastically stable for \(\sigma < \tau\), where \(\tau = \sqrt{c/\kappa_{\text{noise}}}\) is the <em>embodiment threshold</em>.</p>
+  </div>
+
+  <div id="thmB" class="env-box thm-teal section-anchor">
+    <div class="env-label">Theorem B · Unification and Noise Tolerance</div>
+    <p>The category dm³ (with objects dm³ systems and morphisms contact maps) is closed under the unification operator \(U\). Moreover, the embodiment threshold satisfies:</p>
+    <div class="math-display">\[ \tau_{12} \leq \min(\tau_1, \tau_2). \]</div>
+    <p>Unification weakens noise tolerance: the threshold of the unified system does not exceed that of either component. Equality \(\tau_{12} = \min(\tau_1, \tau_2)\) holds iff the two Lyapunov functions are \(g\)-orthogonal.</p>
+  </div>
+
+  <div id="thmC" class="env-box thm-violet section-anchor">
+    <div class="env-label">Theorem C · Universal Contact Normal Form</div>
+    <p>Let \((M, g, \Gamma, V, \xi)\) be a dm³ system with parameters \((\mu_{\max}, \omega, \beta)\). Then there exists a neighborhood \(\mathcal{U}(\Gamma)\) and a local contact diffeomorphism \(\varphi: \mathcal{U}(\Gamma) \to \mathbb{R}^{2n+1}\) such that \(\varphi^*\alpha_{\text{normal}} = \alpha\), where the normal form contact field is</p>
+    <div class="math-display">\[ \dot\rho = \mu_{\max}(1-e^{-\beta z})\rho, \quad \dot\theta = \omega, \quad \dot z = \omega. \]</div>
+    <p>The three parameters \((\mu_{\max}, \omega, \beta)\) are contact invariants of \(\Gamma\): they classify the local contact geometry uniquely up to contact diffeomorphism.</p>
+  </div>
+
+  <div id="thmD" class="env-box thm-rose section-anchor">
+    <div class="env-label">Theorem D · C¹ Structural Stability</div>
+    <p>The dm³ operator algebra \((G, U, F, K, C)\) is C¹-structurally stable: for any perturbation \(\tilde f\) with \(\|f - \tilde f\|_{C^1} < \varepsilon_0\), the perturbed system \(\tilde X\) is contact-diffeomorphic to \(X\). The explicit stability radius is</p>
+    <div class="math-display">\[ \varepsilon_0 = \frac{|\mu_{\max}|}{2(1 + \sup_{\mathcal{U}(\Gamma)}\|\text{Hess}\,V\|)}. \]</div>
+    <p>In the dm³ toy model: \(\mu_{\max} = -2\), \(\sup\|\text{Hess}\,V\| = 2\) on \(\mathcal{U}(\Gamma)\), giving \(\varepsilon_0 = 2/(2 \cdot 3) = 1/3\).</p>
+  </div>
+</div>
+
+<!-- §6 Stability Radius -->
+<div id="sec6" class="section-anchor">
+  <div class="sec-header"><span class="sec-num">6</span><span class="sec-title">Stability Radius and the Gronwall Basin</span></div>
+
+  <p>The stability radius \(\varepsilon_0\) has a direct geometric interpretation: it is the largest perturbation of the vector field that the dm³ system can absorb while maintaining its contact structure. The derivation proceeds via Gronwall's inequality applied to the transverse eigenvalue equation.</p>
+
+  <div class="env-box prop">
+    <div class="env-label">Proposition 6.1 — Gronwall Basin Estimate</div>
+    <p>For initial conditions \(x_0\) with \(V(x_0) \leq V_0\), the orbit satisfies</p>
+    <div class="math-display">\[ V(\Phi^t(x_0)) \leq V_0 \cdot e^{2\mu_{\max} t/(1+\sup\|\text{Hess}\,V\|)} \]</div>
+    <p>for all \(t \geq 0\). The Gronwall basin is \(\mathcal{B}(\Gamma) = \{x : V(x) < \varepsilon_0^2 (1+\sup\|\text{Hess}\,V\|)^2\}\).</p>
+  </div>
+
+  <p>Note: the stability radius \(\varepsilon_0 = 1/3\) applies to the <em>outer</em> Gronwall basin. The inner basin (\(r < r_{\text{inner}}\) in the toy model) is governed by a separate asymmetry — the Gronwall asymmetry open problem documented in AXLE Issue #13 and listed as <code>thm_gronwall_asymmetry</code> (sorry ★★★, AXLE VolumeTwo.lean).</p>
+
+  <!-- Stability diagram -->
+  <div class="fig-wrap">
+    <div class="fig-header"><div class="fig-title">Stability Radius ε₀ vs μ_max and Hess V Bound</div></div>
+    <svg id="stability-svg" style="width:100%;height:260px;background:#0d1117;display:block;"></svg>
+    <div class="fig-controls">
+      <label>max |μ| = <input type="range" id="mu-sl" min="0.5" max="5" value="2" step="0.1">
+        <span class="val" id="mu-v">2.0</span></label>
+      <label>sup‖Hess V‖ = <input type="range" id="hv-sl" min="0.5" max="5" value="2" step="0.1">
+        <span class="val" id="hv-v">2.0</span></label>
+    </div>
+    <div class="fig-caption">ε₀ = |μ_max| / [2(1 + sup‖Hess V‖)]. Gold star = dm³ toy model: (μ=2, H=2) → ε₀ = 1/3.</div>
+  </div>
+</div>
+
+<!-- §7 Relation to companions -->
+<div id="sec7" class="section-anchor">
+  <div class="sec-header"><span class="sec-num">7</span><span class="sec-title">Relation to Companion Papers</span></div>
+
+  <p>The GCM framework is the abstract backbone of the Principia Orthogona series. Its relation to the companion papers is as follows:</p>
+
+  <table class="op-table">
+    <thead><tr><th>Paper / Volume</th><th>DOI</th><th>GCM role</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Vol I · GOMC</strong> — Mathematics of Generative Transitions</td>
+          <td style="font-family:var(--ff-mono);font-size:.8rem;"><a href="https://doi.org/10.5281/zenodo.19117400" target="_blank" style="color:var(--teal);">19117400</a></td>
+          <td>Establishes the operator chain G = U∘F∘K∘C on Riemannian manifolds; GCM axioms 1–4 are proved here</td></tr>
+      <tr><td><strong>Vol II · TOGT</strong> — Contact Realization</td>
+          <td style="font-family:var(--ff-mono);font-size:.8rem;"><a href="https://doi.org/10.5281/zenodo.20159456" target="_blank" style="color:var(--teal);">20159456</a></td>
+          <td>Lifts to contact geometry; GCM Theorems A–C instantiated; Lean 4 skeleton</td></tr>
+      <tr><td><strong>Toy Model · SIAM</strong> — Global Dynamical Analysis</td>
+          <td style="font-family:var(--ff-mono);font-size:.8rem;"><a href="https://doi.org/10.5281/zenodo.20230624" target="_blank" style="color:var(--teal);">20230624</a></td>
+          <td>Explicit verification of GCM Theorems A–D on exact ODE; ε₀ = 1/3 confirmed numerically</td></tr>
+      <tr><td><strong>GOMC Opus</strong> — CatGT + Plasma + 30 Problems</td>
+          <td style="font-family:var(--ff-mono);font-size:.8rem;"><a href="https://doi.org/10.5281/zenodo.19117399" target="_blank" style="color:var(--teal);">19117399</a></td>
+          <td>Applications: zeolite catalysis (CatGT), MHD reconnection (plasma), 18-domain coherence bridge</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- References -->
+<div id="references" class="section-anchor">
+  <div class="sec-header"><span class="sec-num"></span><span class="sec-title">References</span></div>
+  <ol class="ref-list">
+    <li><span class="ref-num">[1]</span><span>P. Nogueira Grossi, <em>Principia Orthogona, Vol. I: The Mathematics of Generative Transitions</em>, G6 LLC 2026. <a href="https://doi.org/10.5281/zenodo.19117400" target="_blank">10.5281/zenodo.19117400</a></span></li>
+    <li><span class="ref-num">[2]</span><span>P. Nogueira Grossi, <em>The dm³ Operator: Explicit Toy Model and Global Dynamical Analysis</em>, SIAM J. Appl. Dyn. Syst. (submitted), 2026. <a href="https://doi.org/10.5281/zenodo.20230624" target="_blank">10.5281/zenodo.20230624</a></span></li>
+    <li><span class="ref-num">[3]</span><span>H. Geiges, <em>An Introduction to Contact Topology</em>. Cambridge, 2008.</span></li>
+    <li><span class="ref-num">[4]</span><span>Y. Eliashberg, <em>Classification of overtwisted contact structures on 3-manifolds</em>. Invent. Math. 98 (1989), 623–637.</span></li>
+    <li><span class="ref-num">[5]</span><span>J.-M. Bismut, <em>Mécanique aléatoire</em>. Lecture Notes in Math. 866, Springer, 1981.</span></li>
+    <li><span class="ref-num">[6]</span><span>R.Z. Has'minskiǐ, <em>Stochastic Stability of Differential Equations</em>. Sijthoff &amp; Noordhoff, 1980.</span></li>
+    <li><span class="ref-num">[7]</span><span>V.I. Arnold, <em>Geometrical Methods in the Theory of Ordinary Differential Equations</em>. Springer, 1983.</span></li>
+    <li><span class="ref-num">[8]</span><span>P. Nogueira Grossi, AXLE: Lean 4 Proof Environment. <a href="https://github.com/TOTOGT/AXLE" target="_blank">github.com/TOTOGT/AXLE</a></span></li>
+  </ol>
+</div>
+
+</div><!-- /.page -->
+
+<div class="cta-band">
+  <h2>Explore the Series</h2>
+  <p>The toy model paper provides complete numerical verification. The dashboard gives live interactive exploration.</p>
+  <a href="vol2-toymodel.html" class="btn-gold">Toy Model →</a>
+  <a href="vol2-dashboard.html" class="btn-outline">Dashboard →</a>
+  <a href="vol2-contact.html" class="btn-outline">Vol II →</a>
+</div>
+
+<footer>
+  <div style="margin-bottom:.5rem;">
+    <a href="impa-portal.html">Principia Orthogona</a> &nbsp;·&nbsp;
+    <a href="vol1-mathematics.html">Vol I</a> &nbsp;·&nbsp;
+    <a href="vol2-contact.html">Vol II</a> &nbsp;·&nbsp;
+    <a href="vol2-toymodel.html">Toy Model</a> &nbsp;·&nbsp;
+    <a href="vol2-dashboard.html">Dashboard</a> &nbsp;·&nbsp;
+    <a href="gomc-opus.html">GOMC Opus</a> &nbsp;·&nbsp;
+    <a href="https://github.com/TOTOGT/AXLE" target="_blank">AXLE</a>
+  </div>
+  © 2026 Pablo Nogueira Grossi / G6 LLC · Newark, NJ · ORCID 0009-0000-6496-2186<br>
+  DOI 10.5281/zenodo.20230610 · Submitted J. Geom. Mech. · CC BY-NC-ND 4.0
+</footer>
+
+<script>
+function drawStability() {
+  const mu = parseFloat(document.getElementById('mu-sl').value);
+  const hv = parseFloat(document.getElementById('hv-sl').value);
+  document.getElementById('mu-v').textContent = mu.toFixed(1);
+  document.getElementById('hv-v').textContent = hv.toFixed(1);
+
+  const svg = d3.select('#stability-svg');
+  svg.selectAll('*').remove();
+  const W = svg.node().getBoundingClientRect().width || 700;
+  const H = 260, m = {t:35,r:80,b:50,l:55};
+  const w = W - m.l - m.r, h = H - m.t - m.b;
+
+  const xSc = d3.scaleLinear().domain([0.5, 5.1]).range([0, w]);
+  const ySc = d3.scaleLinear().domain([0, 1.05]).range([h, 0]);
+  const g = svg.append('g').attr('transform', `translate(${m.l},${m.t})`);
+
+  // Grid lines
+  [0.25,0.5,0.75,1.0].forEach(v => {
+    g.append('line').attr('x1',0).attr('y1',ySc(v)).attr('x2',w).attr('y2',ySc(v))
+     .attr('stroke','rgba(255,255,255,.05)').attr('stroke-width',1);
+  });
+
+  // Axes
+  g.append('g').attr('transform',`translate(0,${h})`)
+   .call(d3.axisBottom(xSc).ticks(5))
+   .selectAll('text,line,path').attr('stroke','#8a9bb0').style('fill','#8a9bb0').style('font-size','10px');
+  g.append('g').call(d3.axisLeft(ySc).ticks(4))
+   .selectAll('text,line,path').attr('stroke','#8a9bb0').style('fill','#8a9bb0').style('font-size','10px');
+
+  g.append('text').attr('x',w/2).attr('y',h+38).attr('text-anchor','middle')
+   .attr('fill','#8a9bb0').attr('font-size',11).text('|μ_max|');
+  g.append('text').attr('x',-h/2).attr('y',-42).attr('transform','rotate(-90)')
+   .attr('text-anchor','middle').attr('fill','#8a9bb0').attr('font-size',11).text('ε₀');
+  g.append('text').attr('x',w/2).attr('y',-18).attr('text-anchor','middle')
+   .attr('fill','#c9a84c').attr('font-size',11).text(`ε₀ = |μ_max| / [2(1 + H)]  for H = sup‖Hess V‖`);
+
+  // Curves for different H values
+  const colors = ['#c9a84c','#2a7f7f','#c0392b','#aaaaaa'];
+  [0.5, hv, 2, 5].forEach((hi, i) => {
+    const muArr = d3.range(0.5, 5.1, 0.05);
+    const eps = muArr.map(m => m / (2*(1+hi)));
+    const line = d3.line().x((_,j)=>xSc(muArr[j])).y((_,j)=>ySc(Math.min(eps[j],1.05)));
+    g.append('path').datum(muArr).attr('d', line)
+     .attr('fill','none').attr('stroke',colors[i])
+     .attr('stroke-width', i===1 ? 2.5 : 1)
+     .attr('opacity', i===1 ? 1 : 0.45);
+    if (i===1 || hi===2) {
+      const lastX = w - 5, lastY = ySc(Math.min(5/(2*(1+hi)), 1.05));
+      g.append('text').attr('x',lastX+4).attr('y',lastY+3)
+       .attr('fill',colors[i]).attr('font-size',9).text(`H=${hi.toFixed(1)}`);
+    }
+  });
+
+  // Star at toy model (mu=2, H=2 → ε₀=1/3)
+  const starX = xSc(2), starY = ySc(1/3);
+  g.append('text').attr('x',starX).attr('y',starY).attr('text-anchor','middle')
+   .attr('fill','#c9a84c').attr('font-size',18).text('★');
+  g.append('text').attr('x',starX).attr('y',starY-8).attr('text-anchor','middle')
+   .attr('fill','#c9a84c').attr('font-size',8.5).text('dm³: ε₀=1/3');
+
+  // Current point
+  const curEps = mu / (2*(1+hv));
+  const curX = xSc(mu), curY = ySc(Math.min(curEps, 1.05));
+  g.append('circle').attr('cx',curX).attr('cy',curY)
+   .attr('r',6).attr('fill','white').attr('stroke','#c9a84c').attr('stroke-width',2);
+  g.append('text').attr('x',curX+10).attr('y',curY+4)
+   .attr('fill','white').attr('font-size',10).text(`ε₀=${curEps.toFixed(3)}`);
+}
+
+document.getElementById('mu-sl').addEventListener('input', drawStability);
+document.getElementById('hv-sl').addEventListener('input', drawStability);
+window.addEventListener('resize', drawStability);
+drawStability();
+</script>
+</body>
+</html>

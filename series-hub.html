@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Principia Orthogona · Series Hub · All Volumes</title>
+<meta name="description" content="All volumes of the Principia Orthogona series — dm³ framework, G = U∘F∘K∘C, Lean 4 verification, 17 orders of magnitude. Start here.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#1a2744;--navy2:#0f1a30;--navy3:#0a1628;
+  --gold:#c9a84c;--gold2:#e8d49a;
+  --cream:#faf7f0;--smoke:#f0ece4;
+  --teal:#1a6b5a;--teal2:#2a7f6f;--teal3:#d0ece5;
+  --mid:#3a4f7a;
+  --rose:#c0392b;--violet:#6c3483;--green:#1a5a2a;
+  --rule:#8a7340;
+  --text:#1c1c1c;
+  --ff-serif:'Crimson Pro',Georgia,serif;
+  --ff-sans:'Outfit',system-ui,sans-serif;
+  --ff-mono:'JetBrains Mono','Courier New',monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--ff-sans);color:var(--text);background:var(--navy3);line-height:1.6;}
+/* ── NAV ── */
+nav{background:rgba(10,22,40,.95);backdrop-filter:blur(8px);padding:0 2rem;
+    display:flex;align-items:center;justify-content:space-between;
+    position:sticky;top:0;z-index:200;height:52px;
+    border-bottom:1px solid rgba(201,168,76,.15);}
+.nav-brand{color:var(--gold);font-family:var(--ff-sans);font-weight:700;
+           font-size:.8rem;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;}
+.nav-links{display:flex;gap:1.2rem;}
+.nav-links a{color:rgba(255,255,255,.55);font-size:.76rem;text-decoration:none;
+             letter-spacing:.04em;transition:color .15s;}
+.nav-links a:hover{color:var(--gold);}
+/* ── HERO ── */
+.hero{text-align:center;padding:5rem 2rem 3.5rem;background:linear-gradient(180deg,#040b18 0%,#0a1628 100%);position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 80% 40% at 50% 0%,rgba(201,168,76,.06) 0%,transparent 60%),
+             repeating-linear-gradient(90deg,rgba(255,255,255,.015) 0,rgba(255,255,255,.015) 1px,transparent 1px,transparent 120px);}
+.series-mark{font-family:var(--ff-mono);font-size:.72rem;color:rgba(201,168,76,.5);
+             letter-spacing:.3em;text-transform:uppercase;margin-bottom:1rem;position:relative;}
+h1{font-family:var(--ff-serif);font-size:clamp(2.2rem,5vw,3.8rem);font-weight:300;
+   color:white;line-height:1.1;margin-bottom:.6rem;position:relative;}
+h1 strong{font-weight:600;color:var(--gold2);}
+.hero-sub{font-family:var(--ff-serif);font-style:italic;font-size:1.1rem;
+          color:rgba(232,212,154,.7);margin-bottom:1.6rem;position:relative;}
+.chain{font-family:var(--ff-mono);font-size:.95rem;color:var(--gold2);
+       letter-spacing:.12em;padding:.5rem 1.2rem;border:1px solid rgba(201,168,76,.2);
+       display:inline-block;margin-bottom:1.6rem;position:relative;}
+.hero-meta{font-size:.78rem;color:rgba(255,255,255,.4);position:relative;line-height:2.}
+.hero-meta a{color:rgba(201,168,76,.6);text-decoration:none;}
+/* ── START-HERE BAND ── */
+.start-band{background:linear-gradient(135deg,#0a1e14 0%,#081a10 100%);
+            border-top:3px solid var(--teal2);border-bottom:3px solid rgba(26,107,90,.3);
+            padding:2.5rem 2rem;}
+.start-inner{max-width:860px;margin:0 auto;display:grid;grid-template-columns:1fr auto;gap:2rem;align-items:center;}
+@media(max-width:600px){.start-inner{grid-template-columns:1fr;}}
+.start-label{font-family:var(--ff-mono);font-size:.65rem;color:var(--teal2);
+             letter-spacing:.25em;text-transform:uppercase;margin-bottom:.5rem;}
+.start-heading{font-family:var(--ff-serif);font-size:1.6rem;font-weight:600;
+               color:white;line-height:1.2;margin-bottom:.6rem;}
+.start-body{font-size:.9rem;color:rgba(255,255,255,.6);line-height:1.7;}
+.btn-start{background:var(--teal2);color:white;padding:.85rem 2rem;
+           font-family:var(--ff-sans);font-size:.85rem;font-weight:600;
+           text-decoration:none;display:inline-block;letter-spacing:.04em;
+           white-space:nowrap;transition:background .2s;}
+.btn-start:hover{background:#1a8a7a;}
+/* ── SECTION WRAPPER ── */
+.hub-body{max-width:1000px;margin:0 auto;padding:0 2rem 5rem;}
+.sec-title{font-family:var(--ff-serif);font-size:1.35rem;color:var(--gold2);
+           font-weight:400;letter-spacing:.04em;margin:3.5rem 0 1.2rem;
+           padding-bottom:.5rem;border-bottom:1px solid rgba(201,168,76,.15);}
+.sec-note{font-size:.82rem;color:rgba(255,255,255,.4);line-height:1.65;margin-bottom:1.4rem;}
+/* ── VOL CARDS ── */
+.vol-cards{display:flex;flex-direction:column;gap:1rem;}
+.vol-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);
+          display:grid;grid-template-columns:80px 1fr;overflow:hidden;}
+.vol-card.active{border-color:rgba(201,168,76,.25);background:rgba(201,168,76,.04);}
+.vol-card.live{border-color:rgba(26,107,90,.3);background:rgba(26,107,90,.04);}
+.vol-badge{display:flex;flex-direction:column;align-items:center;justify-content:center;
+           padding:1rem;background:rgba(255,255,255,.03);border-right:1px solid rgba(255,255,255,.06);}
+.vol-alg{font-family:var(--ff-mono);font-size:1.1rem;color:var(--gold);font-weight:600;line-height:1;}
+.vol-num{font-family:var(--ff-sans);font-size:.62rem;color:rgba(255,255,255,.3);
+         letter-spacing:.1em;margin-top:.3rem;text-transform:uppercase;}
+.vol-body{padding:.9rem 1.2rem;}
+.vol-header{display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:.4rem;margin-bottom:.3rem;}
+.vol-title{font-family:var(--ff-serif);font-size:1.05rem;color:white;font-weight:600;}
+.vol-status{font-family:var(--ff-mono);font-size:.62rem;letter-spacing:.1em;
+            text-transform:uppercase;padding:.15rem .45rem;border:1px solid;}
+.vol-status.live{color:#7ecfb2;border-color:rgba(26,107,90,.4);}
+.vol-status.published{color:var(--gold2);border-color:rgba(201,168,76,.3);}
+.vol-status.submitted{color:#a0b0d0;border-color:rgba(160,176,208,.3);}
+.vol-status.planned{color:rgba(255,255,255,.3);border-color:rgba(255,255,255,.1);}
+.vol-desc{font-size:.83rem;color:rgba(255,255,255,.5);line-height:1.6;margin-bottom:.5rem;}
+.vol-links{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.4rem;}
+.vol-links a{font-family:var(--ff-sans);font-size:.7rem;color:rgba(201,168,76,.7);
+             text-decoration:none;letter-spacing:.04em;border-bottom:1px solid transparent;transition:all .15s;}
+.vol-links a:hover{color:var(--gold);border-bottom-color:var(--gold);}
+.vol-links a.primary{color:var(--teal2);font-weight:600;}
+.vol-links a.primary:hover{color:#7ecfb2;}
+/* ── CHAPTER GRIDS ── */
+.ch-section{margin-top:1.4rem;}
+.ch-section-title{font-family:var(--ff-sans);font-size:.65rem;color:var(--rule);
+                  letter-spacing:.2em;text-transform:uppercase;margin-bottom:.6rem;}
+.ch-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.5rem;}
+.ch-item{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);
+         padding:.5rem .7rem;text-decoration:none;transition:all .15s;display:block;}
+.ch-item:hover{background:rgba(201,168,76,.07);border-color:rgba(201,168,76,.2);}
+.ch-item-code{font-family:var(--ff-mono);font-size:.63rem;color:var(--gold);margin-bottom:.2rem;}
+.ch-item-title{font-size:.78rem;color:rgba(255,255,255,.65);line-height:1.4;}
+.ch-item-note{font-size:.66rem;color:rgba(255,255,255,.3);margin-top:.2rem;}
+.ch-item.lean-ok{border-left:3px solid var(--teal2);}
+.ch-item.stub{border-left:3px solid rgba(255,255,255,.1);opacity:.7;}
+.ch-item.gap{border-left:3px solid var(--rose);opacity:.6;}
+/* ── AUDIT TABLE ── */
+.audit-table{width:100%;border-collapse:collapse;margin:1rem 0;}
+.audit-table th{background:rgba(201,168,76,.1);color:var(--gold2);padding:.45rem .8rem;
+                text-align:left;font-size:.67rem;letter-spacing:.14em;text-transform:uppercase;
+                font-weight:500;border-bottom:1px solid rgba(201,168,76,.15);}
+.audit-table td{padding:.45rem .8rem;border-bottom:1px solid rgba(255,255,255,.04);
+                font-size:.79rem;color:rgba(255,255,255,.55);vertical-align:top;}
+.audit-table tr:hover td{background:rgba(255,255,255,.02);}
+.audit-table a{color:rgba(201,168,76,.7);text-decoration:none;}
+.audit-table a:hover{color:var(--gold);}
+.sorry-zero{color:#7ecfb2;font-family:var(--ff-mono);font-size:.8rem;}
+.sorry-one{color:#f0a850;font-family:var(--ff-mono);font-size:.8rem;}
+/* ── SCALE TABLE ── */
+.scale-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:.6rem;margin:.8rem 0;}
+.scale-item{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);
+            padding:.6rem .8rem;text-align:center;}
+.scale-exp{font-family:var(--ff-mono);font-size:1rem;color:var(--gold);font-weight:600;}
+.scale-name{font-size:.73rem;color:rgba(255,255,255,.5);margin-top:.2rem;}
+.scale-system{font-size:.68rem;color:rgba(255,255,255,.3);margin-top:.15rem;}
+/* ── FOOTER ── */
+footer{background:rgba(10,22,40,.9);border-top:1px solid rgba(201,168,76,.1);
+       color:rgba(255,255,255,.3);padding:2rem;text-align:center;
+       font-size:.73rem;line-height:2;}
+footer a{color:rgba(201,168,76,.5);text-decoration:none;}
+footer a:hover{color:var(--gold);}
+.gold-rule{width:50px;height:1px;background:var(--gold);margin:0 auto 1rem;opacity:.4;}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="series-hub.html" class="nav-brand">⚜ Principia Orthogona</a>
+  <div class="nav-links">
+    <a href="index.html">Book 3 ↗</a>
+    <a href="book4/index.html">Book 4 ↗</a>
+    <a href="https://totogt.github.io/AXLE/" target="_blank">AXLE ↗</a>
+    <a href="https://github.com/TOTOGT/GTCT" target="_blank">GitHub ↗</a>
+    <a href="https://g6llc.gumroad.com/l/soundworks" target="_blank">Gumroad ↗</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="series-mark">All Volumes · Study &amp; Audit</div>
+  <h1><strong>Principia Orthogona</strong></h1>
+  <div class="hero-sub">G = U ∘ F ∘ K ∘ C &nbsp;·&nbsp; dm³ framework &nbsp;·&nbsp; τ = 2 &nbsp;·&nbsp; ε₀ = 1/3</div>
+  <div class="chain">G = U ∘ F ∘ K ∘ C &nbsp;&nbsp;·&nbsp;&nbsp; ε* = 1/3 &nbsp;&nbsp;·&nbsp;&nbsp; κ &lt; 1 &nbsp;&nbsp;·&nbsp;&nbsp; T* = 2π</div>
+  <div class="hero-meta">
+    Pablo Nogueira Grossi (Sri Brodananda) · G6 LLC · Newark NJ · 2026<br>
+    ORCID <a href="https://orcid.org/0009-0000-6496-2186">0009-0000-6496-2186</a> ·
+    <a href="https://doi.org/10.5281/zenodo.19117399" target="_blank">Series Zenodo 10.5281/zenodo.19117399</a> ·
+    ISBN 979-8-9954416-6-3
+  </div>
+</div>
+
+<!-- START HERE -->
+<div class="start-band">
+  <div class="start-inner">
+    <div>
+      <div class="start-label">Start here</div>
+      <div class="start-heading">Begin with Book 3.<br>The mathematics is the same everywhere.</div>
+      <div class="start-body">Students of the series said: <em>"I do not understand anything."</em> Book 3 is the answer. It enters through biology, language, and walking — and it contains every idea in the series. Once you can feel C→K→F→U in your body, the Lean 4 proofs in Books 1 and 4 become readable. Start at the cajueiro. Then climb.</div>
+    </div>
+    <div>
+      <a href="index.html" class="btn-start">Enter Book 3 →</a>
+    </div>
+  </div>
+</div>
+
+<div class="hub-body">
+
+<!-- ── SERIES MAP ── -->
+<div class="sec-title">The Seven Volumes</div>
+<div class="sec-note">Each volume is one step in the Cayley-Dickson algebra ladder. The same operator chain G = U∘F∘K∘C acts in every volume — only the underlying algebra changes. Each extension loses one property: ordering, commutativity, associativity, division.</div>
+
+<div class="vol-cards">
+
+  <!-- VOL I -->
+  <div class="vol-card">
+    <div class="vol-badge"><div class="vol-alg">ℝ</div><div class="vol-num">Vol I</div></div>
+    <div class="vol-body">
+      <div class="vol-header">
+        <span class="vol-title">GOMC — Operator Algebra</span>
+        <span class="vol-status published">Published</span>
+      </div>
+      <div class="vol-desc">G-chain · Ring structure · Toy model equations ṙ = r(1−r²)+2(r−1)e⁻ᶻ · The invariant triple (T*,μ_max,τ) = (2π,−2,2) · AXLE Lean 4 companion.</div>
+      <div class="vol-links">
+        <a class="primary" href="https://totogt.github.io/AXLE/" target="_blank">AXLE Live Book ↗</a>
+        <a href="vol1-mathematics.html">Local HTML</a>
+        <a href="https://doi.org/10.5281/zenodo.19117400" target="_blank">Zenodo ↗</a>
+        <a href="gomc-opus.html">GOMC Opus (CatGT + Plasma)</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- VOL II -->
+  <div class="vol-card">
+    <div class="vol-badge"><div class="vol-alg">ℝ²</div><div class="vol-num">Vol II</div></div>
+    <div class="vol-body">
+      <div class="vol-header">
+        <span class="vol-title">TOGT — Contact Geometry</span>
+        <span class="vol-status published">Published</span>
+      </div>
+      <div class="vol-desc">Reeb orbits · dm³ contact manifold M = ℝ²₊ × ℝ · Symmetry s↔1−s · GCM Theorems A–D · RK4 toy model · Stability radius ε₀ = 1/3.</div>
+      <div class="vol-links">
+        <a class="primary" href="vol2-contact.html">Full HTML →</a>
+        <a href="vol2-toymodel.html">Toy Model HTML</a>
+        <a href="vol2-dashboard.html">Dashboard (5 D3 tabs)</a>
+        <a href="gcm-framework.html">GCM Framework</a>
+        <a href="https://doi.org/10.5281/zenodo.20159456" target="_blank">Zenodo ↗</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- VOL III -->
+  <div class="vol-card live active">
+    <div class="vol-badge"><div class="vol-alg">ℝ³</div><div class="vol-num">Vol III</div></div>
+    <div class="vol-body">
+      <div class="vol-header">
+        <span class="vol-title">The Mini-Beast — Biology, Physics, Language</span>
+        <span class="vol-status live">Living · updates weekly</span>
+      </div>
+      <div class="vol-desc">121+ HTML chapters · CEFR A2–C1 · Biology, physics, consciousness, language pedagogy · 17 orders of magnitude · The Cajueiro Principle · g-series g⁰→g⁶⁴ · <strong>Pedagogical entry point for the series.</strong></div>
+      <div class="vol-links">
+        <a class="primary" href="index.html">Live Book (Book 3 home) →</a>
+        <a href="vol3-minibeast.html">Volume Hub</a>
+        <a href="ch1.html">Ch 1 — The Cajueiro Principle</a>
+        <a href="ch4-neural.html">Ch 4 — Neural</a>
+        <a href="ch5-immune.html">Ch 5 — Immune</a>
+        <a href="ch6-resonance.html">Ch 6 — Cardiac</a>
+        <a href="ch9-phi.html">Ch 9 — φ</a>
+        <a href="ch11-spectral.html">Ch 11 — Spectral</a>
+        <a href="chT-tubulin.html">T — Tubulin</a>
+        <a href="chW-wigner.html">W — Wigner</a>
+        <a href="chLambda-polylaminin.html">Λ — Polylaminin</a>
+        <a href="chPI-recurrence.html">π — Recurrence</a>
+        <a href="chH-collatz.html">H — Collatz</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- VOL IV -->
+  <div class="vol-card">
+    <div class="vol-badge"><div class="vol-alg">ℂ</div><div class="vol-num">Vol IV</div></div>
+    <div class="vol-body">
+      <div class="vol-header">
+        <span class="vol-title">GTCT — Formal Theory</span>
+        <span class="vol-status published">Published</span>
+      </div>
+      <div class="vol-desc">Generative Temporal Contact Theory · 9 axioms · 12 operators Aᵢ = Pⁱ + uᵢwᵢᵀ · 4 theorems · 0 sorry in Chain.lean · Lean 4 + Mathlib4 · [F,T]=iJ complex structure · ε* = 1/3 · κ ≤ √(7/9) · g₃₃ = 33 · Bilingual EN/PT · SBM Bienal 2026.</div>
+      <div class="vol-links">
+        <a class="primary" href="book4/index.html">Book 4 Live →</a>
+        <a href="book4/chIV-axioms.html">Ch 1 — 7 Axioms</a>
+        <a href="book4/chIV-operators.html">Ch 3 — Operators</a>
+        <a href="book4/chIV-orthogonality.html">Ch 5 — Orthogonality</a>
+        <a href="book4/chIV-recursion.html">Ch 6 — Recursion</a>
+        <a href="book4/chIV-emergence.html">Ch 7 — Emergence</a>
+        <a href="book4/ch10.html">Ch 10 — dm³ Helical Attractors</a>
+        <a href="https://doi.org/10.5281/zenodo.19117400" target="_blank">Zenodo ↗</a>
+        <a href="https://github.com/TOTOGT/GTCT" target="_blank">GTCT Lean repo ↗</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- VOL V -->
+  <div class="vol-card">
+    <div class="vol-badge"><div class="vol-alg">ℍ→𝕆</div><div class="vol-num">Vol V</div></div>
+    <div class="vol-body">
+      <div class="vol-header">
+        <span class="vol-title">Dimensional Theory — Higher Dimensions Arc</span>
+        <span class="vol-status submitted">Submitted</span>
+      </div>
+      <div class="vol-desc">Non-commutative / non-associative turn · G_ℍ, G_𝕆 · Quaternionic and octonionic dm³ · E₈ first appears · Latest draft v8 final submission.</div>
+      <div class="vol-links">
+        <a class="primary" href="book4/ch01.html">1D → 5D+t arc (Book 4 companion) →</a>
+        <a href="https://doi.org/10.5281/zenodo.19117399" target="_blank">Zenodo ↗</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- SEGMENT: LOGS -->
+  <div class="vol-card">
+    <div class="vol-badge"><div class="vol-alg">log</div><div class="vol-num">Bridge</div></div>
+    <div class="vol-body">
+      <div class="vol-header">
+        <span class="vol-title">Logs Segment — log p as Root Length</span>
+        <span class="vol-status planned">Planned</span>
+      </div>
+      <div class="vol-desc">Baker's theorem · log p as root length in the Lie algebra · bridge from ℍ/𝕆 to exceptional algebras · division is lost here.</div>
+      <div class="vol-links">
+        <a href="https://doi.org/10.5281/zenodo.20026942" target="_blank">k-nacci Spine (related) ↗</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- VOL VI -->
+  <div class="vol-card">
+    <div class="vol-badge"><div class="vol-alg">E₈</div><div class="vol-num">Vol VI</div></div>
+    <div class="vol-body">
+      <div class="vol-header">
+        <span class="vol-title">Explicit Operators — E₈ Dynkin = G-chain</span>
+        <span class="vol-status planned">Planned</span>
+      </div>
+      <div class="vol-desc">The operator chain G = U∘F∘K∘C IS the Dynkin diagram of E₈ · 240 roots · Sorry-free Aᵢ matrices · Explicit operator realization.</div>
+      <div class="vol-links">
+        <span style="font-size:.7rem;color:rgba(255,255,255,.25);">In development</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- VOL VII -->
+  <div class="vol-card">
+    <div class="vol-badge"><div class="vol-alg">M</div><div class="vol-num">Vol VII</div></div>
+    <div class="vol-body">
+      <div class="vol-header">
+        <span class="vol-title">Moonshine</span>
+        <span class="vol-status planned">In preparation</span>
+      </div>
+      <div class="vol-desc">Monster group and Moonshine · dm³ as organizing principle for the Monster. In preparation.</div>
+      <div class="vol-links">
+        <span style="font-size:.7rem;color:rgba(255,255,255,.25);">In preparation</span>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /.vol-cards -->
+
+<!-- ── 17 ORDERS OF MAGNITUDE ── -->
+<div class="sec-title">17 Orders of Magnitude</div>
+<div class="sec-note">Volume III instantiates the same G = U∘F∘K∘C operator chain at scales from string theory (10⁻³⁵ m) to galactic structure (10⁶ ly). The framework is scale-invariant — τ = 2, ε₀ = 1/3, and κ &lt; 1 hold at every scale. These are the currently instantiated domains:</div>
+
+<div class="scale-grid">
+  <div class="scale-item"><div class="scale-exp">10⁻³⁵</div><div class="scale-name">Planck / String</div><div class="scale-system">Vol V / E₈</div></div>
+  <div class="scale-item"><div class="scale-exp">10⁻¹⁵</div><div class="scale-name">Nuclear</div><div class="scale-system">Strong force</div></div>
+  <div class="scale-item"><div class="scale-exp">10⁻¹⁰</div><div class="scale-name">Atomic / Molecular</div><div class="scale-system">Zeolite (CatGT)</div></div>
+  <div class="scale-item"><div class="scale-exp">10⁻⁹</div><div class="scale-name">Cytoskeletal</div><div class="scale-system">Tubulin (T)</div></div>
+  <div class="scale-item"><div class="scale-exp">10⁻⁷</div><div class="scale-name">Viral / Nanoscale</div><div class="scale-system">Polylaminin (Λ)</div></div>
+  <div class="scale-item"><div class="scale-exp">10⁻⁵</div><div class="scale-name">Cellular</div><div class="scale-system">Immune (Ch 5)</div></div>
+  <div class="scale-item"><div class="scale-exp">10⁻²</div><div class="scale-name">Organ</div><div class="scale-system">Cardiac (Ch 6)</div></div>
+  <div class="scale-item"><div class="scale-exp">10⁰</div><div class="scale-name">Human / Walk</div><div class="scale-system">Cajueiro / Neural</div></div>
+  <div class="scale-item"><div class="scale-exp">10²</div><div class="scale-name">Tree / Ecosystem</div><div class="scale-system">Cajueiro de Pirangi</div></div>
+  <div class="scale-item"><div class="scale-exp">10⁶</div><div class="scale-name">Plasma / MHD</div><div class="scale-system">DustyPlasma (GOMC)</div></div>
+  <div class="scale-item"><div class="scale-exp">10¹⁰</div><div class="scale-name">Stellar</div><div class="scale-system">Compact objects</div></div>
+  <div class="scale-item"><div class="scale-exp">10²²</div><div class="scale-name">Galactic</div><div class="scale-system">Wigner lattice (W)</div></div>
+</div>
+
+<!-- ── AUDIT TRAIL ── -->
+<div class="sec-title">Lean 4 Audit Trail</div>
+<div class="sec-note">Mathematical content is mechanised in two Lean 4 environments: AXLE (github.com/TOTOGT/AXLE) for Vol I–III applications and DM3-lab, and GTCT (github.com/TOTOGT/GTCT) for Vol IV formal theory. Zero sorries in the main chain. One sorry marked in P vs NP (acknowledged open problem).</div>
+
+<table class="audit-table">
+  <thead><tr><th>File</th><th>Content</th><th>Volume</th><th>Sorries</th><th>Status</th></tr></thead>
+  <tbody>
+    <tr><td>Chain.lean</td><td>G-chain; κ &lt; 1; Banach fixed point</td><td>IV (GTCT)</td><td class="sorry-zero">0</td><td>✓ Lean 4 verified</td></tr>
+    <tr><td>Dm3RHToy.lean</td><td>Riemann Hypothesis toy reformulation</td><td>I / II</td><td class="sorry-zero">0</td><td>✓ Lean 4 verified</td></tr>
+    <tr><td>Dm3NSToy.lean</td><td>Navier–Stokes toy model</td><td>I / II</td><td class="sorry-zero">0</td><td>✓ Lean 4 verified</td></tr>
+    <tr><td>Dm3GoldbachToy.lean</td><td>Goldbach toy model</td><td>I / II</td><td class="sorry-zero">0</td><td>✓ Lean 4 verified</td></tr>
+    <tr><td>Dm3Comp.lean</td><td>P vs NP (acknowledged open)</td><td>I / II</td><td class="sorry-one">1</td><td>Open · sorry marked</td></tr>
+    <tr><td>GCTC.Operators.Chain</td><td>poincare_collatz_contracting; Spiral Return T1; g33 entry</td><td>IV</td><td class="sorry-zero">0</td><td>✓ Lean 4 · Mathlib4</td></tr>
+    <tr><td>AutophagyDm3.lean</td><td>Tubulin polymerization dm³</td><td>III</td><td class="sorry-zero">0</td><td>✓ Lean 4 verified</td></tr>
+    <tr><td>vitruvian-approximation.pdf</td><td>Rhind Papyrus / G-cycle · selection functional 𝒞_rat</td><td>III</td><td class="sorry-one">1</td><td>Open · sorry marked · <a href="https://doi.org/10.5281/zenodo.19984522" target="_blank">Zenodo ↗</a></td></tr>
+  </tbody>
+</table>
+
+<!-- ── DRIFTING CHAPTERS ── -->
+<div class="sec-title">Drifting Chapters — All Domains</div>
+<div class="sec-note">These chapters appear across volumes and sometimes across both Book 3 and Book 4. They are listed here so auditors can find every instantiation. The dm³ framework is domain-free — these chapters show it operating in unexpected places.</div>
+
+<div class="ch-section">
+  <div class="ch-section-title">Biology · ℝ³ contact manifold (Vol III)</div>
+  <div class="ch-grid">
+    <a class="ch-item lean-ok" href="chT-tubulin.html"><div class="ch-item-code">T · Tubulin</div><div class="ch-item-title">Cytoskeletal contact geometry</div><div class="ch-item-note">μ_max ≈ −0.41 · τ = 2</div></a>
+    <a class="ch-item lean-ok" href="ch4-neural.html"><div class="ch-item-code">4 · Neural</div><div class="ch-item-title">Hippocampal theta oscillations</div><div class="ch-item-note">Reeb field = integration operator</div></a>
+    <a class="ch-item" href="ch5-immune.html"><div class="ch-item-code">5 · Immune</div><div class="ch-item-title">Affinity maturation — n-bonacci ladder</div><div class="ch-item-note">Germinal center recurrence</div></a>
+    <a class="ch-item" href="ch6-resonance.html"><div class="ch-item-code">6 · Cardiac</div><div class="ch-item-title">Sinoatrial node dm³ system</div><div class="ch-item-note">HRV decompensation → τ = 2</div></a>
+    <a class="ch-item lean-ok" href="chLambda-polylaminin.html"><div class="ch-item-code">Λ · Polylaminin</div><div class="ch-item-title">SCI axon regrowth · ANVISA Phase I</div><div class="ch-item-note">6/8 patients; q* = 1</div></a>
+    <a class="ch-item" href="ch3-circadian.html"><div class="ch-item-code">3 · Circadian</div><div class="ch-item-title">Circadian oscillator</div><div class="ch-item-note">T* ≈ 24 h</div></a>
+  </div>
+</div>
+
+<div class="ch-section">
+  <div class="ch-section-title">Physics · condensed matter · EM</div>
+  <div class="ch-grid">
+    <a class="ch-item" href="chW-wigner.html"><div class="ch-item-code">W · Wigner</div><div class="ch-item-title">Electron lattice — spectral rigidity</div><div class="ch-item-note">GUE → Poisson crossover</div></a>
+    <a class="ch-item" href="book4/ch-faraday.html"><div class="ch-item-code">EM · Faraday</div><div class="ch-item-title">Hidden geometry of EM forces</div><div class="ch-item-note">Grossi 2026 · Book 4</div></a>
+    <a class="ch-item" href="book4/ch07.html"><div class="ch-item-code">Crystal</div><div class="ch-item-title">Crystalline Return — moiré</div><div class="ch-item-note">E = kT·ln(Ω) · Book 4</div></a>
+    <a class="ch-item" href="ch7-crystalline.html"><div class="ch-item-code">7 · Crystalline</div><div class="ch-item-title">Crystal return (Book 3 version)</div><div class="ch-item-note"></div></a>
+  </div>
+</div>
+
+<div class="ch-section">
+  <div class="ch-section-title">Number Theory · discrete dm³</div>
+  <div class="ch-grid">
+    <a class="ch-item" href="ch11-spectral.html"><div class="ch-item-code">11 · Spectral</div><div class="ch-item-title">Spectral Radius · Collatz</div><div class="ch-item-note">ρ(C) = log3/log2</div></a>
+    <a class="ch-item" href="chH-collatz.html"><div class="ch-item-code">H · Collatz</div><div class="ch-item-title">Collatz orbit as discrete dm³</div><div class="ch-item-note">Book 3 extended</div></a>
+    <a class="ch-item" href="spectral-radius.html"><div class="ch-item-code">ρ-v1</div><div class="ch-item-title">Spectral Radius v1</div><div class="ch-item-note"></div></a>
+    <a class="ch-item" href="spectral-radius-v2.html"><div class="ch-item-code">ρ-v2</div><div class="ch-item-title">Spectral Radius v2</div><div class="ch-item-note"></div></a>
+    <a class="ch-item" href="ch9-phi.html"><div class="ch-item-code">9 · φ</div><div class="ch-item-title">Phi — nested infinities · Fibonacci</div><div class="ch-item-note"></div></a>
+    <a class="ch-item" href="ch10-lyapunov.html"><div class="ch-item-code">10 · Lyapunov</div><div class="ch-item-title">Lyapunov — μ_max</div><div class="ch-item-note"></div></a>
+  </div>
+</div>
+
+<div class="ch-section">
+  <div class="ch-section-title">Formal Theory · Book 4 (ℂ / Vol IV)</div>
+  <div class="ch-grid">
+    <a class="ch-item lean-ok" href="book4/chIV-axioms.html"><div class="ch-item-code">IV-Ch1</div><div class="ch-item-title">Seven Axioms</div><div class="ch-item-note">✓ Lean 4</div></a>
+    <a class="ch-item lean-ok" href="book4/chIV-orthogonality.html"><div class="ch-item-code">IV-Ch5</div><div class="ch-item-title">Orthogonality Theorem · g₃₃</div><div class="ch-item-note">✓ Lean 4 + SH</div></a>
+    <a class="ch-item lean-ok" href="book4/chIV-recursion.html"><div class="ch-item-code">IV-Ch6</div><div class="ch-item-title">Recursion · κ &lt; 1 · Banach</div><div class="ch-item-note">✓ Lean 4 + SH</div></a>
+    <a class="ch-item lean-ok" href="book4/chIV-emergence.html"><div class="ch-item-code">IV-Ch7</div><div class="ch-item-title">Emergence as Fixed Point E(x*)=x*</div><div class="ch-item-note">✓ Lean 4 + SH</div></a>
+    <a class="ch-item" href="book4/chIV-time.html"><div class="ch-item-code">IV-Ch8</div><div class="ch-item-title">Nature of Time — 9 readings</div><div class="ch-item-note">Interpretive</div></a>
+    <a class="ch-item lean-ok" href="book4/ch10.html"><div class="ch-item-code">B4-Ch10</div><div class="ch-item-title">dm³ Helical Attractors (SBM Bienal)</div><div class="ch-item-note">✓ Lean 4</div></a>
+  </div>
+</div>
+
+<div class="ch-section">
+  <div class="ch-section-title">Pedagogy · Econophysics · Language (Book 3)</div>
+  <div class="ch-grid">
+    <a class="ch-item" href="ch1.html"><div class="ch-item-code">Ch 1</div><div class="ch-item-title">The Cajueiro Principle</div><div class="ch-item-note">C→K→F→U as walking meditation</div></a>
+    <a class="ch-item" href="ch2.html"><div class="ch-item-code">Ch 2</div><div class="ch-item-title">Chapter 2</div><div class="ch-item-note"></div></a>
+    <a class="ch-item" href="ch3c-econophysics.html"><div class="ch-item-code">3c · Econophysics</div><div class="ch-item-title">Econophysics instantiation</div><div class="ch-item-note"></div></a>
+    <a class="ch-item" href="ch12-conclusion.html"><div class="ch-item-code">Ch 12</div><div class="ch-item-title">Conclusion</div><div class="ch-item-note"></div></a>
+    <a class="ch-item" href="ch17-epilogue.html"><div class="ch-item-code">Epilogue</div><div class="ch-item-title">Epilogue</div><div class="ch-item-note"></div></a>
+    <a class="ch-item" href="ch-ocio.html"><div class="ch-item-code">Ocio</div><div class="ch-item-title">Ocio</div><div class="ch-item-note"></div></a>
+  </div>
+</div>
+
+<div class="ch-section">
+  <div class="ch-section-title">n-bonacci Recurrence Ladder (Greek operator stubs)</div>
+  <div class="ch-grid">
+    <a class="ch-item lean-ok" href="chPI-recurrence.html"><div class="ch-item-code">π</div><div class="ch-item-title">Recurrence Ladder · T* = 2π</div><div class="ch-item-note">Written</div></a>
+    <a class="ch-item" href="ch9-phi.html"><div class="ch-item-code">φ</div><div class="ch-item-title">Fibonacci ≈ 1.618</div><div class="ch-item-note">Written</div></a>
+    <a class="ch-item stub" href="chMu-lyapunov.html"><div class="ch-item-code">μ</div><div class="ch-item-title">Lyapunov −2</div><div class="ch-item-note">Stub</div></a>
+    <a class="ch-item stub" href="chEta-tribonacci.html"><div class="ch-item-code">η</div><div class="ch-item-title">Tribonacci ≈ 1.839</div><div class="ch-item-note">Stub</div></a>
+    <a class="ch-item stub" href="chDelta-tetranacci.html"><div class="ch-item-code">Δ</div><div class="ch-item-title">Tetranacci ≈ 1.927</div><div class="ch-item-note">Stub</div></a>
+    <a class="ch-item stub" href="chSigma-pentanacci.html"><div class="ch-item-code">Σ</div><div class="ch-item-title">Pentanacci ≈ 1.966</div><div class="ch-item-note">Stub</div></a>
+    <a class="ch-item stub" href="chOmega-hexabonacci.html"><div class="ch-item-code">Ω</div><div class="ch-item-title">Hexabonacci → 2 (= τ)</div><div class="ch-item-note">Stub</div></a>
+    <a class="ch-item gap" href="spectral-radius.html"><div class="ch-item-code">ρ</div><div class="ch-item-title">Spectral Radius · Collatz</div><div class="ch-item-note">Gap — no chRho-*.html</div></a>
+  </div>
+</div>
+
+</div><!-- /.hub-body -->
+
+<div class="gold-rule"></div>
+<footer>
+  <a href="index.html">Book 3</a> &nbsp;·&nbsp;
+  <a href="book4/index.html">Book 4</a> &nbsp;·&nbsp;
+  <a href="vol1-mathematics.html">Vol I HTML</a> &nbsp;·&nbsp;
+  <a href="vol2-contact.html">Vol II HTML</a> &nbsp;·&nbsp;
+  <a href="gcm-framework.html">GCM</a> &nbsp;·&nbsp;
+  <a href="vol2-dashboard.html">Dashboard</a> &nbsp;·&nbsp;
+  <a href="https://github.com/TOTOGT/AXLE" target="_blank">AXLE</a> &nbsp;·&nbsp;
+  <a href="https://github.com/TOTOGT/GTCT" target="_blank">GTCT</a> &nbsp;·&nbsp;
+  <a href="https://g6llc.gumroad.com/l/soundworks" target="_blank">Gumroad</a><br>
+  © 2026 Pablo Nogueira Grossi (Sri Brodananda) / G6 LLC · Newark NJ · ORCID 0009-0000-6496-2186<br>
+  Series DOI: <a href="https://doi.org/10.5281/zenodo.19117399" target="_blank">10.5281/zenodo.19117399</a> ·
+  ISBN 979-8-9954416-6-3 (series) · CC BY-NC-ND 4.0 (text) · MIT (code)
+</footer>
+</body>
+</html>
