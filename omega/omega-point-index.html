@@ -126,6 +126,17 @@
   .membership .sell-meta a{ color:var(--gold-soft); }
   .membership .btn-row{ margin-top:2rem; }
 
+  /* trinity triptych */
+  .triptych-grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(230px,1fr)); gap:1.1rem; margin-top:2rem; }
+  .triptych-card{ background:var(--parchment2); border:1px solid var(--rule); border-left:5px solid var(--gold); border-radius:6px; padding:1.2rem 1.3rem; }
+  .triptych-card.father{ border-left-color:var(--c-genesis); }
+  .triptych-card.son{ border-left-color:var(--c-unitive); }
+  .triptych-card.spirit{ border-left-color:var(--c-resonance); }
+  .triptych-card .cn{ font-family:var(--mono); font-size:0.72rem; letter-spacing:0.18em; text-transform:uppercase; color:var(--crimson); display:block; margin-bottom:0.4rem; }
+  .triptych-card h3{ font-family:var(--display); font-size:1.15rem; margin-bottom:0.4rem; color:var(--ink2); }
+  .triptych-card p{ font-size:0.92rem; color:var(--mid); margin:0; }
+  .triptych-card a.read{ display:inline-block; margin-top:0.7rem; font-family:var(--mono); font-size:0.78rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--crimson); text-decoration:none; border-bottom:1px solid var(--crimson); }
+
   .pull-quote{ font-family:var(--display-it); font-style:italic; font-size:1.5rem; color:var(--ink2); text-align:center; max-width:560px; margin:2.5rem auto; line-height:1.5; }
   .pull-quote .attr{ display:block; font-family:var(--mono); font-style:normal; font-size:0.75rem; letter-spacing:0.1em; color:var(--crimson); margin-top:0.7rem; text-transform:uppercase;}
 
@@ -149,6 +160,7 @@
     <a href="#chapters">Chapters</a>
     <a href="#decoder">Decoder</a>
     <a href="omega-point-sample-logos.html">Sample Chapter</a>
+    <a href="#triptych">Trinity Triptych</a>
     <a href="#membership">Membership</a>
     <a href="https://totogt.github.io/geometry/">Principia Orthogona</a>
   </div>
@@ -238,6 +250,16 @@
     <div class="chapter-card"><span class="cn">Chapter Eight</span><h3>The Liturgical Period</h3><p>T* = 2π. The rhythm of return — liturgical time as a literal periodic orbit.</p></div>
     <div class="chapter-card"><span class="cn">Chapter Nine</span><h3>The Mercy Radius</h3><p>ε₀ = 1/3. How far a soul — or any system — can stray and still find its way home.</p></div>
     <div class="chapter-card"><span class="cn">Chapter Ten</span><h3>The Ladder of Ascent</h3><p>The full g-series, g⁰ through g⁶⁴, as stages of contemplative and biological maturation.</p></div>
+  </div>
+</section>
+
+<section class="section" id="triptych">
+  <h2>The Trinity Triptych</h2>
+  <p class="lead">Three short pages, written for sharing — Father, Son, and Holy Spirit, read through Genesis, Union, and Resonance.</p>
+  <div class="triptych-grid">
+    <div class="triptych-card father"><span class="cn">I · The Father</span><h3>Genesis</h3><p>The unfolding that asks nothing first — {g_t}, t ≥ 0, g₀ = id. "From whom all fatherhood takes its name."</p><a class="read" href="trinity.html">Read →</a></div>
+    <div class="triptych-card son"><span class="cn">II · The Son</span><h3>Union</h3><p>Two wills, one stability — the Theorem of Union, τ₁₂ ≤ min(τ₁,τ₂), and Gethsemane as its equality case.</p><a class="read" href="trinity-son.html">Read →</a></div>
+    <div class="triptych-card spirit"><span class="cn">III · The Holy Spirit</span><h3>Resonance</h3><p>The shared frequency — Koinonia as a resonance operator, and why the last book of the canon says infinity is bounded.</p><a class="read" href="trinity-spirit.html">Read →</a></div>
   </div>
 </section>
 
