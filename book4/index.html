@@ -1,913 +1,994 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Principia Orthogona · Hub · Book 4 · GTCT</title>
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Display:ital,wght@0,300;0,400;1,300;1,400&family=Noto+Serif:ital,wght@0,400;0,600;1,400&family=Noto+Serif+SC:wght@400;600&family=Noto+Serif+JP:wght@400;600&family=Noto+Naskh+Arabic:wght@400;600&family=JetBrains+Mono:wght@300;400;700&display=swap" rel="stylesheet">
-
+<title>HVEH — Helical Vortex Energy Harvesters | G6 LLC / Principia Orthogona</title>
 <style>
-/* ═══════════════════════════════════════════════
-   PRINCIPIA ORTHOGONA · HUB
-   Book-3 nav · language bar · Books I–VII strip
-   ═══════════════════════════════════════════════ */
-:root {
-  --void:    #04040a;
-  --surface: #0c0d16;
-  --card:    #10111c;
-  --gold:    #c9a84c;
-  --teal:    #0ABAB5;
-  --text:    #e8e4d8;
-  --muted:   #6b6757;
-  --dim:     #2a2920;
-  --rule:    rgba(201,168,76,0.18);
-  --serif:   'Noto Serif Display','Noto Serif',Georgia,serif;
-  --mono:    'JetBrains Mono','Courier New',monospace;
-  --op-c: #0ABAB5;
-  --op-k: #e05a3a;
-  --op-f: #50c878;
-  --op-u: #c084fc;
-}
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{
-  font-family:var(--serif);
-  background:var(--void); color:var(--text);
-  font-size:17px; line-height:1.88;
-  -webkit-font-smoothing:antialiased; overflow-x:hidden;
-}
-#cosmos{position:fixed;inset:0;z-index:0;pointer-events:none}
+  :root {
+    --teal-0: #e1f5ee;
+    --teal-1: #9fe1cb;
+    --teal-2: #5dcaa5;
+    --teal-3: #1d9e75;
+    --teal-4: #0f6e56;
+    --teal-5: #085041;
+    --teal-6: #04342c;
+    --ink: #0b1f1a;
+    --ink-mid: #1a3830;
+    --paper: #f7faf9;
+    --mist: #e1f0eb;
+    --rule: rgba(15,110,86,0.18);
+    --font-display: 'Georgia', 'Times New Roman', serif;
+    --font-body: system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --font-mono: 'Courier New', monospace;
+  }
 
-/* ── NAV ── */
-nav{
-  position:sticky;top:0;z-index:300;
-  background:rgba(4,4,10,0.97);backdrop-filter:blur(14px);
-  border-bottom:1px solid var(--rule);
-  padding:.55rem 2rem;
-  display:flex;align-items:center;justify-content:space-between;
-  flex-wrap:wrap;gap:.5rem;
-}
-.nav-brand{
-  font-family:var(--mono);font-size:.65rem;
-  letter-spacing:.22em;text-transform:uppercase;
-  color:var(--gold);text-decoration:none;transition:opacity .2s;
-}
-.nav-brand:hover{opacity:.7}
-.nav-links{display:flex;gap:1.4rem;flex-wrap:wrap}
-.nav-links a{
-  font-family:var(--mono);font-size:.58rem;letter-spacing:.12em;
-  text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .2s;
-}
-.nav-links a:hover,.nav-links a.cur{color:var(--gold)}
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-/* ── LANGUAGE BAR ── */
-.lang-bar{
-  position:sticky;top:40px;z-index:290;
-  background:rgba(6,7,15,0.97);backdrop-filter:blur(10px);
-  border-bottom:1px solid rgba(201,168,76,.12);
-  padding:.38rem 2rem;
-  display:flex;align-items:center;gap:.45rem;flex-wrap:wrap;
-}
-.lang-bar-label{
-  font-family:var(--mono);font-size:.52rem;letter-spacing:.24em;
-  text-transform:uppercase;color:var(--muted);margin-right:.4rem;
-}
-.lang-btn{
-  font-family:var(--mono);font-size:.6rem;letter-spacing:.08em;
-  padding:.2rem .6rem;border:1px solid transparent;border-radius:2px;
-  cursor:pointer;background:none;color:var(--muted);transition:all .15s;
-}
-.lang-btn:hover{color:var(--text);border-color:var(--dim)}
-.lang-btn.active{color:var(--gold);border-color:rgba(201,168,76,.4);background:rgba(201,168,76,.07)}
-.lang-dir-note{font-family:var(--mono);font-size:.52rem;color:var(--muted);margin-left:auto;letter-spacing:.1em}
+  html { scroll-behavior: smooth; }
 
-/* ── HERO ── */
-.hero{
-  position:relative;z-index:1;
-  padding:5rem 2rem 4rem;text-align:center;
-  border-bottom:1px solid var(--rule);overflow:hidden;
-}
-.hero::before{
-  content:'';position:absolute;inset:0;
-  background:radial-gradient(ellipse 65% 50% at 50% 50%,rgba(201,168,76,.06) 0%,transparent 70%);
-  pointer-events:none;
-}
-.hero-tag{
-  position:relative;z-index:1;
-  font-family:var(--mono);font-size:.6rem;letter-spacing:.3em;
-  text-transform:uppercase;color:var(--teal);
-  border:1px solid currentColor;padding:.22rem .85rem;
-  display:inline-block;margin-bottom:2rem;
-}
-.hero h1{
-  position:relative;z-index:1;
-  font-size:clamp(2.4rem,5vw,3.8rem);font-weight:300;
-  color:var(--gold);letter-spacing:.04em;line-height:1.15;margin-bottom:.5rem;
-}
-.hero-sub{
-  position:relative;z-index:1;
-  font-size:1rem;color:rgba(232,228,216,.55);font-style:italic;
-  margin-bottom:2.5rem;line-height:1.7;
-}
-.hero-stats{
-  position:relative;z-index:1;
-  display:flex;gap:2.5rem;flex-wrap:wrap;justify-content:center;
-  margin-bottom:2rem;
-}
-.stat{text-align:center}
-.stat-n{
-  font-family:var(--mono);font-size:2.2rem;font-weight:300;
-  color:var(--gold);display:block;line-height:1;
-}
-.stat-l{font-family:var(--mono);font-size:.52rem;letter-spacing:.2em;color:var(--muted);display:block;margin-top:.35rem;text-transform:uppercase}
-.hero-eq{
-  position:relative;z-index:1;
-  font-family:var(--mono);font-size:.76rem;
-  letter-spacing:.14em;color:rgba(201,168,76,.38);
-  line-height:2;margin-top:1rem;
-}
-.hero-ops{
-  position:relative;z-index:1;
-  display:flex;gap:.4rem;align-items:center;flex-wrap:wrap;justify-content:center;margin-top:1.2rem;
-}
-.op{font-family:var(--mono);font-size:.8rem;padding:.25rem .6rem;border-radius:2px}
-.op-c{background:rgba(10,186,181,.12);color:var(--op-c);border:1px solid rgba(10,186,181,.3)}
-.op-k{background:rgba(224,90,58,.12);color:var(--op-k);border:1px solid rgba(224,90,58,.3)}
-.op-f{background:rgba(80,200,120,.12);color:var(--op-f);border:1px solid rgba(80,200,120,.3)}
-.op-u{background:rgba(192,132,252,.12);color:var(--op-u);border:1px solid rgba(192,132,252,.3)}
-.op-arr{color:var(--muted);font-size:.85rem}
-.op-g{font-family:var(--mono);font-size:.78rem;color:rgba(201,168,76,.55);margin-left:.3rem}
+  body {
+    font-family: var(--font-body);
+    background: var(--ink);
+    color: #e8f5f0;
+    line-height: 1.7;
+    font-size: 16px;
+  }
 
-/* ── BOOKS STRIP ── */
-.books-strip{
-  position:relative;z-index:1;
-  border-bottom:1px solid var(--rule);
-  padding:2rem 2rem;
-  background:var(--surface);
-}
-.books-strip-label{
-  font-family:var(--mono);font-size:.55rem;letter-spacing:.28em;
-  text-transform:uppercase;color:var(--teal);
-  display:block;text-align:center;margin-bottom:1.5rem;
-}
-.books-grid{
-  display:flex;gap:.9rem;flex-wrap:wrap;justify-content:center;
-  max-width:1100px;margin:0 auto;
-}
-.vol-card{
-  flex:1;min-width:120px;max-width:155px;
-  border:1px solid var(--dim);border-radius:3px;
-  padding:1rem .9rem;text-decoration:none;
-  background:var(--card);transition:all .2s;display:block;
-  position:relative;
-}
-.vol-card:hover{border-color:rgba(201,168,76,.4);background:rgba(201,168,76,.04)}
-.vol-card.cur-vol{border-color:rgba(201,168,76,.5);background:rgba(201,168,76,.06)}
-.vol-card.cur-vol::before{
-  content:'← here';position:absolute;top:.4rem;right:.5rem;
-  font-family:var(--mono);font-size:.46rem;color:var(--gold);letter-spacing:.1em;
-}
-.vol-num{
-  font-family:var(--mono);font-size:.6rem;letter-spacing:.2em;
-  color:var(--muted);display:block;margin-bottom:.3rem;text-transform:uppercase;
-}
-.vol-title{
-  font-family:var(--mono);font-size:.78rem;font-weight:700;
-  color:var(--gold);display:block;margin-bottom:.25rem;
-}
-.vol-sub{font-size:.75rem;color:rgba(232,228,216,.65);display:block;line-height:1.4;margin-bottom:.5rem}
-.vol-status{
-  font-family:var(--mono);font-size:.5rem;letter-spacing:.15em;
-  text-transform:uppercase;padding:.15rem .4rem;border-radius:2px;display:inline-block;
-}
-.vs-live{color:var(--op-f);border:1px solid rgba(80,200,120,.3);background:rgba(80,200,120,.07)}
-.vs-sub{color:var(--gold);border:1px solid rgba(201,168,76,.3);background:rgba(201,168,76,.06)}
-.vs-plan{color:var(--muted);border:1px solid var(--dim);background:rgba(42,41,32,.5)}
-.vs-here{color:var(--teal);border:1px solid rgba(10,186,181,.4);background:rgba(10,186,181,.06)}
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 6rem 5%;
+    gap: 4rem;
+    position: relative;
+    overflow: hidden;
+    background: var(--ink);
+    border-bottom: 1px solid var(--rule);
+  }
 
-/* ── PAGE ── */
-.page{position:relative;z-index:1;max-width:1160px;margin:0 auto;padding:4rem 2rem 6rem}
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 60% 80% at 70% 50%, rgba(29,158,117,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
 
-/* Translatable intro block */
-#introBlock{margin-bottom:3rem}
-.intro-text{font-size:1rem;line-height:1.92;color:rgba(232,228,216,.85);max-width:760px}
+  .hero-text { position: relative; z-index: 2; }
 
-/* Section headers */
-.sec-head{
-  font-family:var(--mono);font-size:.58rem;letter-spacing:.28em;
-  text-transform:uppercase;color:var(--teal);display:block;
-  margin:3.5rem 0 1.2rem;padding-top:2.5rem;
-  border-top:1px solid var(--rule);
-}
-.sec-head:first-child{border-top:none;margin-top:0;padding-top:0}
-.sec-desc{font-size:.9rem;color:var(--muted);margin-bottom:1.8rem;line-height:1.65;max-width:680px}
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--teal-2);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .eyebrow::before {
+    content: '';
+    display: inline-block;
+    width: 28px;
+    height: 1px;
+    background: var(--teal-3);
+  }
 
-/* Chapter grid */
-.ch-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
-  gap:.8rem;margin-bottom:.5rem;
-}
-.ch-card{
-  border:1px solid var(--dim);border-radius:3px;
-  padding:.95rem 1.1rem;text-decoration:none;
-  background:var(--card);transition:all .18s;
-  display:flex;flex-direction:column;gap:.4rem;
-  position:relative;
-}
-.ch-card:hover{border-color:rgba(201,168,76,.35);background:rgba(201,168,76,.04);transform:translateY(-1px)}
-.ch-card-top{display:flex;align-items:center;justify-content:space-between;gap:.5rem}
-.ch-num{
-  font-family:var(--mono);font-size:.55rem;letter-spacing:.18em;
-  text-transform:uppercase;color:var(--muted);white-space:nowrap;
-}
-.ch-badge{
-  font-family:var(--mono);font-size:.5rem;letter-spacing:.1em;
-  text-transform:uppercase;padding:.13rem .45rem;border-radius:2px;white-space:nowrap;
-}
-.badge-lean{color:var(--op-f);border:1px solid rgba(80,200,120,.35);background:rgba(80,200,120,.07)}
-.badge-prose{color:var(--gold);border:1px solid rgba(201,168,76,.3);background:rgba(201,168,76,.06)}
-.badge-dim{color:var(--op-c);border:1px solid rgba(10,186,181,.3);background:rgba(10,186,181,.06)}
-.badge-ref{color:var(--muted);border:1px solid var(--dim)}
-.badge-ext{color:var(--op-u);border:1px solid rgba(192,132,252,.3);background:rgba(192,132,252,.06)}
-.badge-impa{color:var(--teal);border:1px solid rgba(10,186,181,.4);background:rgba(10,186,181,.08)}
-.ch-title{font-size:.95rem;color:var(--text);line-height:1.35;font-weight:400}
-.ch-desc{font-family:var(--mono);font-size:.58rem;color:var(--muted);line-height:1.55;letter-spacing:.02em}
+  .hero h1 {
+    font-family: var(--font-display);
+    font-size: clamp(2.2rem, 4vw, 3.4rem);
+    font-weight: 400;
+    line-height: 1.15;
+    color: #d4f0e8;
+    margin-bottom: 1.25rem;
+    letter-spacing: -0.01em;
+  }
 
-/* PDF grid */
-.pdf-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:.7rem}
-.pdf-card{
-  border:1px solid var(--dim);border-radius:3px;padding:.8rem 1rem;
-  text-decoration:none;background:var(--card);transition:all .18s;
-  display:flex;align-items:center;gap:.8rem;
-}
-.pdf-card:hover{border-color:rgba(201,168,76,.35);background:rgba(201,168,76,.04)}
-.pdf-icon{
-  font-family:var(--mono);font-size:.7rem;color:var(--op-k);
-  padding:.3rem .5rem;border:1px solid rgba(224,90,58,.3);background:rgba(224,90,58,.07);
-  border-radius:2px;white-space:nowrap;
-}
-.pdf-name{font-size:.85rem;color:var(--text);line-height:1.35}
-.pdf-sub{font-family:var(--mono);font-size:.52rem;color:var(--muted);margin-top:.2rem}
+  .hero h1 em {
+    font-style: italic;
+    color: var(--teal-2);
+  }
 
-/* External links strip */
-.ext-strip{
-  display:flex;gap:.7rem;flex-wrap:wrap;margin:2rem 0;
-}
-.ext-link{
-  font-family:var(--mono);font-size:.58rem;letter-spacing:.1em;
-  text-transform:uppercase;color:var(--muted);text-decoration:none;
-  padding:.3rem .85rem;border:1px solid var(--dim);border-radius:2px;
-  transition:all .2s;
-}
-.ext-link:hover{color:var(--gold);border-color:rgba(201,168,76,.4)}
-.ext-link .dot{display:inline-block;width:.45rem;height:.45rem;border-radius:50%;margin-right:.4rem;vertical-align:middle}
-.dot-live{background:var(--op-f)}
-.dot-pub{background:var(--gold)}
+  .hero-sub {
+    font-size: 1.05rem;
+    color: #8fc4b3;
+    max-width: 480px;
+    margin-bottom: 2.5rem;
+    line-height: 1.75;
+  }
 
-/* RTL */
-[dir="rtl"] .ch-card-top{flex-direction:row-reverse}
+  .hero-ctas {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
 
-/* Footer */
-footer{
-  position:relative;z-index:1;text-align:center;padding:3rem 2rem;
-  font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;
-  color:var(--muted);border-top:1px solid var(--rule);line-height:2.2;
-}
-footer a{color:var(--gold);text-decoration:none}
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.65rem 1.4rem;
+    font-size: 0.875rem;
+    font-family: var(--font-body);
+    border-radius: 3px;
+    text-decoration: none;
+    transition: all 0.18s;
+    cursor: pointer;
+    border: none;
+  }
 
-hr.rule{border:none;border-top:1px solid var(--rule);margin:3rem 0}
+  .btn-primary {
+    background: var(--teal-3);
+    color: #fff;
+    font-weight: 500;
+  }
+  .btn-primary:hover { background: var(--teal-2); color: #fff; }
 
-@media(max-width:700px){
-  nav{padding:.6rem 1rem}
-  .nav-links{display:none}
-  .lang-bar{top:38px;padding:.35rem 1rem;gap:.35rem}
-  .page{padding:2.5rem 1.2rem 5rem}
-  .hero{padding:4rem 1.2rem 3rem}
-  .books-strip{padding:1.5rem 1rem}
-  .books-grid{gap:.6rem}
-  .vol-card{min-width:100px}
-  .hero-stats{gap:1.5rem}
-}
-@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+  .btn-outline {
+    background: transparent;
+    color: var(--teal-1);
+    border: 1px solid rgba(29,158,117,0.45);
+  }
+  .btn-outline:hover { background: rgba(29,158,117,0.1); }
+
+  /* ── VORTEX SVG ── */
+  .hero-visual {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+  }
+
+  .vortex-container {
+    position: relative;
+    width: 340px;
+    height: 340px;
+  }
+
+  .vortex-svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  @keyframes spin-slow {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  @keyframes spin-rev {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(-360deg); }
+  }
+  @keyframes pulse-ring {
+    0%, 100% { opacity: 0.12; }
+    50% { opacity: 0.35; }
+  }
+
+  .ring-1 { animation: spin-slow 18s linear infinite; transform-origin: 170px 170px; }
+  .ring-2 { animation: spin-slow 12s linear infinite; transform-origin: 170px 170px; }
+  .ring-3 { animation: spin-rev 8s linear infinite; transform-origin: 170px 170px; }
+  .ring-4 { animation: spin-slow 5s linear infinite; transform-origin: 170px 170px; }
+  .pulse-1 { animation: pulse-ring 3.5s ease-in-out infinite; }
+  .pulse-2 { animation: pulse-ring 3.5s ease-in-out 1.2s infinite; }
+  .pulse-3 { animation: pulse-ring 3.5s ease-in-out 2.4s infinite; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ring-1, .ring-2, .ring-3, .ring-4 { animation: none; }
+  }
+
+  /* ── GRANT ALERT ── */
+  .grant-alert {
+    background: rgba(29,158,117,0.12);
+    border-left: 3px solid var(--teal-3);
+    padding: 1.25rem 1.75rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 1.25rem;
+    margin: 0;
+  }
+
+  .grant-alert-icon {
+    font-size: 1.5rem;
+    line-height: 1;
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+  }
+
+  .grant-alert-body { flex: 1; }
+
+  .grant-alert strong {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--teal-2);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 0.35rem;
+  }
+
+  .grant-alert p {
+    font-size: 0.95rem;
+    color: #a8d5c5;
+    line-height: 1.6;
+  }
+
+  .grant-alert a { color: var(--teal-1); }
+
+  /* ── SECTIONS ── */
+  .section {
+    padding: 5rem 8%;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .section-alt {
+    background: var(--ink-mid);
+  }
+
+  .section-light {
+    background: #0e2b23;
+  }
+
+  .section-header {
+    margin-bottom: 3rem;
+  }
+
+  .section-label {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--teal-3);
+    margin-bottom: 0.75rem;
+  }
+
+  .section-header h2 {
+    font-family: var(--font-display);
+    font-size: clamp(1.7rem, 2.8vw, 2.4rem);
+    font-weight: 400;
+    color: #cdeee3;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+  }
+
+  .section-header p {
+    margin-top: 0.9rem;
+    color: #7ab39e;
+    max-width: 640px;
+    font-size: 1rem;
+    line-height: 1.75;
+  }
+
+  /* ── WHAT IS HVEH ── */
+  .what-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: start;
+  }
+
+  .what-prose p {
+    color: #a8ccbd;
+    line-height: 1.8;
+    margin-bottom: 1.25rem;
+    font-size: 0.975rem;
+  }
+
+  .what-prose p strong { color: #cdeee3; font-weight: 500; }
+
+  .stats-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .stat-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 1.25rem 1.5rem;
+  }
+
+  .stat-number {
+    font-family: var(--font-display);
+    font-size: 2.2rem;
+    font-weight: 400;
+    color: var(--teal-2);
+    line-height: 1;
+    margin-bottom: 0.35rem;
+  }
+
+  .stat-label {
+    font-size: 0.82rem;
+    color: #6b9c8c;
+    letter-spacing: 0.04em;
+  }
+
+  /* ── SCIENCE / 7 PROOFS ── */
+  .proofs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.25rem;
+    margin-top: 2.5rem;
+  }
+
+  .proof-card {
+    background: rgba(255,255,255,0.025);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 1.25rem 1.5rem;
+    transition: border-color 0.2s;
+  }
+
+  .proof-card:hover { border-color: rgba(29,158,117,0.4); }
+
+  .proof-num {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    color: var(--teal-4);
+    margin-bottom: 0.5rem;
+  }
+
+  .proof-title {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #c0e8d8;
+    margin-bottom: 0.5rem;
+  }
+
+  .proof-body {
+    font-size: 0.825rem;
+    color: #6b9c8c;
+    line-height: 1.65;
+  }
+
+  .proof-link {
+    margin-top: 0.85rem;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--teal-4);
+    letter-spacing: 0.04em;
+    transition: color 0.15s;
+  }
+
+  a.proof-card { text-decoration: none; display: block; }
+  a.proof-card:hover .proof-link { color: var(--teal-2); }
+  a.proof-card:hover { border-color: rgba(29,158,117,0.5); }
+
+  /* ── MATH DISPLAY ── */
+  .math-block {
+    background: rgba(0,0,0,0.25);
+    border-left: 2px solid var(--teal-4);
+    padding: 1.25rem 1.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    color: #9fd4bf;
+    line-height: 1.9;
+    border-radius: 0 4px 4px 0;
+    margin: 1.75rem 0;
+    overflow-x: auto;
+  }
+
+  .math-block .comment {
+    color: #3d7060;
+    font-style: italic;
+  }
+
+  /* ── GRANT TRACK ── */
+  .grant-phases {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 2.5rem;
+  }
+
+  .phase-card {
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 1.5rem;
+    position: relative;
+  }
+
+  .phase-card.active {
+    border-color: var(--teal-3);
+    background: rgba(29,158,117,0.06);
+  }
+
+  .phase-badge {
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--teal-4);
+    margin-bottom: 0.75rem;
+  }
+
+  .phase-card.active .phase-badge {
+    color: var(--teal-2);
+  }
+
+  .phase-title {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #c0e8d8;
+    margin-bottom: 0.6rem;
+    line-height: 1.3;
+  }
+
+  .phase-body {
+    font-size: 0.825rem;
+    color: #6b9c8c;
+    line-height: 1.7;
+  }
+
+  .phase-card.active .phase-body { color: #8abfae; }
+
+  .phase-deadline {
+    margin-top: 1rem;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--teal-2);
+    border-top: 1px solid var(--rule);
+    padding-top: 0.75rem;
+  }
+
+  .active-marker {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--teal-2);
+    animation: pulse-ring 2s ease-in-out infinite;
+  }
+
+  /* ── NEED STATEMENT ── */
+  .need-cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+  }
+
+  .need-item {
+    border-top: 1px solid var(--rule);
+    padding-top: 1.25rem;
+    margin-bottom: 1.75rem;
+  }
+
+  .need-item h4 {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #b0d9c9;
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.02em;
+  }
+
+  .need-item p {
+    font-size: 0.875rem;
+    color: #6b9c8c;
+    line-height: 1.7;
+  }
+
+  /* ── DOCUMENTS ── */
+  .doc-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 2rem;
+  }
+
+  .doc-item {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    background: rgba(255,255,255,0.025);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 1rem 1.25rem;
+    text-decoration: none;
+    transition: border-color 0.18s, background 0.18s;
+  }
+
+  .doc-item:hover {
+    border-color: rgba(29,158,117,0.4);
+    background: rgba(29,158,117,0.05);
+  }
+
+  .doc-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 3px;
+    background: rgba(29,158,117,0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.05em;
+    color: var(--teal-2);
+    text-transform: uppercase;
+  }
+
+  .doc-meta { flex: 1; }
+  .doc-title { font-size: 0.9rem; font-weight: 500; color: #c0e8d8; display: block; }
+  .doc-desc { font-size: 0.8rem; color: #6b9c8c; margin-top: 0.2rem; }
+  .doc-arrow { color: var(--teal-4); font-size: 1.1rem; }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 3rem 8%;
+    border-top: 1px solid var(--rule);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .footer-brand {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: #3d7060;
+    line-height: 2;
+  }
+
+  .footer-brand strong { color: var(--teal-4); display: block; font-weight: 400; font-size: 12px; }
+
+  .footer-links {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .footer-links a {
+    font-size: 0.8rem;
+    color: #3d7060;
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+  .footer-links a:hover { color: var(--teal-2); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    .hero { grid-template-columns: 1fr; padding: 4rem 6%; gap: 3rem; }
+    .hero-visual { order: -1; }
+    .vortex-container { width: 240px; height: 240px; }
+    .what-grid, .need-cols { grid-template-columns: 1fr; }
+    .grant-phases { grid-template-columns: 1fr; }
+    .section { padding: 3.5rem 6%; }
+    footer { flex-direction: column; }
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    padding: 1rem 8%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(11,31,26,0.88);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .nav-brand {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    color: var(--teal-3);
+    text-decoration: none;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-size: 0.8rem;
+    color: #5a9080;
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    transition: color 0.15s;
+  }
+  .nav-links a:hover { color: var(--teal-2); }
+
+  @media (max-width: 640px) {
+    .nav-links { display: none; }
+  }
 </style>
 </head>
 <body>
 
-<canvas id="cosmos"></canvas>
-<script>
-(function(){
-  const cv=document.getElementById('cosmos'),ctx=cv.getContext('2d');
-  let W,H,stars=[],shoots=[];
-  function resize(){W=cv.width=window.innerWidth;H=cv.height=window.innerHeight}
-  window.addEventListener('resize',resize);resize();
-  for(let i=0;i<200;i++)stars.push({x:Math.random(),y:Math.random(),r:Math.random()*.85+.2,a:Math.random()*.45+.08,tw:Math.random()*Math.PI*2,ts:.004+Math.random()*.006});
-  function spawn(){const ang=(18+Math.random()*28)*Math.PI/180;shoots.push({x:Math.random()*W*1.2-W*.1,y:Math.random()*H*.38,len:70+Math.random()*130,ang,life:0,max:35+Math.random()*28,col:Math.random()>.6?'#c9a84c':'#e8e4d8'})}
-  setInterval(spawn,3000);setTimeout(spawn,1000);setTimeout(spawn,2100);
-  function draw(){
-    ctx.clearRect(0,0,W,H);
-    stars.forEach(s=>{s.tw+=s.ts;const a=s.a*(.5+.5*Math.sin(s.tw));ctx.beginPath();ctx.arc(s.x*W,s.y*H,s.r,0,Math.PI*2);ctx.fillStyle=`rgba(232,228,216,${a})`;ctx.fill()});
-    shoots=shoots.filter(s=>{s.life++;const t=s.life/s.max,a=t<.3?t/.3:1-((t-.3)/.7);const ex=s.x+Math.cos(s.ang)*s.len*t,ey=s.y+Math.sin(s.ang)*s.len*t;const g=ctx.createLinearGradient(s.x,s.y,ex,ey);g.addColorStop(0,'rgba(201,168,76,0)');g.addColorStop(.5,`rgba(201,168,76,${a*.5})`);g.addColorStop(1,`rgba(232,228,216,${a*.7})`);ctx.save();ctx.strokeStyle=g;ctx.lineWidth=1.1;ctx.beginPath();ctx.moveTo(s.x,s.y);ctx.lineTo(ex,ey);ctx.stroke();ctx.restore();return s.life<s.max});
-    requestAnimationFrame(draw);
-  }
-  draw();
-})();
-</script>
-
-<!-- ── NAV ── -->
 <nav>
-  <a class="nav-brand" href="hub.html">⚜ PRINCIPIA ORTHOGONA ⚜</a>
-  <div class="nav-links">
-    <a href="hub.html" class="cur">Hub</a>
-    <a href="index.html">Vol IV</a>
-    <a href="ch01.html">Higher Dim.</a>
-    <a href="chIV-preface.html">Preface</a>
-    <a href="chIV-axioms.html">Ch 1–8</a>
-    <a href="https://totogt.github.io/geometry/" target="_blank">Book 3 ↗</a>
-    <a href="https://totogt.github.io/AXLE/" target="_blank">AXLE ↗</a>
-    <a href="https://github.com/TOTOGT/AXLE" target="_blank">GitHub ↗</a>
-  </div>
+  <a class="nav-brand" href="#">HVEH / G6 LLC</a>
+  <ul class="nav-links">
+    <li><a href="#what">System</a></li>
+    <li><a href="#science">Science</a></li>
+    <li><a href="#grant">Grant</a></li>
+    <li><a href="#documents">Documents</a></li>
+    <li><a href="https://totogt.github.io/geometry/book4/hub.html" target="_blank">Principia Orthogona ↗</a></li>
+  </ul>
 </nav>
 
-<!-- ── LANGUAGE BAR ── -->
-<div class="lang-bar">
-  <span class="lang-bar-label">Lang</span>
-  <button class="lang-btn active" data-lang="en" onclick="setLang('en')">🇺🇸 EN</button>
-  <button class="lang-btn"        data-lang="es" onclick="setLang('es')">🇪🇸 ES</button>
-  <button class="lang-btn"        data-lang="fr" onclick="setLang('fr')">🇫🇷 FR</button>
-  <button class="lang-btn"        data-lang="de" onclick="setLang('de')">🇩🇪 DE</button>
-  <button class="lang-btn"        data-lang="zh" onclick="setLang('zh')">🇨🇳 ZH</button>
-  <button class="lang-btn"        data-lang="ja" onclick="setLang('ja')">🇯🇵 JA</button>
-  <button class="lang-btn"        data-lang="ar" onclick="setLang('ar')">🇸🇦 AR</button>
-  <span class="lang-dir-note" id="dirNote">Latin · LTR</span>
+<!-- GRANT ALERT BANNER -->
+<div class="grant-alert" style="padding-top: 5.5rem;">
+  <div class="grant-alert-icon">⚡</div>
+  <div class="grant-alert-body">
+    <strong>Active Grant Deadline</strong>
+    <p>NJDEP Resilient NJ Regional Resilience Planning Grant — up to $350,000 — deadline <strong style="color: #d4f0e8;">July 7, 2026, 12:00 PM EST</strong>.
+    A complete grant narrative is prepared and ready. Newark is invited to serve as Prime Grantee.
+    Submit to: <a href="mailto:resilientnj@dep.nj.gov">resilientnj@dep.nj.gov</a></p>
+  </div>
 </div>
 
-<!-- ── HERO ── -->
-<section class="hero">
-  <div class="hero-tag">Principia Orthogona · Book 4 · GTCT · G6 LLC · 2026</div>
-  <h1>PRINCIPIA<br>ORTHOGONA</h1>
-  <p class="hero-sub" id="heroSub">Generative Temporal Contact Theory · Topographical Orthogenetics</p>
-  <div class="hero-stats">
-    <div class="stat"><span class="stat-n">9</span><span class="stat-l">Axioms · Lean 4</span></div>
-    <div class="stat"><span class="stat-n">12</span><span class="stat-l">Operators</span></div>
-    <div class="stat"><span class="stat-n">0</span><span class="stat-l">Sorry in Chain.lean</span></div>
-    <div class="stat"><span class="stat-n">x*</span><span class="stat-l">Unique Fixed Point</span></div>
-    <div class="stat"><span class="stat-n">33</span><span class="stat-l">Orth. Constraints</span></div>
+<!-- HERO -->
+<section class="hero" style="padding-top: 4rem;">
+  <div class="hero-text">
+    <div class="eyebrow">G6 LLC / Principia Orthogona</div>
+    <h1>Helical Vortex <em>Energy Harvesters</em></h1>
+    <p class="hero-sub">
+      A contact-geometry-grounded system that converts destructive stormwater and surge energy into clean electricity — reducing flood peaks by 20–50% while the storm pays for itself.
+    </p>
+    <div class="hero-ctas">
+      <a class="btn btn-primary" href="#grant">Grant track →</a>
+      <a class="btn btn-outline" href="#science">Mathematical foundation</a>
+    </div>
   </div>
-  <div class="hero-eq">
-    G = U ∘ F ∘ K ∘ C &nbsp;·&nbsp; ε* = 1/3 &nbsp;·&nbsp; κ ≤ √(7/9) &lt; 1 &nbsp;·&nbsp; T* = 2π &nbsp;·&nbsp;
-    <a href="https://doi.org/10.5281/zenodo.19117399" style="color:var(--gold);text-decoration:none" target="_blank">doi:10.5281/zenodo.19117399</a>
-  </div>
-  <div class="hero-ops">
-    <span class="op op-c">C</span><span class="op-arr">∘</span>
-    <span class="op op-k">K</span><span class="op-arr">∘</span>
-    <span class="op op-f">F</span><span class="op-arr">∘</span>
-    <span class="op op-u">U</span>
-    <span class="op-g">= G &nbsp;·&nbsp; 0 sorry &nbsp;·&nbsp; Lean 4 verified</span>
+
+  <!-- ANIMATED VORTEX -->
+  <div class="hero-visual">
+    <div class="vortex-container">
+      <svg class="vortex-svg" viewBox="0 0 340 340" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#1d9e75" stop-opacity="0.25"/>
+            <stop offset="100%" stop-color="#1d9e75" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+
+        <!-- Ambient glow -->
+        <circle cx="170" cy="170" r="160" fill="url(#glow)" class="pulse-1"/>
+
+        <!-- Outermost ring - slow -->
+        <g class="ring-1">
+          <circle cx="170" cy="170" r="148" fill="none" stroke="#0f6e56" stroke-width="0.5" stroke-dasharray="6 18"/>
+          <ellipse cx="170" cy="170" rx="148" ry="30" fill="none" stroke="#0f4e3c" stroke-width="0.5" stroke-dasharray="4 20"/>
+        </g>
+
+        <!-- Ring 2 -->
+        <g class="ring-2">
+          <circle cx="170" cy="170" r="118" fill="none" stroke="#1d9e75" stroke-width="0.75" stroke-dasharray="8 14"/>
+          <ellipse cx="170" cy="170" rx="118" ry="40" fill="none" stroke="#155e46" stroke-width="0.75" stroke-dasharray="5 16"/>
+        </g>
+
+        <!-- Ring 3 - counter rotating -->
+        <g class="ring-3">
+          <circle cx="170" cy="170" r="88" fill="none" stroke="#1d9e75" stroke-width="1" stroke-dasharray="12 10"/>
+          <ellipse cx="170" cy="170" rx="88" ry="50" fill="none" stroke="#0f6e56" stroke-width="1" stroke-dasharray="7 12"/>
+        </g>
+
+        <!-- Inner active ring -->
+        <g class="ring-4">
+          <circle cx="170" cy="170" r="56" fill="none" stroke="#5dcaa5" stroke-width="1.25" stroke-dasharray="16 8"/>
+        </g>
+
+        <!-- Helical spiral arms -->
+        <g class="ring-2" opacity="0.7">
+          <path d="M170,170 Q210,130 240,100 Q260,80 250,60" fill="none" stroke="#1d9e75" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M170,170 Q130,210 100,240 Q80,260 60,250" fill="none" stroke="#1d9e75" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M170,170 Q200,200 230,220 Q260,240 270,270" fill="none" stroke="#0f6e56" stroke-width="1" stroke-linecap="round"/>
+          <path d="M170,170 Q140,140 110,120 Q80,100 70,70" fill="none" stroke="#0f6e56" stroke-width="1" stroke-linecap="round"/>
+        </g>
+
+        <!-- Center node -->
+        <circle cx="170" cy="170" r="28" fill="#04342c" stroke="#1d9e75" stroke-width="1.5"/>
+        <circle cx="170" cy="170" r="16" fill="#0f6e56" class="pulse-3"/>
+        <circle cx="170" cy="170" r="7" fill="#5dcaa5"/>
+
+        <!-- Labels -->
+        <text x="170" y="298" text-anchor="middle" font-family="'Courier New', monospace" font-size="9" fill="#3d7060" letter-spacing="2">REEB ORBIT  ·  dm³</text>
+        <text x="170" y="50" text-anchor="middle" font-family="'Courier New', monospace" font-size="9" fill="#3d7060" letter-spacing="2">TOGT / CONTACT GEOMETRY</text>
+
+        <!-- Radius markers -->
+        <line x1="170" y1="170" x2="226" y2="170" stroke="#1d4a3a" stroke-width="0.75" stroke-dasharray="3 4"/>
+        <text x="200" y="167" text-anchor="middle" font-family="'Courier New', monospace" font-size="8" fill="#3d7060">r*≈0.773</text>
+      </svg>
+    </div>
   </div>
 </section>
 
-<!-- ── BOOKS I–VII ── -->
-<section class="books-strip" id="series">
-  <span class="books-strip-label" id="seriesLabel">The Principia Orthogona Series · 7 Volumes</span>
-  <div class="books-grid">
+<!-- WHAT IS IT -->
+<section class="section" id="what">
+  <div class="section-header">
+    <div class="section-label">The system</div>
+    <h2>Water as a resource, not an adversary</h2>
+    <p>The HVEH is a modular hydrokinetic infrastructure system grounded in 25 years of mathematical research on contact manifolds and nonlinear operator dynamics.</p>
+  </div>
 
-    <a class="vol-card" href="https://totogt.github.io/AXLE/" target="_blank">
-      <span class="vol-num">Vol I</span>
-      <span class="vol-title">GOMC</span>
-      <span class="vol-sub">Operator algebra · G-chain · Ring structure</span>
-      <span class="vol-status vs-live">● Live</span>
-    </a>
+  <div class="what-grid">
+    <div class="what-prose">
+      <p>Stormwater enters a circular basin tangentially. Contact geometry — the mathematical structure governing which dynamical transitions are possible and in which order — forces the flow into a <strong>stable helical vortex</strong>. A vertical-axis low-head turbine extracts energy from the rotation.</p>
 
-    <a class="vol-card" href="https://doi.org/10.5281/zenodo.20159456" target="_blank">
-      <span class="vol-num">Vol II</span>
-      <span class="vol-title">TOGT</span>
-      <span class="vol-sub">Contact geometry · Reeb orbits · dm³</span>
-      <span class="vol-status vs-live">● Published</span>
-    </a>
+      <p>The basin geometry is not arbitrary. Operator non-commutativity [K, F] ≠ 0 — the curvature gate K must be established before nonlinear vortex amplification F — locks the system into its energy-producing attractor rather than chaotic turbulence. Deploying these in the wrong order produces the wrong outcome. This is a derivable mathematical consequence, not an empirical guess.</p>
 
-    <a class="vol-card" href="https://totogt.github.io/geometry/" target="_blank">
-      <span class="vol-num">Vol III</span>
-      <span class="vol-title">Mini-Beast</span>
-      <span class="vol-sub">Language + Science · 121 HTML chapters · CEFR A2–C1</span>
-      <span class="vol-status vs-live">● Live</span>
-    </a>
+      <div class="math-block">
+        <span class="comment">// Contact form on dm³ manifold</span><br>
+        α = dz − r² dθ<br><br>
+        <span class="comment">// Reeb vector field — persistent helical drive</span><br>
+        R = ∂z<br><br>
+        <span class="comment">// Operator sequence (non-commutative)</span><br>
+        G = U ∘ F ∘ K ∘ C<br><br>
+        <span class="comment">// Basin stability bound</span><br>
+        μ_max = −2,  ε₀ = 1/3 &lt; r* ≈ 0.773 &lt; κ* ≈ 0.882 &lt; 1
+      </div>
 
-    <a class="vol-card cur-vol" href="index.html">
-      <span class="vol-num">Vol IV</span>
-      <span class="vol-title">GTCT</span>
-      <span class="vol-sub">Formal theory · 9 axioms · 12 operators · Lean 4 · IMPA/Bienal</span>
-      <span class="vol-status vs-here">● Here</span>
-    </a>
-
-    <a class="vol-card" href="https://doi.org/10.5281/zenodo.19117399" target="_blank">
-      <span class="vol-num">Vol V</span>
-      <span class="vol-title">Dim. Theory</span>
-      <span class="vol-sub">Dimensional Theory · v8 final submission · Higher Dimensions Arc</span>
-      <span class="vol-status vs-sub">↑ Submitted</span>
-    </a>
-
-    <div class="vol-card" style="cursor:default">
-      <span class="vol-num">Vol VI</span>
-      <span class="vol-title">Explicit Ops</span>
-      <span class="vol-sub">Explicit operator realization · sorry-free A_i matrices</span>
-      <span class="vol-status vs-plan">Planned</span>
+      <p>The mathematics provides something conventional flood models — Navier-Stokes solvers, SWMM, HEC-RAS — systematically lack: a framework for predicting and preventing the <strong>bifurcation events</strong> (sudden inundation thresholds) that cause the most damage.</p>
     </div>
 
-    <div class="vol-card" style="cursor:default">
-      <span class="vol-num">Vol VII</span>
-      <span class="vol-title">—</span>
-      <span class="vol-sub">In preparation</span>
-      <span class="vol-status vs-plan">Planned</span>
+    <div class="stats-stack">
+      <div class="stat-card">
+        <div class="stat-number">20–50%</div>
+        <div class="stat-label">flood peak reduction per module during storm events</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">~500 kW</div>
+        <div class="stat-label">electrical output per module at storm scale (size-dependent)</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">7</div>
+        <div class="stat-label">independent mathematical proofs validating design claims</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">T* = 2π</div>
+        <div class="stat-label">proved limit cycle period on the contact manifold</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">El Ojo</div>
+        <div class="stat-label">natural proof of concept — rotating island, Paraná Delta, Argentina</div>
+      </div>
     </div>
-
   </div>
 </section>
 
-<!-- ── MAIN CONTENT (language-switched) ── -->
-<div class="page">
-
-  <!-- Translatable intro -->
-  <div id="introBlock"></div>
-
-  <!-- ── VOL IV · FORMAL THEORY ── -->
-  <span class="sec-head" id="secHeadIV">§ Vol IV · Formal Theory — GTCT</span>
-  <p class="sec-desc" id="secDescIV">9 axioms · 12 operators · 4 theorems · 0 sorry in Chain.lean · Lean 4 verified · Bilingual EN/PT · <a href="https://doi.org/10.5281/zenodo.19117400" style="color:var(--gold);text-decoration:none" target="_blank">doi:10.5281/zenodo.19117400</a> · ISBN 979-8-9954416-8-7</p>
-
-  <div class="ch-grid">
-
-    <a class="ch-card" href="chIV-preface.html">
-      <div class="ch-card-top">
-        <span class="ch-num">Ch 0</span>
-        <span class="ch-badge badge-prose">Prose</span>
-      </div>
-      <span class="ch-title">Preface — Lemniscata &amp; Analemma</span>
-      <span class="ch-desc">Origin story · two parental lessons · 26 years of ESL in Newark · PT primary</span>
-    </a>
-
-    <a class="ch-card" href="chIV-preface-impa.html">
-      <div class="ch-card-top">
-        <span class="ch-num">Ch 0 · IMPA</span>
-        <span class="ch-badge badge-impa">IMPA Ed.</span>
-      </div>
-      <span class="ch-title">Preface — IMPA Edition</span>
-      <span class="ch-desc">Stars background · EN primary · Cajueiro roots · SBM Bienal 2026</span>
-    </a>
-
-    <a class="ch-card" href="chIV-axioms.html">
-      <div class="ch-card-top">
-        <span class="ch-num">Ch 1</span>
-        <span class="ch-badge badge-lean">✓ Lean 4</span>
-      </div>
-      <span class="ch-title">The Seven Axioms</span>
-      <span class="ch-desc">Contact structure · G-chain · Temporal field · I₁I₂I₃ triad · 12-phase · Correspondence · Recursion</span>
-    </a>
-
-    <a class="ch-card" href="chIV-field.html">
-      <div class="ch-card-top">
-        <span class="ch-num">Ch 2</span>
-        <span class="ch-badge badge-lean">✓ Lean 4</span>
-      </div>
-      <span class="ch-title">The Dimensional Field Δ : M → ℝ¹²</span>
-      <span class="ch-desc">Axioms 8–9 · unit sphere S¹¹ · temporal compatibility T* = 2π · 12 phase subspaces</span>
-    </a>
-
-    <a class="ch-card" href="chIV-operators.html">
-      <div class="ch-card-top">
-        <span class="ch-num">Ch 3</span>
-        <span class="ch-badge badge-lean">✓ Lean 4</span>
-      </div>
-      <span class="ch-title">Dimensional Operators</span>
-      <span class="ch-desc">Aᵢ = Pⁱ + uᵢwᵢᵀ · ε*=1/3 · σ_min ≥ 2/3 · 4×3=12 colour-coded phase table · 7 languages</span>
-    </a>
-
-    <a class="ch-card" href="chIV-correspondence.html">
-      <div class="ch-card-top">
-        <span class="ch-num">Ch 4</span>
-        <span class="ch-badge badge-lean">✓ Lean 4</span>
-      </div>
-      <span class="ch-title">The Correspondence Theorem</span>
-      <span class="ch-desc">Unique bijection Φ : {D₁…D₁₂} ↔ {O₁…O₁₂} · the cycle is rigid · four-step proof</span>
-    </a>
-
-    <a class="ch-card" href="chIV-orthogonality.html">
-      <div class="ch-card-top">
-        <span class="ch-num">Ch 5</span>
-        <span class="ch-badge badge-lean">✓ Lean 4 · SH</span>
-      </div>
-      <span class="ch-title">The Orthogonality Theorem</span>
-      <span class="ch-desc">⟨Δ_⊥(Oᵢ), Δ_⊥(Oⱼ)⟩ = 0 for i≠j · Structural Hypothesis SH · v3 proof · g₃₃ = 33</span>
-    </a>
-
-    <a class="ch-card" href="chIV-recursion.html">
-      <div class="ch-card-top">
-        <span class="ch-num">Ch 6</span>
-        <span class="ch-badge badge-lean">✓ Lean 4 · SH</span>
-      </div>
-      <span class="ch-title">The Recursion Theorem</span>
-      <span class="ch-desc">Pythagorean contraction κ &lt; 1 · Banach fixed point · Spiral Return T1 · 0 sorry</span>
-    </a>
-
-    <a class="ch-card" href="chIV-emergence.html">
-      <div class="ch-card-top">
-        <span class="ch-num">Ch 7</span>
-        <span class="ch-badge badge-lean">✓ Lean 4 · SH</span>
-      </div>
-      <span class="ch-title">Emergence as Fixed Point</span>
-      <span class="ch-desc">E(x*)=x* unique · Eⁿ(x₀)→x* geometrically · identity as dynamic invariant · g₃₃ g₆₄</span>
-    </a>
-
-    <a class="ch-card" href="chIV-time.html">
-      <div class="ch-card-top">
-        <span class="ch-num">Ch 8</span>
-        <span class="ch-badge badge-prose">Interpretive</span>
-      </div>
-      <span class="ch-title">The Nature of Time in GTCT</span>
-      <span class="ch-desc">9 readings: constraint · generator · memory · resolver · identity · irreversibility · bridge · present · emergence</span>
-    </a>
-
-    <a class="ch-card" href="chIV-appendices.html">
-      <div class="ch-card-top">
-        <span class="ch-num">App A–F</span>
-        <span class="ch-badge badge-ref">Reference</span>
-      </div>
-      <span class="ch-title">Appendices</span>
-      <span class="ch-desc">Notation · Operator tables · 12-phase diagram · Brouwer &amp; Banach · Glossary EN/PT · Correspondence table</span>
-    </a>
-
+<!-- NEED -->
+<section class="section section-alt" id="need">
+  <div class="section-header">
+    <div class="section-label">Statement of need</div>
+    <h2>Newark and the Passaic corridor</h2>
+    <p>One of the most flood-vulnerable urban corridors in the northeastern United States — with a 39-day global visibility window that makes the risk immediate.</p>
   </div>
 
-  <!-- ── HIGHER DIMENSIONS ARC ── -->
-  <span class="sec-head" id="secHeadDim">§ Higher Dimensions Arc — 1D → 5D+t</span>
-  <p class="sec-desc" id="secDescDim">1D fermion seed (ψ²=0) → 2D+t phase plane → 3D contact manifold → 4D tesseract → 5D jet space → 5D+t GTCT closes · doi:10.5281/zenodo.19117399</p>
-
-  <div class="ch-grid">
-
-    <a class="ch-card" href="ch00-student-edition.html">
-      <div class="ch-card-top">
-        <span class="ch-num">Ch 0 · Student</span>
-        <span class="ch-badge badge-prose">Guide</span>
+  <div class="need-cols">
+    <div>
+      <div class="need-item">
+        <h4>Climate risk</h4>
+        <p>1–2 ft of sea-level rise projected by 2050 increases baseline surge risk across Newark Bay and the Raritan estuary. Extreme precipitation events (3″+ under 3 hours) overwhelm combined sewers across Newark, Elizabeth, and Harrison regularly.</p>
       </div>
-      <span class="ch-title">Student Edition — How to Read</span>
-      <span class="ch-desc">Bilingual EN/PT · mathematical reading guide · three-pass structure</span>
-    </a>
+      <div class="need-item">
+        <h4>Equity dimension</h4>
+        <p>Over 40% of Newark's population lives in FEMA Special Flood Hazard Areas. South and East Ward residents bear disproportionate flood risk and energy cost burdens simultaneously. HVEH addresses both: reduced flood peaks and locally generated electricity.</p>
+      </div>
+      <div class="need-item">
+        <h4>Post-Sandy context</h4>
+        <p>Regional recovery costs from Sandy exceeded $36 billion. Ida (2021) killed 27 NJ residents, primarily from urban flooding. Current infrastructure responds to water as an adversary. HVEH proposes a different paradigm: water as resource.</p>
+      </div>
+    </div>
+    <div>
+      <div class="need-item">
+        <h4>The innovation gap</h4>
+        <p>No current NJ flood resilience program employs contact-geometric attractor analysis or operator-ordering theory to predict threshold phenomena — the bifurcation events that conventional solvers systematically miss.</p>
+      </div>
+      <div class="need-item">
+        <h4>World Cup window (June 11 – July 19, 2026)</h4>
+        <p>The FIFA World Cup Jersey Fan Hub at Sports Illustrated Stadium in Harrison is open for 39 days. MetLife Stadium hosts the Final on July 19. Forecasters flag active flash flood risk for the Newark–Harrison corridor during this exact window — with global visibility and billions of viewers.</p>
+      </div>
+      <div class="need-item">
+        <h4>Economic case</h4>
+        <p>Modules installed at Passaic River outfalls generate electricity during the exact events that currently cause the most damage — offsetting pump costs, powering emergency lighting, feeding local microgrids. The storm pays for itself.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <a class="ch-card" href="ch01.html">
-      <div class="ch-card-top"><span class="ch-num">Ch 1</span><span class="ch-badge badge-dim">1D</span></div>
-      <span class="ch-title">The Fermion Seed — ψ² = 0</span>
-      <span class="ch-desc">1D · six directions of potential · the decision as C · pre-braid</span>
-    </a>
-
-    <a class="ch-card" href="ch02.html">
-      <div class="ch-card-top"><span class="ch-num">Ch 2</span><span class="ch-badge badge-dim">2D+t</span></div>
-      <span class="ch-title">2D+t — Extended Phase Space</span>
-      <span class="ch-desc">α = dy − f dx · Darboux · phase plane lifts to helix in 3D</span>
-    </a>
-
-    <a class="ch-card" href="ch03.html">
-      <div class="ch-card-top"><span class="ch-num">Ch 3</span><span class="ch-badge badge-dim">3D</span></div>
-      <span class="ch-title">Contact 3-Manifold + S³</span>
-      <span class="ch-desc">dm³ ODE · Theorem 3.2 · Hopf fibration · §3.9 T*=2π forced</span>
-    </a>
-
-    <a class="ch-card" href="ch04.html">
-      <div class="ch-card-top"><span class="ch-num">Ch 4</span><span class="ch-badge badge-dim">4D</span></div>
-      <span class="ch-title">The Tesseract</span>
-      <span class="ch-desc">4D · S³ as hypersurface in ℝ⁴ · symplectisation · holomorphic curves</span>
-    </a>
-
-    <a class="ch-card" href="ch05.html">
-      <div class="ch-card-top"><span class="ch-num">Ch 5</span><span class="ch-badge badge-dim">5D</span></div>
-      <span class="ch-title">OPERA SATOR — Jet Space J¹(ℝ,ℝ²)</span>
-      <span class="ch-desc">5D · palindrome square as operator map · five coordinates = GTCT operators</span>
-    </a>
-
-    <a class="ch-card" href="ch06.html">
-      <div class="ch-card-top"><span class="ch-num">Ch 6</span><span class="ch-badge badge-dim">5D+t</span></div>
-      <span class="ch-title">666 · The 111 Square</span>
-      <span class="ch-desc">5D+t · 6×6 magic square · time as sixth slot · 666 = T(36)</span>
-    </a>
-
-    <a class="ch-card" href="ch07.html">
-      <div class="ch-card-top"><span class="ch-num">Ch 7</span><span class="ch-badge badge-dim">Crystal</span></div>
-      <span class="ch-title">The Crystalline Return</span>
-      <span class="ch-desc">Wigner crystal · moiré · E = kT·ln(Ω)</span>
-    </a>
-
-    <a class="ch-card" href="ch08.html">
-      <div class="ch-card-top"><span class="ch-num">Ch 8</span><span class="ch-badge badge-lean">Lean 4</span></div>
-      <span class="ch-title">The Axiomatic Turn</span>
-      <span class="ch-desc">Γ ⊢ φ · formal proof as U · Lean 4 and the sorry-free paper</span>
-    </a>
-
-    <a class="ch-card" href="ch09.html">
-      <div class="ch-card-top"><span class="ch-num">Ch 9</span><span class="ch-badge badge-dim">φ</span></div>
-      <span class="ch-title">φ — The Subcritical Approach</span>
-      <span class="ch-desc">Golden ratio · Fibonacci · fold frozen at q* &lt; 1</span>
-    </a>
-
-    <a class="ch-card" href="ch10.html">
-      <div class="ch-card-top"><span class="ch-num">Ch 10</span><span class="ch-badge badge-lean">✓ dm³</span></div>
-      <span class="ch-title">Helical Attractors on Contact 3-Manifolds</span>
-      <span class="ch-desc">dm³ ODE · r*≈0.773 basin · SBM Bienal paper</span>
-    </a>
-
+<!-- SCIENCE -->
+<section class="section section-light" id="science">
+  <div class="section-header">
+    <div class="section-label">Mathematical foundation</div>
+    <h2>The seven-proofs framework</h2>
+    <p>Every HVEH design claim is supported by seven independent mathematical proofs — the Principia Orthogona Standard Methodology — ensuring rigor from the molecular to the planetary scale.</p>
   </div>
 
-  <!-- ── EXTENDED CHAPTERS ── -->
-  <span class="sec-head" id="secHeadExt">§ Extended Chapters &amp; Special Files</span>
-  <p class="sec-desc" id="secDescExt">Additional material, popular editions, and extended applications beyond the main arc.</p>
-
-  <div class="ch-grid">
-
-    <a class="ch-card" href="ch11-catgt.html">
-      <div class="ch-card-top"><span class="ch-num">Ch 11</span><span class="ch-badge badge-ext">CatGT</span></div>
-      <span class="ch-title">CatGT — Catalytic Generative Theory</span>
-      <span class="ch-desc">Category-theoretic formulation of GTCT · functorial operator chains</span>
+  <div class="proofs-grid">
+    <a class="proof-card" href="proofs/operator-algebra.html" style="text-decoration:none;display:block">
+      <div class="proof-num">Proof I</div>
+      <div class="proof-title">Operator Algebra</div>
+      <div class="proof-body">Commutator [K, F] ≠ 0. Non-commutativity localizes at the fold point. Correct operator sequence is derivable, not empirical.</div>
+      <div class="proof-link">Full proof →</div>
     </a>
-
-    <a class="ch-card" href="chTau-tartaruga.html">
-      <div class="ch-card-top"><span class="ch-num">Ch τ</span><span class="ch-badge badge-prose">Bilingual</span></div>
-      <span class="ch-title">The Cosmic Tortoise / Tartaruga Cósmica</span>
-      <span class="ch-desc">τ=2 · embodiment threshold · bilingual EN/PT</span>
+    <a class="proof-card" href="proofs/distribution-theory.html" style="text-decoration:none;display:block">
+      <div class="proof-num">Proof II</div>
+      <div class="proof-title">Distribution Theory</div>
+      <div class="proof-body">Heaviside gate produces unavoidable Dirac delta boundary term encoding irreversibility of the vortex transition.</div>
+      <div class="proof-link">Full proof →</div>
     </a>
-
-    <a class="ch-card" href="ch-faraday.html">
-      <div class="ch-card-top"><span class="ch-num">Faraday</span><span class="ch-badge badge-ext">EM</span></div>
-      <span class="ch-title">Hidden Geometry of EM Forces</span>
-      <span class="ch-desc">Faraday + dm³ · electromagnetic contact geometry · Grossi 2026</span>
+    <a class="proof-card" href="proofs/catastrophe-theory.html" style="text-decoration:none;display:block">
+      <div class="proof-num">Proof III</div>
+      <div class="proof-title">Catastrophe Theory</div>
+      <div class="proof-body">Whitney A₂ fold. Correct operator order corresponds to a path in control-state space that crosses the fold into the stable helical basin.</div>
+      <div class="proof-link">Full proof →</div>
     </a>
-
-    <a class="ch-card" href="chE-gtct.html">
-      <div class="ch-card-top"><span class="ch-num">Ch E</span><span class="ch-badge badge-prose">Popular</span></div>
-      <span class="ch-title">GTCT for Everyone</span>
-      <span class="ch-desc">9 axioms · 12 operators · 4 theorems · time as 5 properties</span>
+    <a class="proof-card" href="proofs/contact-geometry.html" style="text-decoration:none;display:block">
+      <div class="proof-num">Proof IV</div>
+      <div class="proof-title">Contact Geometry</div>
+      <div class="proof-body">Maximal non-integrability of ker(α) at the fold. Curvature bound μ_max = −2 fixes universal sigmoid Hill coefficient n ≈ 3.64.</div>
+      <div class="proof-link">Full proof →</div>
     </a>
-
-    <a class="ch-card" href="chE-gtct-alt.html">
-      <div class="ch-card-top"><span class="ch-num">Ch E · Alt</span><span class="ch-badge badge-prose">Alt</span></div>
-      <span class="ch-title">GTCT for Everyone — Alternate</span>
-      <span class="ch-desc">Alternative formatting of the popular edition</span>
+    <a class="proof-card" href="proofs/spectral-markov.html" style="text-decoration:none;display:block">
+      <div class="proof-num">Proof V</div>
+      <div class="proof-title">Spectral / Markov Generator</div>
+      <div class="proof-body">Discrete state model shows correct operator order creates stable non-absorbing rotating attractor; wrong order creates chaotic or locked-off absorbing state.</div>
+      <div class="proof-link">Full proof →</div>
     </a>
-
-    <a class="ch-card" href="gomc-opus.html">
-      <div class="ch-card-top"><span class="ch-num">GOMC</span><span class="ch-badge badge-ext">Full</span></div>
-      <span class="ch-title">GOMC Opus — CatGT + Plasma + Coherence Bridge</span>
-      <span class="ch-desc">Full operator coherence bridge · plasma + biology domains</span>
+    <a class="proof-card" href="proofs/numerical-constructive.html" style="text-decoration:none;display:block">
+      <div class="proof-num">Proof VI</div>
+      <div class="proof-title">Numerical / Constructive</div>
+      <div class="proof-body">Grid simulations confirm P_ON &gt; 0 under correct sequencing and P_ON → 0 under reversed order. Constructive proof closes the algebra–physics loop.</div>
+      <div class="proof-link">Full proof →</div>
     </a>
-
-  </div>
-
-  <!-- ── PDFs ── -->
-  <span class="sec-head" id="secHeadPDF">§ PDFs &amp; Preprints</span>
-
-  <div class="pdf-grid">
-    <a class="pdf-card" href="GTCT_2026_v3.pdf" target="_blank">
-      <span class="pdf-icon">PDF</span>
-      <div><div class="pdf-name">GTCT 2026 v3</div><div class="pdf-sub">SBM Bienal paper · doi:10.5281/zenodo.20239928</div></div>
-    </a>
-    <a class="pdf-card" href="Faraday_EM_dm3_Grossi2026.pdf" target="_blank">
-      <span class="pdf-icon">PDF</span>
-      <div><div class="pdf-name">Faraday EM + dm³</div><div class="pdf-sub">Grossi 2026 · electromagnetic geometry</div></div>
-    </a>
-    <a class="pdf-card" href="knacci_spine_v4.pdf" target="_blank">
-      <span class="pdf-icon">PDF</span>
-      <div><div class="pdf-name">k-nacci Spine v4</div><div class="pdf-sub">N-bonacci criticality · DNLS · doi:10.5281/zenodo.20026942</div></div>
-    </a>
-    <a class="pdf-card" href="zeolite_selectivity_final_v2_1.pdf" target="_blank">
-      <span class="pdf-icon">PDF</span>
-      <div><div class="pdf-name">Zeolite Selectivity</div><div class="pdf-sub">Coherence Bridge domain · crystal lattice geometry</div></div>
+    <a class="proof-card" href="proofs/information-geometry.html" style="text-decoration:none;display:block">
+      <div class="proof-num">Proof VII</div>
+      <div class="proof-title">Information Geometry</div>
+      <div class="proof-body">Flow states on a negatively curved Fisher manifold. Correct and wrong sequences are non-homotopic geodesics — topologically separated outcomes.</div>
+      <div class="proof-link">Full proof →</div>
     </a>
   </div>
 
-  <!-- ── EXTERNAL LINKS ── -->
-  <span class="sec-head" id="secHeadExt2">§ Repositories &amp; Records</span>
+  <div style="margin-top: 2.5rem; padding: 1.5rem; background: rgba(0,0,0,0.2); border-radius: 4px; border: 1px solid var(--rule);">
+    <p style="font-size: 0.875rem; color: #6b9c8c; line-height: 1.75;">
+      The full framework is formalized in the <strong style="color: #a8ccbd;">Principia Orthogona</strong> series (root DOI: 
+      <a href="https://doi.org/10.5281/zenodo.19117399" target="_blank" style="color: var(--teal-2);">10.5281/zenodo.19117399</a>, 
+      ISBN 979-8-9954416-6-3). Five works from the series were accepted at the 
+      <strong style="color: #a8ccbd;">XII Bienal da Sociedade Brasileira de Matemática</strong> (Natal, Brazil, August 2026). 
+      Formal verification in Lean 4/Mathlib4 is maintained in the 
+      <a href="https://github.com/TOTOGT/AXLE" target="_blank" style="color: var(--teal-2);">AXLE engine →</a>
+    </p>
+  </div>
+</section>
 
-  <div class="ext-strip">
-    <a class="ext-link" href="https://github.com/TOTOGT/AXLE" target="_blank"><span class="dot dot-live"></span>GitHub · AXLE</a>
-    <a class="ext-link" href="https://github.com/TOTOGT/GTCT" target="_blank"><span class="dot dot-live"></span>GitHub · GTCT</a>
-    <a class="ext-link" href="https://github.com/TOTOGT/DM3-lab" target="_blank"><span class="dot dot-live"></span>GitHub · DM3-lab</a>
-    <a class="ext-link" href="https://doi.org/10.5281/zenodo.19117399" target="_blank"><span class="dot dot-pub"></span>Zenodo Series Root</a>
-    <a class="ext-link" href="https://doi.org/10.5281/zenodo.19117400" target="_blank"><span class="dot dot-pub"></span>Vol IV DOI</a>
-    <a class="ext-link" href="https://orcid.org/0009-0000-6496-2186" target="_blank"><span class="dot dot-pub"></span>ORCID</a>
-    <a class="ext-link" href="https://ssrn.com/abstract=6805940" target="_blank"><span class="dot dot-pub"></span>SSRN · Book 3</a>
-    <a class="ext-link" href="https://g6llc.gumroad.com" target="_blank"><span class="dot dot-pub"></span>Gumroad</a>
-    <a class="ext-link" href="https://totogt.github.io/AXLE/" target="_blank"><span class="dot dot-live"></span>AXLE Live Book</a>
+<!-- GRANT TRACK -->
+<section class="section" id="grant">
+  <div class="section-header">
+    <div class="section-label">Funding pathway</div>
+    <h2>Three-phase implementation strategy</h2>
+    <p>The Resilient NJ planning grant is Phase 1. The narrative is written. The science is documented. What is needed now is a municipal partner.</p>
   </div>
 
-  <!-- Translatable status block -->
-  <div id="statusBlock"></div>
+  <div style="background: rgba(29,158,117,0.08); border: 1px solid rgba(29,158,117,0.3); border-radius: 4px; padding: 1.5rem 2rem; margin-bottom: 2.5rem;">
+    <div style="font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.14em; color: var(--teal-3); margin-bottom: 0.6rem;">IMMEDIATE ASK FROM CITY OF NEWARK</div>
+    <p style="font-size: 0.925rem; color: #a8ccbd; line-height: 1.75;">
+      The Resilient NJ grant requires a <strong style="color: #cdeee3;">Prime Grantee municipality</strong> leading a team of ≥3 contiguous municipalities and one community-based organization. 
+      Newark, Belleville, and Harrison form the exact corridor this project addresses. 
+      G6 LLC provides all scientific and technical content — including the complete grant narrative. 
+      The City of Newark is invited to provide a <strong style="color: #cdeee3;">Letter of Commitment</strong> and municipal leadership to submit by July 7.
+    </p>
+  </div>
 
-</div><!-- /page -->
+  <div class="grant-phases">
+    <div class="phase-card active">
+      <div class="active-marker"></div>
+      <div class="phase-badge">Phase 1 — Active</div>
+      <div class="phase-title">Resilient NJ Regional Resilience Planning Grant</div>
+      <div class="phase-body">Up to $350,000. 12-month planning phase: CFD + contact-geometry simulations for 2–4 candidate HVEH sites, community co-design, regulatory feasibility memo, implementation roadmap. NOFA: NJDEP Office of Climate Resilience.</div>
+      <div class="phase-deadline">Deadline: July 7, 2026 · resilientnj@dep.nj.gov</div>
+    </div>
 
+    <div class="phase-card">
+      <div class="phase-badge">Phase 2 — Years 1–3</div>
+      <div class="phase-title">Pilot deployment</div>
+      <div class="phase-body">NJDEP Shore Protection Program + USACE Engineering With Nature funding for pilot HVEH deployment at 1–3 sites. Full CFD validation, community ownership structures, first electricity generation.</div>
+      <div class="phase-deadline">Funding: Shore Protection + USACE Section 404</div>
+    </div>
+
+    <div class="phase-card">
+      <div class="phase-badge">Phase 3 — Years 3–6</div>
+      <div class="phase-title">Statewide scale-up</div>
+      <div class="phase-body">Rebuild by Design–style competition and federal IRA clean energy infrastructure funds. Target: MW-scale HVEH network across NJ coastal and urban waterways. The Seven-Proofs framework is open-source for municipal replication.</div>
+      <div class="phase-deadline">Funding: IRA clean energy + Rebuild by Design</div>
+    </div>
+  </div>
+
+  <div style="margin-top: 2rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+    <a class="btn btn-primary" href="mailto:resilientnj@dep.nj.gov?subject=Newark%20%E2%80%94%20Helical%20Vortex%20Energy%20Harvesters%20Resilience%20Plan">
+      Submit to NJDEP →
+    </a>
+    <a class="btn btn-outline" href="#documents">View full grant narrative</a>
+  </div>
+</section>
+
+<!-- DOCUMENTS -->
+<section class="section section-alt" id="documents">
+  <div class="section-header">
+    <div class="section-label">Project documents</div>
+    <h2>Ready-to-submit materials</h2>
+  </div>
+
+  <div class="doc-list">
+    <a class="doc-item" href="ResilientNJ_HVEH_Grant_Narrative.pages" target="_blank">
+      <div class="doc-icon">GRANT</div>
+      <div class="doc-meta">
+        <span class="doc-title">Resilient NJ Grant Narrative</span>
+        <span class="doc-desc">11 sections: executive summary, need statement, HVEH description, seven-proofs framework, methodology, equity plan, budget narrative. Complete and ready.</span>
+      </div>
+      <span class="doc-arrow">↗</span>
+    </a>
+
+    <a class="doc-item" href="Newark_Sustainability_PitchLetter.pages" target="_blank">
+      <div class="doc-icon">PITCH</div>
+      <div class="doc-meta">
+        <span class="doc-title">Newark Sustainability Pitch Letter</span>
+        <span class="doc-desc">Letter to Newark Office of Sustainability & Chief Resilience Officer proposing municipal partnership and outlining the World Cup urgency window.</span>
+      </div>
+      <span class="doc-arrow">↗</span>
+    </a>
+
+    <a class="doc-item" href="https://doi.org/10.5281/zenodo.19117399" target="_blank">
+      <div class="doc-icon">DOI</div>
+      <div class="doc-meta">
+        <span class="doc-title">Principia Orthogona — Root Zenodo deposit</span>
+        <span class="doc-desc">Complete mathematical framework. ISBN 979-8-9954416-6-3. Five works accepted at XII Bienal SBM, Natal, Brazil, August 2026.</span>
+      </div>
+      <span class="doc-arrow">↗</span>
+    </a>
+
+    <a class="doc-item" href="https://github.com/TOTOGT/AXLE" target="_blank">
+      <div class="doc-icon">LEAN</div>
+      <div class="doc-meta">
+        <span class="doc-title">AXLE engine — Lean 4 / Mathlib4 formal verification</span>
+        <span class="doc-desc">AutophagyDm3.lean: 21 theorems, 18 proved without sorry. Formal verification of TOGT/GTCT claims.</span>
+      </div>
+      <span class="doc-arrow">↗</span>
+    </a>
+
+    <a class="doc-item" href="https://totogt.github.io/geometry/book4/hub.html" target="_blank">
+      <div class="doc-icon">HUB</div>
+      <div class="doc-meta">
+        <span class="doc-title">Principia Orthogona interactive hub</span>
+        <span class="doc-desc">Interactive HTML books, hologram tutoring tools, and chapter-level deep dives into the TOGT framework.</span>
+      </div>
+      <span class="doc-arrow">↗</span>
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
 <footer>
-  Principia Orthogona · Vol IV · GTCT — Generative Temporal Contact Theory &nbsp;·&nbsp; G6 LLC · Newark NJ · 2026<br>
-  Pablo Nogueira Grossi · ORCID: <a href="https://orcid.org/0009-0000-6496-2186">0009-0000-6496-2186</a><br>
-  <a href="https://doi.org/10.5281/zenodo.19117399">doi:10.5281/zenodo.19117399</a> (Series) &nbsp;·&nbsp;
-  <a href="https://doi.org/10.5281/zenodo.19117400">doi:10.5281/zenodo.19117400</a> (Vol IV) &nbsp;·&nbsp;
-  ISBN 979-8-9954416-8-7 (Print) · -9-4 (eBook) &nbsp;·&nbsp;
-  <a href="https://github.com/TOTOGT/AXLE">AXLE ↗</a><br>
-  MSC 2020: 37C10 · 37C75 · 53D10 · 92C20 · 91B55 &nbsp;·&nbsp; CC BY-NC-ND 4.0 (text) · MIT (code)
+  <div class="footer-brand">
+    <strong>G6 LLC / Principia Orthogona</strong>
+    Newark, NJ<br>
+    EIN 33-2880433  ·  NAICS 541715<br>
+    ORCID: 0009-0000-6496-2186<br>
+    Fiscally sponsored by NYFA
+  </div>
+
+  <div class="footer-links">
+    <a href="mailto:resilientnj@dep.nj.gov">resilientnj@dep.nj.gov</a>
+    <a href="https://doi.org/10.5281/zenodo.19117399" target="_blank">Zenodo root DOI</a>
+    <a href="https://github.com/TOTOGT/AXLE" target="_blank">AXLE on GitHub</a>
+    <a href="https://totogt.github.io/geometry/book4/hub.html" target="_blank">Principia Orthogona hub</a>
+  </div>
 </footer>
-
-<!-- ════════════════════════════════════════════
-     MULTILINGUAL CONTENT DATA
-     ════════════════════════════════════════════ -->
-<script>
-
-const LANG_META = {
-  en: { dir:'ltr', font:"'Noto Serif Display','Noto Serif',Georgia,serif", script:'Latin · LTR' },
-  es: { dir:'ltr', font:"'Noto Serif Display','Noto Serif',Georgia,serif", script:'Latin · LTR' },
-  fr: { dir:'ltr', font:"'Noto Serif Display','Noto Serif',Georgia,serif", script:'Latin · LTR' },
-  de: { dir:'ltr', font:"'Noto Serif Display','Noto Serif',Georgia,serif", script:'Latin · LTR' },
-  zh: { dir:'ltr', font:"'Noto Serif SC','Noto Serif',serif",              script:'CJK · LTR'   },
-  ja: { dir:'ltr', font:"'Noto Serif JP','Noto Serif',serif",              script:'CJK · LTR'   },
-  ar: { dir:'rtl', font:"'Noto Naskh Arabic','Noto Serif',serif",          script:'Arabic · RTL' },
-};
-
-/* Labels for the static section headers (indexed elements) */
-const LABELS = {
-  heroSub: {
-    en:'Generative Temporal Contact Theory · Topographical Orthogenetics · Newark NJ · 2026',
-    es:'Teoría del Contacto Generativo Temporal · Ortogenética Topográfica · Newark NJ · 2026',
-    fr:'Théorie du Contact Génératif Temporel · Orthogénétique Topographique · Newark NJ · 2026',
-    de:'Generative Temporale Kontakttheorie · Topographische Orthogenetik · Newark NJ · 2026',
-    zh:'生成时间接触理论 · 地形正交遗传学 · Newark NJ · 2026',
-    ja:'生成的時間接触理論 · 地形的直交遺伝学 · Newark NJ · 2026',
-    ar:'نظرية الاتصال الزمني التوليدي · الأرثوجينيتيكس الطبوغرافي · نيوارك NJ · 2026',
-  },
-  seriesLabel: {
-    en:'The Principia Orthogona Series · 7 Volumes',
-    es:'La Serie Principia Orthogona · 7 Volúmenes',
-    fr:'La Série Principia Orthogona · 7 Volumes',
-    de:'Die Principia Orthogona-Reihe · 7 Bände',
-    zh:'Principia Orthogona 系列 · 7卷',
-    ja:'Principia Orthogona シリーズ · 7巻',
-    ar:'سلسلة Principia Orthogona · 7 مجلدات',
-  },
-  secHeadIV: {
-    en:'§ Vol IV · Formal Theory — GTCT',
-    es:'§ Vol IV · Teoría Formal — GTCT',
-    fr:'§ Vol IV · Théorie Formelle — GTCT',
-    de:'§ Vol IV · Formale Theorie — GTCT',
-    zh:'§ 第IV卷 · 形式理论 — GTCT',
-    ja:'§ 第IV巻 · 形式的理論 — GTCT',
-    ar:'§ المجلد الرابع · النظرية الصورية — GTCT',
-  },
-  secDescIV: {
-    en:'9 axioms · 12 operators · 4 theorems · 0 sorry in Chain.lean · Lean 4 verified · Bilingual EN/PT · <a href="https://doi.org/10.5281/zenodo.19117400" style="color:var(--gold);text-decoration:none" target="_blank">doi:10.5281/zenodo.19117400</a> · ISBN 979-8-9954416-8-7',
-    es:'9 axiomas · 12 operadores · 4 teoremas · 0 sorry en Chain.lean · verificado en Lean 4 · Bilingüe EN/PT',
-    fr:'9 axiomes · 12 opérateurs · 4 théorèmes · 0 sorry dans Chain.lean · vérifié en Lean 4 · bilingue EN/PT',
-    de:'9 Axiome · 12 Operatoren · 4 Sätze · 0 sorry in Chain.lean · Lean 4 verifiziert · bilingual EN/PT',
-    zh:'9条公理 · 12个算子 · 4个定理 · Chain.lean中0个sorry · Lean 4验证 · 英葡双语',
-    ja:'9公理 · 12作用素 · 4定理 · Chain.leanのsorryゼロ · Lean 4検証済み · EN/PT二言語',
-    ar:'9 بديهيات · 12 مؤثراً · 4 نظريات · 0 sorry في Chain.lean · موثَّق بـ Lean 4 · ثنائي اللغة EN/PT',
-  },
-  secHeadDim: {
-    en:'§ Higher Dimensions Arc — 1D → 5D+t',
-    es:'§ Arco de Dimensiones Superiores — 1D → 5D+t',
-    fr:'§ Arc des Dimensions Supérieures — 1D → 5D+t',
-    de:'§ Höhere Dimensionen — 1D → 5D+t',
-    zh:'§ 更高维度弧 — 1D → 5D+t',
-    ja:'§ 高次元アーク — 1D → 5D+t',
-    ar:'§ قوس الأبعاد الأعلى — 1D → 5D+t',
-  },
-  secDescDim: {
-    en:'1D fermion seed (ψ²=0) → 2D+t phase plane → 3D contact manifold → 4D tesseract → 5D jet space → 5D+t GTCT closes · doi:10.5281/zenodo.19117399',
-    es:'Semilla fermión 1D (ψ²=0) → plano de fase 2D+t → variedad de contacto 3D → tesseracto 4D → espacio jet 5D → 5D+t GTCT cierra',
-    fr:'Graine fermion 1D (ψ²=0) → plan de phase 2D+t → variété de contact 3D → tesseract 4D → espace jet 5D → 5D+t GTCT se ferme',
-    de:'1D-Fermionkeim (ψ²=0) → 2D+t Phasenebene → 3D Kontaktmannigfaltigkeit → 4D Tesserakt → 5D Jet-Raum → 5D+t GTCT schließt',
-    zh:'1D费米子种子 (ψ²=0) → 2D+t相平面 → 3D接触流形 → 4D超立方体 → 5D射流空间 → 5D+t GTCT闭合',
-    ja:'1Dフェルミオン種 (ψ²=0) → 2D+t位相平面 → 3D接触多様体 → 4Dテセラクト → 5Dジェット空間 → 5D+t GTCT閉合',
-    ar:'بذرة الفرميون 1D (ψ²=0) → مستوى الطور 2D+t → متعدد تشعب الاتصال 3D → رباعي الأبعاد 4D → فضاء النفاثة 5D → 5D+t GTCT يُغلق',
-  },
-  secHeadExt: {
-    en:'§ Extended Chapters &amp; Special Files',
-    es:'§ Capítulos Extendidos y Archivos Especiales',
-    fr:'§ Chapitres Étendus et Fichiers Spéciaux',
-    de:'§ Erweiterte Kapitel und Spezialdateien',
-    zh:'§ 扩展章节及特别文件',
-    ja:'§ 拡張章および特別ファイル',
-    ar:'§ الفصول الموسَّعة والملفات الخاصة',
-  },
-  secDescExt: {
-    en:'Additional material, popular editions, and extended applications beyond the main arc.',
-    es:'Material adicional, ediciones populares y aplicaciones extendidas más allá del arco principal.',
-    fr:'Matériel supplémentaire, éditions populaires et applications étendues au-delà de l\'arc principal.',
-    de:'Zusätzliches Material, Volksausgaben und erweiterte Anwendungen über den Hauptbogen hinaus.',
-    zh:'主弧之外的附加材料、大众版本和扩展应用。',
-    ja:'メインアーク以外の追加資料、一般向け版、拡張アプリケーション。',
-    ar:'مواد إضافية وطبعات شعبية وتطبيقات موسَّعة تتجاوز القوس الرئيسي.',
-  },
-  secHeadPDF: {
-    en:'§ PDFs &amp; Preprints',
-    es:'§ PDFs y Preimpresos',
-    fr:'§ PDFs et Prépublications',
-    de:'§ PDFs und Preprints',
-    zh:'§ PDF及预印本',
-    ja:'§ PDF・プレプリント',
-    ar:'§ ملفات PDF والنسخ الأولية',
-  },
-  secHeadExt2: {
-    en:'§ Repositories &amp; Records',
-    es:'§ Repositorios y Registros',
-    fr:'§ Dépôts et Archives',
-    de:'§ Repositories und Einträge',
-    zh:'§ 代码库及记录',
-    ja:'§ リポジトリ・記録',
-    ar:'§ المستودعات والسجلات',
-  },
-};
-
-/* Translatable intro block */
-const INTROS = {
-  en: `<p class="intro-text">The <strong style="color:var(--gold)">Principia Orthogona</strong> is a seven-volume mathematical series built on a single operator chain: <strong>G = U ∘ F ∘ K ∘ C</strong>. This hub is the navigation center for Book 4 (GTCT), containing all chapters across two arcs — the formal theory arc (Vol IV, Ch 0–8 + Appendices) and the Higher Dimensions Arc (1D → 5D+t) — plus extended chapters, PDFs, and links to the full repository. All formal results are machine-verified in Lean 4. The SBM XII Bienal materials are here.</p>`,
-  es: `<p class="intro-text">La <strong style="color:var(--gold)">Principia Orthogona</strong> es una serie matemática de siete volúmenes construida sobre una única cadena de operadores: <strong>G = U ∘ F ∘ K ∘ C</strong>. Este hub es el centro de navegación del Libro 4 (GTCT), con todos los capítulos de los dos arcos — la teoría formal (Vol IV, Cap 0–8 + Apéndices) y el Arco de Dimensiones Superiores (1D → 5D+t) — más capítulos extendidos, PDFs y enlaces al repositorio completo.</p>`,
-  fr: `<p class="intro-text">La <strong style="color:var(--gold)">Principia Orthogona</strong> est une série mathématique en sept volumes construite sur une seule chaîne d'opérateurs : <strong>G = U ∘ F ∘ K ∘ C</strong>. Ce hub est le centre de navigation du Livre 4 (GTCT), contenant tous les chapitres des deux arcs — la théorie formelle (Vol IV, Ch 0–8 + Annexes) et l'Arc des Dimensions Supérieures (1D → 5D+t) — ainsi que des chapitres étendus, des PDFs et des liens vers le dépôt complet.</p>`,
-  de: `<p class="intro-text">Die <strong style="color:var(--gold)">Principia Orthogona</strong> ist eine siebenbändige mathematische Reihe, die auf einer einzigen Operatorkette aufbaut: <strong>G = U ∘ F ∘ K ∘ C</strong>. Dieses Hub ist das Navigationszentrum für Buch 4 (GTCT) mit allen Kapiteln beider Bögen — der formalen Theorie (Vol IV, Kap 0–8 + Anhänge) und dem Höhere-Dimensionen-Bogen (1D → 5D+t) — sowie erweiterten Kapiteln, PDFs und Repository-Links.</p>`,
-  zh: `<p class="intro-text"><strong style="color:var(--gold)">Principia Orthogona</strong> 是一部基于单一算子链 <strong>G = U ∘ F ∘ K ∘ C</strong> 构建的七卷数学系列。本hub是第4册（GTCT）的导航中心，包含两条主线的所有章节——形式理论（Vol IV，第0–8章及附录）和更高维度弧（1D → 5D+t）——以及扩展章节、PDF文件和完整代码库链接。</p>`,
-  ja: `<p class="intro-text"><strong style="color:var(--gold)">Principia Orthogona</strong> は、単一の作用素チェーン <strong>G = U ∘ F ∘ K ∘ C</strong> に基づく7巻の数学シリーズです。このhubはBook 4（GTCT）のナビゲーションセンターで、形式理論弧（Vol IV、Ch 0–8＋付録）と高次元アーク（1D → 5D+t）の全章、拡張章、PDF、リポジトリリンクを含みます。</p>`,
-  ar: `<p class="intro-text"><strong style="color:var(--gold)">Principia Orthogona</strong> سلسلة رياضية من سبعة مجلدات مبنية على سلسلة مؤثرات وحيدة: <strong>G = U ∘ F ∘ K ∘ C</strong>. هذا المحور هو مركز التنقل للكتاب الرابع (GTCT)، ويضم جميع الفصول عبر قوسين — النظرية الصورية (المجلد IV، الفصول 0–8 والملاحق) وقوس الأبعاد الأعلى (1D → 5D+t) — إضافةً إلى الفصول الموسَّعة وملفات PDF وروابط المستودعات.</p>`,
-};
-
-/* Lean 4 status block */
-const STATUS_BLOCKS = {
-  en: `<div style="margin-top:3rem;padding:1.5rem;border:1px solid var(--rule);background:var(--surface);position:relative">
-  <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--teal),var(--gold),transparent)"></div>
-  <span style="font-family:var(--mono);font-size:.58rem;letter-spacing:.25em;text-transform:uppercase;color:var(--teal);display:block;margin-bottom:.8rem">Lean 4 Proof Status · Chain_updated.lean</span>
-  <p style="font-size:.95rem;color:rgba(232,228,216,.8);line-height:1.82">All structural results are machine-verified in Lean 4 against Mathlib4. <strong style="color:var(--op-f)">0 sorry</strong> in Chain_updated.lean. Two domain axioms are honest structural hypotheses — explicitly labelled, not gaps. The Coherence Bridge Theorem (5.4) proves 12+ domains across 17 orders of magnitude are objects in the same category dm³, related by explicit contact morphisms. <a href="https://github.com/TOTOGT/AXLE" style="color:var(--gold)" target="_blank">Source: TOTOGT/AXLE ↗</a></p>
-  </div>`,
-  es: `<div style="margin-top:3rem;padding:1.5rem;border:1px solid var(--rule);background:var(--surface);position:relative">
-  <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--teal),var(--gold),transparent)"></div>
-  <span style="font-family:var(--mono);font-size:.58rem;letter-spacing:.25em;text-transform:uppercase;color:var(--teal);display:block;margin-bottom:.8rem">Estado de las Pruebas Lean 4 · Chain_updated.lean</span>
-  <p style="font-size:.95rem;color:rgba(232,228,216,.8);line-height:1.82">Todos los resultados estructurales están verificados mecánicamente en Lean 4. <strong style="color:var(--op-f)">0 sorry</strong> en Chain_updated.lean. El Teorema del Puente de Coherencia (5.4) demuestra que 12+ dominios son objetos de la misma categoría dm³. <a href="https://github.com/TOTOGT/AXLE" style="color:var(--gold)" target="_blank">Fuente: TOTOGT/AXLE ↗</a></p>
-  </div>`,
-  fr: `<div style="margin-top:3rem;padding:1.5rem;border:1px solid var(--rule);background:var(--surface);position:relative">
-  <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--teal),var(--gold),transparent)"></div>
-  <span style="font-family:var(--mono);font-size:.58rem;letter-spacing:.25em;text-transform:uppercase;color:var(--teal);display:block;margin-bottom:.8rem">Statut des Preuves Lean 4 · Chain_updated.lean</span>
-  <p style="font-size:.95rem;color:rgba(232,228,216,.8);line-height:1.82">Tous les résultats structurels sont vérifiés mécaniquement en Lean 4. <strong style="color:var(--op-f)">0 sorry</strong> dans Chain_updated.lean. Le Théorème du Pont de Cohérence (5.4) prouve que 12+ domaines sont des objets de la même catégorie dm³. <a href="https://github.com/TOTOGT/AXLE" style="color:var(--gold)" target="_blank">Source : TOTOGT/AXLE ↗</a></p>
-  </div>`,
-  de: `<div style="margin-top:3rem;padding:1.5rem;border:1px solid var(--rule);background:var(--surface);position:relative">
-  <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--teal),var(--gold),transparent)"></div>
-  <span style="font-family:var(--mono);font-size:.58rem;letter-spacing:.25em;text-transform:uppercase;color:var(--teal);display:block;margin-bottom:.8rem">Lean 4 Beweisstand · Chain_updated.lean</span>
-  <p style="font-size:.95rem;color:rgba(232,228,216,.8);line-height:1.82">Alle strukturellen Ergebnisse sind in Lean 4 maschinell verifiziert. <strong style="color:var(--op-f)">0 sorry</strong> in Chain_updated.lean. Der Kohärenzbrücken-Satz (5.4) beweist, dass 12+ Domänen Objekte derselben Kategorie dm³ sind. <a href="https://github.com/TOTOGT/AXLE" style="color:var(--gold)" target="_blank">Quelle: TOTOGT/AXLE ↗</a></p>
-  </div>`,
-  zh: `<div style="margin-top:3rem;padding:1.5rem;border:1px solid var(--rule);background:var(--surface);position:relative">
-  <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--teal),var(--gold),transparent)"></div>
-  <span style="font-family:var(--mono);font-size:.58rem;letter-spacing:.25em;text-transform:uppercase;color:var(--teal);display:block;margin-bottom:.8rem">Lean 4 证明状态 · Chain_updated.lean</span>
-  <p style="font-size:.95rem;color:rgba(232,228,216,.8);line-height:1.82">所有结构性结果均在Lean 4中机器验证。Chain_updated.lean中 <strong style="color:var(--op-f)">0 sorry</strong>。相干桥定理（5.4）证明12+个领域是同一范畴dm³的对象。<a href="https://github.com/TOTOGT/AXLE" style="color:var(--gold)" target="_blank">源码：TOTOGT/AXLE ↗</a></p>
-  </div>`,
-  ja: `<div style="margin-top:3rem;padding:1.5rem;border:1px solid var(--rule);background:var(--surface);position:relative">
-  <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--teal),var(--gold),transparent)"></div>
-  <span style="font-family:var(--mono);font-size:.58rem;letter-spacing:.25em;text-transform:uppercase;color:var(--teal);display:block;margin-bottom:.8rem">Lean 4 証明状況 · Chain_updated.lean</span>
-  <p style="font-size:.95rem;color:rgba(232,228,216,.8);line-height:1.82">全ての構造的結果はLean 4で機械的に検証済み。Chain_updated.leanには <strong style="color:var(--op-f)">sorryゼロ</strong>。コヒーレンスブリッジ定理（5.4）は12+ドメインが同じカテゴリdm³の対象であることを証明。<a href="https://github.com/TOTOGT/AXLE" style="color:var(--gold)" target="_blank">ソース：TOTOGT/AXLE ↗</a></p>
-  </div>`,
-  ar: `<div style="margin-top:3rem;padding:1.5rem;border:1px solid var(--rule);background:var(--surface);position:relative">
-  <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--teal),var(--gold),transparent)"></div>
-  <span style="font-family:var(--mono);font-size:.58rem;letter-spacing:.25em;text-transform:uppercase;color:var(--teal);display:block;margin-bottom:.8rem">حالة براهين Lean 4 · Chain_updated.lean</span>
-  <p style="font-size:.95rem;color:rgba(232,228,216,.8);line-height:1.82">جميع النتائج البنيوية موثَّقة آلياً بـ Lean 4. <strong style="color:var(--op-f)">0 sorry</strong> في Chain_updated.lean. تثبت نظرية جسر التماسك (5.4) أن 12+ نطاقاً هي كائنات في نفس الفئة dm³. <a href="https://github.com/TOTOGT/AXLE" style="color:var(--gold)" target="_blank">المصدر: TOTOGT/AXLE ↗</a></p>
-  </div>`,
-};
-
-/* ── SET LANGUAGE ── */
-function setLang(code) {
-  const meta = LANG_META[code] || LANG_META.en;
-
-  /* Update language buttons */
-  document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === code));
-  document.getElementById('dirNote').textContent = meta.script;
-  document.documentElement.lang = code;
-
-  /* Direction for content areas */
-  const page = document.querySelector('.page');
-  page.setAttribute('dir', meta.dir);
-  page.style.fontFamily = meta.font;
-
-  /* Translate static labels */
-  Object.keys(LABELS).forEach(id => {
-    const el = document.getElementById(id);
-    if (el && LABELS[id][code]) el.innerHTML = LABELS[id][code];
-    else if (el && LABELS[id].en) el.innerHTML = LABELS[id].en;
-  });
-
-  /* Render translatable blocks */
-  const intro = document.getElementById('introBlock');
-  if (intro) intro.innerHTML = INTROS[code] || INTROS.en;
-
-  const status = document.getElementById('statusBlock');
-  if (status) status.innerHTML = STATUS_BLOCKS[code] || STATUS_BLOCKS.en;
-
-  /* RTL: align hero sub */
-  const heroSub = document.getElementById('heroSub');
-  if (heroSub) heroSub.style.direction = meta.dir;
-}
-
-/* Init */
-setLang('en');
-</script>
 
 </body>
 </html>
