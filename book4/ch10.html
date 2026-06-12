@@ -199,7 +199,7 @@ table { min-width: max-content; }
     <div class="meta"><strong>Chapter DOI</strong><br><a href="https://doi.org/10.5281/zenodo.19379385" style="color:var(--accent);">10.5281/zenodo.19379385</a></div>
     <div class="meta"><strong>License</strong><br>MIT · © 2026 Pablo Nogueira Grossi — G6 LLC</div>
   </div>
-  <div class="ch-abs">We study a three-dimensional toy ODE on a contact manifold in cylindrical coordinates (ℝ³, α = dz − r²dθ) and establish rigorously that the unit helix Γ = {r = 1, ż = 1} is a globally attracting set for all initial conditions with r(0) > 1 and z(0) ≥ log 2, with exponential convergence rate approaching μ = −2. The proof uses a complete Gronwall argument on the squared radial deviation. A basin asymmetry is identified and analyzed: the inner boundary r* ≈ 0.7759 deviates from the symmetric Gronwall estimate ε₀ = 1/3 via a coupling-amplification mechanism. A Whitney A₁ singularity at r* is related to the Fold operator F in the GTCT operator chain G = U∘F∘K∘C. Four open problems are stated, with formal obligations tracked in the AXLE Lean 4 proof environment. Cross-references to Chapters 1–11 of this volume provide series context.</div>
+  <div class="ch-abs">We study a three-dimensional toy ODE on a contact manifold in cylindrical coordinates (ℝ³, α = dz − r²dθ) and establish rigorously that the unit helix Γ = {r = 1, ż = 1} is a globally attracting set for all initial conditions with r(0) > 1 and z(0) ≥ log 2, with exponential convergence rate approaching μ = −2. The proof uses a complete Gronwall argument on the squared radial deviation. A basin asymmetry is identified and analyzed: the inner boundary r* ≈ 0.77594 deviates from the symmetric Gronwall estimate ε₀ = 1/3 via a coupling-amplification mechanism. A Whitney A₁ singularity at r* is related to the Fold operator F in the GTCT operator chain G = U∘F∘K∘C. Four open problems are stated, with formal obligations tracked in the AXLE Lean 4 proof environment. Cross-references to Chapters 1–11 of this volume provide series context.</div>
 
   <div class="toc-wrap" style="padding:1.5rem 0 0;">
     <h4>Contents</h4>
@@ -248,7 +248,7 @@ table { min-width: max-content; }
 
 <p>The standard Hopf normal form ṙ = r(1−r²), θ̇ = 1 in the plane has a limit cycle at r = 1. Adding a third dimension with ż = r² — the simplest equation compatible with α ∧ dα ≠ 0 — lifts this cycle to a helix without changing the radial dynamics. The contact structure is the geometric reason the lifted attractor is a helix rather than a torus or a cylinder: the non-integrability of ξ prevents the trajectories from closing up in a compact surface.</p>
 
-<p>The coupling term ε(r−1)e^{−z} is a dissipative correction that decays exponentially as z grows. It is the structural perturbation that breaks the exact Hopf symmetry and produces the basin asymmetry studied in §6. At ε = 0 the system reduces to the decoupled Hopf + Reeb system; at ε = 2 the coupling is strong enough to create an asymmetric basin boundary r* ≈ 0.7759.</p>
+<p>The coupling term ε(r−1)e^{−z} is a dissipative correction that decays exponentially as z grows. It is the structural perturbation that breaks the exact Hopf symmetry and produces the basin asymmetry studied in §6. At ε = 0 the system reduces to the decoupled Hopf + Reeb system; at ε = 2 the coupling is strong enough to create an asymmetric basin boundary r* ≈ 0.77594.</p>
 
 <p><em>Prerequisites.</em> The contact 3-manifold construction is developed from first principles in <strong>Chapter 3</strong> of this volume. The φ-subcritical approach that motivates the inner boundary r* appears in <strong>Chapter 9</strong>. The operator chain G = U∘F∘K∘C is defined in <strong>Chapter 5</strong> (operator formalism) and realised across domains in <strong>Chapter 2</strong>.</p>
 
@@ -372,7 +372,7 @@ table { min-width: max-content; }
 </div><!-- end main -->
 <div class="side">
   <div class="sn"><strong>OPERATOR CHAIN</strong><br>C → K → F → U<br>Compress · Curvature · Fold · Unfold<br>Γ is the fixed point of repeated G = U∘F∘K∘C.</div>
-  <div class="sn"><strong>KEY CONSTANTS</strong><br>μ = −2 (decay rate)<br>r* ≈ 0.7759 (inner boundary)<br>ε₀ = 1/3 (Gronwall, outer)<br>g₃₃ = 33 (threshold cycles)<br>κ* = √(7/9) ≈ 0.882</div>
+  <div class="sn"><strong>KEY CONSTANTS</strong><br>μ = −2 (decay rate)<br>r* ≈ 0.77594 (inner boundary)<br>ε₀ = 1/3 (Gronwall, outer)<br>g₃₃ = 33 (threshold cycles)<br>κ* = √(7/9) ≈ 0.882</div>
   <div class="sn"><strong>INTEGRATION</strong><br>DOP853 (Hairer 1993)<br>rtol = 10⁻¹⁰<br>atol = 10⁻¹²<br>Chapter DOI: <a href="https://doi.org/10.5281/zenodo.19379385">10.5281/zenodo.19379385</a></div>
   <div class="sn"><strong>PROOF OBLIGATIONS</strong><br>AXLE Issues #12–#17<br>#12: kappa_lipschitz (blocks z₀ &lt; log2 case)<br>#13: inner_basin_escape<br>#14–17: coupling estimates</div>
   <div class="sn"><strong>SERIES</strong><br>
@@ -446,7 +446,7 @@ table { min-width: max-content; }
       <line x1="195" y1="20" x2="195" y2="250" stroke="#8b3a0f" stroke-width="1.5" stroke-dasharray="5,4" opacity="0.45"/>
       <text x="198" y="30" fill="#8b3a0f" opacity="0.65">r = 1</text>
       <line x1="169" y1="20" x2="169" y2="250" stroke="#8b3a0f" stroke-width="1" stroke-dasharray="2,5" opacity="0.3"/>
-      <text x="130" y="30" fill="#8b3a0f" opacity="0.45" font-size="8">r* ≈ 0.7759</text>
+      <text x="130" y="30" fill="#8b3a0f" opacity="0.45" font-size="8">r* ≈ 0.77594</text>
       <text x="188" y="264" fill="#7a7060">1</text>
       <text x="318" y="264" fill="#7a7060">2</text>
       <text x="448" y="264" fill="#7a7060">3</text>
@@ -466,7 +466,7 @@ table { min-width: max-content; }
       <text x="170" y="130" fill="#c8a96e" font-size="8" transform="rotate(-90 170 130)">Γ attractor</text>
     </svg>
   </div>
-  <div class="fig-cap"><b></b>(r, z) phase portrait. Blue trajectories with r(0) &gt; 1 all converge to the gold vertical line (attractor Γ projected to r = 1). The dashed red trajectory with r(0) = 0.6 &lt; r* escapes to z → −∞. The faint dashed vertical marks r* ≈ 0.7759.</div>
+  <div class="fig-cap"><b></b>(r, z) phase portrait. Blue trajectories with r(0) &gt; 1 all converge to the gold vertical line (attractor Γ projected to r = 1). The dashed red trajectory with r(0) = 0.6 &lt; r* escapes to z → −∞. The faint dashed vertical marks r* ≈ 0.77594.</div>
 </div>
 
 <h3 class="sub">5.2 Exponential decay rate convergence to μ = −2</h3>
@@ -502,7 +502,7 @@ table { min-width: max-content; }
 
 <h3 class="sub">5.3 Full numerical stability table (Table 1)</h3>
 
-<p>The table records the estimated Lyapunov exponent μ̂ for 12 initial conditions spanning both basins. Outer basin (r(0) > 1) entries confirm μ̂ → −2. Inner basin entries show divergence or escape. The gap between the Gronwall boundary r = 2/3 ≈ 0.667 and the numerical inner boundary r* ≈ 0.7759 is visible in rows 9–10.</p>
+<p>The table records the estimated Lyapunov exponent μ̂ for 12 initial conditions spanning both basins. Outer basin (r(0) > 1) entries confirm μ̂ → −2. Inner basin entries show divergence or escape. The gap between the Gronwall boundary r = 2/3 ≈ 0.667 and the numerical inner boundary r* ≈ 0.77594 is visible in rows 9–10.</p>
 
 <div class="f">
 <table class="dtab">
@@ -516,7 +516,7 @@ table { min-width: max-content; }
     <tr><td>3.00</td><td>+2.00</td><td>0.70</td><td>outer</td><td>0.21</td><td>−1.801</td><td class="cv">✓ converge</td></tr>
     <tr><td>0.95</td><td>−0.05</td><td>0.70</td><td>inner</td><td>0.41</td><td>−1.88</td><td class="cv">✓ converge</td></tr>
     <tr><td>0.85</td><td>−0.15</td><td>0.70</td><td>inner</td><td>0.44</td><td>−1.71</td><td class="cv">✓ converge</td></tr>
-    <tr><td>0.7759</td><td>−0.2241</td><td>0.00</td><td>inner</td><td>—</td><td>—</td><td style="color:#8b3a0f;">r* boundary (z₀=0)</td></tr>
+    <tr><td>0.77594</td><td>−0.22406</td><td>0.00</td><td>inner</td><td>—</td><td>—</td><td style="color:#8b3a0f;">r* boundary (z₀=0)</td></tr>
     <tr><td>0.75</td><td>−0.25</td><td>0.00</td><td>escape</td><td>—</td><td>+0.43</td><td class="es">✗ z → −∞</td></tr>
     <tr><td>0.67</td><td>−0.33</td><td>0.00</td><td>escape</td><td>—</td><td>+0.89</td><td class="es">✗ escape</td></tr>
     <tr><td>0.50</td><td>−0.50</td><td>0.00</td><td>escape</td><td>—</td><td>+1.22</td><td class="es">✗ fast escape</td></tr>
@@ -525,7 +525,7 @@ table { min-width: max-content; }
 </div>
 
 <div class="rem env f">
-  <p><strong>Remark 5.1.</strong> The entries at r(0) = 0.95 and 0.85 (z(0) = 0.70 ≥ log 2) confirm that the inner basin extends past the Gronwall boundary 2/3 for initial conditions with sufficient z(0). The r* ≈ 0.7759 boundary is z(0)-dependent: for z(0) = 0.70, the convergence extends to at least r(0) = 0.85. The quoted r* ≈ 0.7759 is the boundary for z(0) = 0, ε = 2.</p>
+  <p><strong>Remark 5.1.</strong> The entries at r(0) = 0.95 and 0.85 (z(0) = 0.70 ≥ log 2) confirm that the inner basin extends past the Gronwall boundary 2/3 for initial conditions with sufficient z(0). The r* ≈ 0.77594 boundary is z(0)-dependent: for z(0) = 0.70, the convergence extends to at least r(0) = 0.85. The quoted r* ≈ 0.77594 is the boundary for z(0) = 0, ε = 2.</p>
 </div>
 
 <!-- ─── §6 ─────────────────────────────────────────────────────────────────── -->
@@ -556,13 +556,13 @@ table { min-width: max-content; }
 <p>The escape is asymptotic: z → −∞ and r → 0 in finite time for initial conditions below the separatrix.</p>
 
 <div class="cor env f">
-  <p><strong>Correction 6.1 (Basin asymmetry).</strong> The Gronwall inner boundary r = 1 − ε₀ = 2/3 ≈ 0.667 underestimates the true inner basin boundary. Trajectories with r(0) ∈ (0.667, 0.7759) and z(0) = 0 are in the Gronwall basin but escape to z → −∞. The true inner boundary (for z(0) = 0, ε = 2) is r* ≈ 0.7759, which is substantially closer to the attractor r = 1.</p>
+  <p><strong>Correction 6.1 (Basin asymmetry).</strong> The Gronwall inner boundary r = 1 − ε₀ = 2/3 ≈ 0.667 underestimates the true inner basin boundary. Trajectories with r(0) ∈ (0.667, 0.77594) and z(0) = 0 are in the Gronwall basin but escape to z → −∞. The true inner boundary (for z(0) = 0, ε = 2) is r* ≈ 0.77594, which is substantially closer to the attractor r = 1.</p>
 </div>
 
 <h3 class="sub">6.3 Conjecture 2.2: closed form for r*</h3>
 
 <div class="thm env f">
-  <p><strong>Conjecture 2.2 (Open problem).</strong> Let r*(ε, z₀) denote the inner basin boundary for the system with coupling ε and initial height z₀. For ε = 2 and z₀ = 0, the numerically observed value is r* ≈ 0.7759. A closed-form expression for r*(ε, z₀) in terms of the ODE parameters is unknown.</p>
+  <p><strong>Conjecture 2.2 (Open problem).</strong> Let r*(ε, z₀) denote the inner basin boundary for the system with coupling ε and initial height z₀. For ε = 2 and z₀ = 0, the numerically observed value is r* ≈ 0.77594. A closed-form expression for r*(ε, z₀) in terms of the ODE parameters is unknown.</p>
   <p>Partial analysis (see §7) relates r* to the saddle-connection structure at the Whitney A₁ singularity of the fold map F in the GTCT operator chain. Resolving Conjecture 2.2 would simultaneously close AXLE Issue #13 (inner_basin_escape) and determine the precise Gronwall ball for the full two-sided basin.</p>
 </div>
 
@@ -585,7 +585,7 @@ table { min-width: max-content; }
       <line x1="166" y1="82" x2="166" y2="94" stroke="#8b3a0f" stroke-width="1" stroke-dasharray="2,2" opacity="0.5"/>
       <text x="148" y="118" fill="#8b3a0f" opacity="0.55" font-size="8">2/3</text>
       <line x1="194" y1="78" x2="194" y2="98" stroke="#8b3a0f" stroke-width="2"/>
-      <text x="168" y="118" fill="#8b3a0f">r*≈0.7759</text>
+      <text x="168" y="118" fill="#8b3a0f">r*≈0.77594</text>
       <line x1="236" y1="76" x2="236" y2="100" stroke="#c8a96e" stroke-width="3"/>
       <text x="230" y="118" fill="#c8a96e">1</text>
       <line x1="380" y1="80" x2="380" y2="96" stroke="#7a7060" stroke-width="1"/>
@@ -599,7 +599,7 @@ table { min-width: max-content; }
       <path d="M 370 88 L 240 88" fill="none" stroke="#1a4d6e" stroke-width="1.8" marker-end="url(#b3)"/>
     </svg>
   </div>
-  <div class="fig-cap"><b></b>Basin of attraction on the r-axis (z₀ = 0, ε = 2). The outer basin (r &gt; 1) is entirely convergent. The Gronwall inner boundary 2/3 is too permissive — the true inner boundary r* ≈ 0.7759 is further from the attractor. The gap (orange) contains initial conditions the Gronwall estimate misclassifies.</div>
+  <div class="fig-cap"><b></b>Basin of attraction on the r-axis (z₀ = 0, ε = 2). The outer basin (r &gt; 1) is entirely convergent. The Gronwall inner boundary 2/3 is too permissive — the true inner boundary r* ≈ 0.77594 is further from the attractor. The gap (orange) contains initial conditions the Gronwall estimate misclassifies.</div>
 </div>
 
 <!-- ─── §7 ─────────────────────────────────────────────────────────────────── -->
@@ -652,7 +652,7 @@ table { min-width: max-content; }
 
 <span class="lc">-- Verified structural constants</span>
 <span class="lk">noncomputable def</span> <span class="ln">mu_max</span>      : ℝ := <span class="ls">-2</span>
-<span class="lk">noncomputable def</span> <span class="ln">r_star</span>      : ℝ := <span class="ls">0.77594</span> <span class="lc">-- asymmetric inner basin (DOP853, ε=2, z₀=0)</span>
+<span class="lk">noncomputable def</span> <span class="ln">r_star</span>      : ℝ := <span class="ls">0.77594</span> <span class="lc">-- asymmetric inner basin (numerically observed, ε=2, z₀=0)</span>
 <span class="lk">noncomputable def</span> <span class="ln">eps_zero</span>    : ℝ := <span class="ls">1</span> / <span class="ls">3</span>   <span class="lc">-- Gronwall (outer only)</span>
 <span class="lk">noncomputable def</span> <span class="ln">kappa_star</span>  : ℝ := Real.sqrt (<span class="ls">7</span> / <span class="ls">9</span>)   <span class="lc">-- κ* ≈ 0.882</span>
 <span class="lk">noncomputable def</span> <span class="ln">z_threshold</span>: ℝ := Real.log <span class="ls">2</span>           <span class="lc">-- z₀ condition</span>
@@ -716,7 +716,7 @@ table { min-width: max-content; }
 <div class="eq f">K(u, z)  =  ∂ṙ/∂r|_{r=1+u}  =  1 − 3(1+u)² + ε · e<sup style="font-size:.76em">−z</sup>
            =  −2 − 6u − 3u² + ε · e<sup style="font-size:.76em">−z</sup>          <span class="cm">// → −2 as u→0, z→∞</span></div>
 
-<p>The threshold κ* = √(7/9) is the maximum of |K(u, z)| over the convergent region, attained at u ≈ r* − 1 ≈ −0.2241. This bounds the global Lipschitz constant of C.</p>
+<p>The threshold κ* = √(7/9) is the maximum of |K(u, z)| over the convergent region, attained at u ≈ r* − 1 ≈ −0.22406. This bounds the global Lipschitz constant of C.</p>
 
 <h3 class="sub">9.3 F — Fold</h3>
 
@@ -766,14 +766,14 @@ F : (r > 1) → {1}  is surjective and smooth, with Whitney A₁ at r*</div>
 
 <h3 class="sub" style="margin-top:2.5rem;">10.1b HVEH Applied Track — Chapters 6b, 7, 8, 9</h3>
 
-<p>Running in parallel with the mathematical track, the HVEH Applied Track translates the contact-geometric results of this volume directly into engineering practice. The four applied chapters ground each abstract theorem in a specific New Jersey site, regulatory context, or fabrication specification. Chapter 10 (this chapter) is the mathematical backbone that all four applied chapters cite for the rotor blade geometry, convergence rate μ = −2, and basin boundary r* ≈ 0.7759.</p>
+<p>Running in parallel with the mathematical track, the HVEH Applied Track translates the contact-geometric results of this volume directly into engineering practice. The four applied chapters ground each abstract theorem in a specific New Jersey site, regulatory context, or fabrication specification. Chapter 10 (this chapter) is the mathematical backbone that all four applied chapters cite for the rotor blade geometry, convergence rate μ = −2, and basin boundary r* ≈ 0.77594.</p>
 
 <div class="f" style="overflow-x:auto;">
 <table class="dtab" style="min-width:580px;">
   <thead><tr><th>Ch</th><th>Title (HVEH Applied)</th><th>Connection to Ch 10</th></tr></thead>
   <tbody>
     <tr><td><a href="ch06b-elojo.html" style="color:var(--accent);">6b</a></td><td>El Ojo · <em>The Mystery That Rotates</em></td><td>The helical vortex as phenomenological bridge between Theorem 2.1 and observable river dynamics; r = 1 as the natural rotor operating point</td></tr>
-    <tr><td><a href="ch07-newark.html" style="color:var(--accent);">7</a></td><td>Map Newark · <em>The Field and the Need</em></td><td>Site survey for HVEH deployment at Passaic/Hackensack confluence; applies r* ≈ 0.7759 as the blade-radius inner safety margin</td></tr>
+    <tr><td><a href="ch07-newark.html" style="color:var(--accent);">7</a></td><td>Map Newark · <em>The Field and the Need</em></td><td>Site survey for HVEH deployment at Passaic/Hackensack confluence; applies r* ≈ 0.77594 as the blade-radius inner safety margin</td></tr>
     <tr><td><a href="ch08-harrison.html" style="color:var(--accent);">8</a></td><td>Harrison · <em>The Ordering Law Under Pressure</em></td><td>CFD validation and regulatory framing; the Gronwall bound ε₀ = 1/3 enters as the blade-deflection tolerance specification</td></tr>
     <tr><td><a href="ch09-belleville.html" style="color:var(--accent);">9</a></td><td>Belleville · <em>Verification and the Ladder's End</em></td><td>End-to-end verification: measured rotor performance checked against μ = −2 convergence prediction; closes the applied proof of Theorem 2.1</td></tr>
   </tbody>
@@ -841,7 +841,7 @@ F : (r > 1) → {1}  is surjective and smooth, with Whitney A₁ at r*</div>
 
 <div class="env rem f">
   <p><strong>Open Problem 1 (AXLE Issue #12).</strong> Close the Gronwall estimate for z(0) &lt; log 2. This requires bounding the coupling transient before z increases past the threshold. A Lyapunov function approach using V(r, z) = (r−1)² + α·e^{−z} for an explicit α > 0 is the most promising direction.</p>
-  <p><strong>Open Problem 2 (Conjecture 2.2 / AXLE Issue #13).</strong> Find a closed-form expression for r*(ε, z₀). The partial analysis in §6.3 reduces this to a transcendental equation involving the balance of restoring force and coupling at the separatrix. For ε = 2, z₀ = 0: the numerical value is r* ≈ 0.7759.</p>
+  <p><strong>Open Problem 2 (Conjecture 2.2 / AXLE Issue #13).</strong> Find a closed-form expression for r*(ε, z₀). The partial analysis in §6.3 reduces this to a transcendental equation involving the balance of restoring force and coupling at the separatrix. For ε = 2, z₀ = 0: the numerically observed value is r* ≈ 0.77594. A closed-form expression for r*(ε, z₀) is an open analytic problem.</p>
   <p><strong>Open Problem 3 (AXLE Issue #15).</strong> Prove that the asymptotic radial map Φ has a Whitney A₁ singularity at r*. This requires characterising the stable manifold foliation near r* as a smooth fold.</p>
   <p><strong>Open Problem 4.</strong> Extend Theorem 2.1 to <em>coupled</em> contact manifolds: a system of N coupled helical attractors on a product contact manifold. Does synchronisation (all rₖ → 1 simultaneously) follow from the individual convergence results, or does coupling create new escape mechanisms? This is the natural next model for the HVEH multi-rotor configuration.</p>
 </div>
@@ -850,7 +850,7 @@ F : (r > 1) → {1}  is surjective and smooth, with Whitney A₁ at r*</div>
 
 <p>The helical attractor Γ on the contact 3-manifold is the mathematical core of the HVEH rotor geometry. The blade pitch equation tan φ(r) = r (which annihilates the contact form α = dz − r²dθ along the blade centerline) follows directly from the Legendrian condition: a curve tangent to ker(α) satisfies dz = r² dθ, which integrates to z = r²θ + const, giving the helix z ∝ r²θ. The attractor Γ is the ideal blade centerline; the convergence rate μ = −2 is the radial damping that self-aligns the rotor under perturbation.</p>
 
-<p>The HVEH Applied Track (§10.1b) develops this connection site by site. <a href="ch06b-elojo.html" style="color:var(--accent);">Chapter 6b (El Ojo)</a> introduces the phenomenology; <a href="ch07-newark.html" style="color:var(--accent);">Chapter 7 (Map Newark)</a> grounds r* ≈ 0.7759 in the Passaic/Hackensack confluence geometry; <a href="ch08-harrison.html" style="color:var(--accent);">Chapter 8 (Harrison)</a> develops CFD validation; <a href="ch09-belleville.html" style="color:var(--accent);">Chapter 9 (Belleville)</a> closes with end-to-end verification against the μ = −2 prediction. The fabrication specification and <code>rotor_geometry.py</code> script are in <a href="ch-build-2river.html" style="color:var(--accent);">ch-build-2river.html</a>.</p>
+<p>The HVEH Applied Track (§10.1b) develops this connection site by site. <a href="ch06b-elojo.html" style="color:var(--accent);">Chapter 6b (El Ojo)</a> introduces the phenomenology; <a href="ch07-newark.html" style="color:var(--accent);">Chapter 7 (Map Newark)</a> grounds r* ≈ 0.77594 in the Passaic/Hackensack confluence geometry; <a href="ch08-harrison.html" style="color:var(--accent);">Chapter 8 (Harrison)</a> develops CFD validation; <a href="ch09-belleville.html" style="color:var(--accent);">Chapter 9 (Belleville)</a> closes with end-to-end verification against the μ = −2 prediction. The fabrication specification and <code>rotor_geometry.py</code> script are in <a href="ch-build-2river.html" style="color:var(--accent);">ch-build-2river.html</a>.</p>
 
 <!-- ─── §12 ─────────────────────────────────────────────────────────────────── -->
 <div class="sec-num" id="s12">§ 12</div>
@@ -892,7 +892,7 @@ F : (r > 1) → {1}  is surjective and smooth, with Whitney A₁ at r*</div>
 [30] Grossi, P. N. (2026). <em>Orthogenesis: Formal Verification of a NASA Moon Base Architecture in Lean 4.</em> github.com/TOTOGT/geometry. G6 Crystal (20 dm³ facts, 0 sorry), DM3Bridge.lean, NASAGaps.lean. The <code>expand_is_UCKF_composite</code> theorem formally proves Colony.expand = U∘F∘K∘C — the discrete analogue of Theorem 9.1 of this chapter. <a href="https://github.com/TOTOGT/geometry" style="color:var(--accent2);">github.com/TOTOGT/geometry</a><br>
 [31] G6 Crystal — Zenodo concept deposit. <a href="https://doi.org/10.5281/zenodo.19162012" style="color:var(--accent2);">doi:10.5281/zenodo.19162012</a> (G6 Crystal invariants (T*, μ_max, τ) = (2π, −2, 2); planetary scaling proofs)<br>
 [32] Vol. IV, Ch. 6b — El Ojo · The Mystery That Rotates. <a href="ch06b-elojo.html" style="color:var(--accent2);">ch06b-elojo.html</a> (HVEH Applied Track; helical vortex phenomenology; Γ as observable river attractor)<br>
-[33] Vol. IV, Ch. 7 — Map Newark · The Field and the Need. <a href="ch07-newark.html" style="color:var(--accent2);">ch07-newark.html</a> (HVEH Applied Track; Passaic/Hackensack confluence survey; r* ≈ 0.7759 as blade-radius inner margin)<br>
+[33] Vol. IV, Ch. 7 — Map Newark · The Field and the Need. <a href="ch07-newark.html" style="color:var(--accent2);">ch07-newark.html</a> (HVEH Applied Track; Passaic/Hackensack confluence survey; r* ≈ 0.77594 as blade-radius inner margin)<br>
 [34] Vol. IV, Ch. 8 — Harrison · The Ordering Law Under Pressure. <a href="ch08-harrison.html" style="color:var(--accent2);">ch08-harrison.html</a> (HVEH Applied Track; CFD validation; ε₀ = 1/3 as blade-deflection tolerance)<br>
 [35] Vol. IV, Ch. 9 — Belleville · Verification and the Ladder's End. <a href="ch09-belleville.html" style="color:var(--accent2);">ch09-belleville.html</a> (HVEH Applied Track; end-to-end rotor verification against μ = −2 prediction)
 </p>
@@ -901,7 +901,7 @@ F : (r > 1) → {1}  is surjective and smooth, with Whitney A₁ at r*</div>
 <div class="side">
   <div class="sn"><strong>CHAPTER IN SERIES</strong><br>Vol. IV (GTCT T1 — IMPA Edition). Bilingual PT/EN. Submitted XII Bienal da SBM, UFRN, Natal-RN, Aug 2026.</div>
   <div class="sn"><strong>OPEN PROBLEMS</strong><br>AXLE Issues #12–#17.<br>#12 kappa_lipschitz (primary)<br>#13 inner_basin_escape<br>#15 Whitney A₁ at r*<br>#16 Lipschitz κ* bound</div>
-  <div class="sn"><strong>FALSIFIABLE PREDICTION</strong><br>r* ≈ 0.7759 (z₀=0, ε=2). A closed-form expression for r*(ε, z₀) is Conjecture 2.2 — an open analytic problem.</div>
+  <div class="sn"><strong>FALSIFIABLE PREDICTION</strong><br>r* ≈ 0.77594 is numerically observed. A closed-form expression for r* in terms of ε = 2 and the ODE structure is an open analytic problem.</div>
   <div class="sn"><strong>CITE THIS CHAPTER</strong><br><span style="font-family:var(--mono);font-size:0.58rem;line-height:1.8;color:var(--dim);">Grossi, P.N. (2026). Helical Attractors on Contact 3-Manifolds. <em>Principia Orthogona</em>, Vol. IV, Ch. 10. G6 LLC. doi:10.5281/zenodo.19379385</span></div>
   <div class="sn"><strong>DOWNLOADS</strong><br><a href="PO_10_Pablo_Grossi.pdf">SBM Submission PDF</a><br><a href="https://github.com/TOTOGT/GTCT">Full source (GitHub)</a><br><a href="https://github.com/TOTOGT/GTCT/blob/main/FINDINGS.md">FINDINGS.md</a></div>
 </div>
@@ -980,7 +980,7 @@ function readSliders(){
 
 function pColor(p){
   if(p.isRef)return'#c8a96e';
-  if(p.r<0.7759)return'#c86e8a';
+  if(p.r<0.77594)return'#c86e8a';
   if(Math.abs(p.r-1)<0.04)return'#c8a96e';
   return'#6eb8c8';
 }
@@ -1024,7 +1024,7 @@ function draw(){
   cx.setLineDash([]);
 
   // r* reference
-  const xs=px(0.7759);
+  const xs=px(0.80);
   cx.strokeStyle='rgba(200,110,138,0.12)';
   cx.lineWidth=1;cx.setLineDash([2,5]);
   cx.beginPath();cx.moveTo(xs,0);cx.lineTo(xs,H);cx.stroke();

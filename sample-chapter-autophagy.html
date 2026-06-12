@@ -189,7 +189,7 @@
   <p>Let X<sub>auto</sub> be the configuration manifold of a eukaryotic cell's metabolic state, coordinatised by (ρ, θ, z) where ρ is the mTORC1 activity (normalised to 1 at saturation), θ is the phase of the autophagic flux cycle, and z is the cumulative autophagic index (total lysosomal throughput). The contact form is <strong>α = dz − ρ² dθ</strong>, and the dm³ flow on X<sub>auto</sub> is the dm³ toy model with ε = 2.</p>
 </div>
 
-<p>The operator chain on X<sub>auto</sub> runs as follows. <strong>C (Compression):</strong> nutrient withdrawal drives ρ downward from its saturation value of 1. The cell is compressed into a state of metabolic scarcity. <strong>K (Curvature):</strong> as ρ falls, the curvature of the mTORC1 activity landscape increases — the system approaches the fold. The rate of change of mTORC1 activity accelerates as the threshold approaches. <strong>F (Fold):</strong> at ρ = ρ* ≈ 0.15–0.22, the phagophore nucleates. This is the Whitney A₁ fold — the simplest type of singularity in smooth map theory, where the Jacobian loses rank at exactly one point, producing a local "fold" in the image: the Jacobian of the mTORC1 suppression map loses rank. <strong>U (Unfolding):</strong> the autophagic flux establishes itself as a stable cycle — the limit cycle Γ of the autophagic manifold. <strong>T (Return):</strong> when nutrients return, mTORC1 reactivates, the cell exits the basin, and returns to its baseline state.</p>
+<p>The operator chain on X<sub>auto</sub> runs as follows. <strong>C (Compression):</strong> nutrient withdrawal drives ρ downward from its saturation value of 1. The cell is compressed into a state of metabolic scarcity. <strong>K (Curvature):</strong> as ρ falls, the curvature of the mTORC1 activity landscape increases — the system approaches the fold. The rate of change of mTORC1 activity accelerates as the threshold approaches. <strong>F (Fold):</strong> at ρ = ρ* ≈ 0.12–0.22, the phagophore nucleates. This is the Whitney A₁ fold — the simplest type of singularity in smooth map theory, where the Jacobian loses rank at exactly one point, producing a local "fold" in the image: the Jacobian of the mTORC1 suppression map loses rank. <strong>U (Unfolding):</strong> the autophagic flux establishes itself as a stable cycle — the limit cycle Γ of the autophagic manifold. <strong>T (Return):</strong> when nutrients return, mTORC1 reactivates, the cell exits the basin, and returns to its baseline state.</p>
 
 <div class="note-box">
   <strong>Note on the fold vs. the threshold.</strong> The mTORC1 activity threshold ρ* is not the fold itself — it is the point at which the fold fires in the configuration space of the cell. The dm³ fold F is the event of phagophore nucleation: the moment the membrane begins to curve and close. ρ* is the observable; F is the geometry.
@@ -218,7 +218,7 @@
     <strong>F:</strong> phagophore nucleation at ρ*<br>
     <strong>U:</strong> autophagic flux limit cycle<br>
     <strong>T:</strong> mTORC1 reactivation, return<br><br>
-    <strong>κ*:</strong> ρ* ≈ 0.15–0.22<br>
+    <strong>κ*:</strong> ρ* ≈ 0.12–0.22<br>
     <strong>Scale:</strong> nanometres · seconds–hours<br>
     <strong>Conserved:</strong> 1 billion years of evolution
   </div>
@@ -250,7 +250,7 @@
 
 <h2>Why Autophagy Does Not Eat the Whole Cell</h2>
 
-<p>If autophagy is self-digestion, why doesn't the cell digest itself completely? The dm³ answer is the basin of attraction. The autophagic flux limit cycle Γ is stable within the basin defined by the Gronwall bound ε₀ = 1/3 (symmetric analytical bound, machine-verified) and the numerical inner boundary r* ≈ 0.80. Within that basin, the system converges to Γ: a regulated, self-sustaining cycle that recycles damaged organelles and proteins at a rate matched to the cell's regenerative capacity. Outside the inner boundary — in severely ATP-depleted or genetically damaged cells — the system escapes. Autophagy becomes autophagic cell death, just as a stellar core that cannot establish the helium-burning limit cycle collapses rather than expanding.</p>
+<p>If autophagy is self-digestion, why doesn't the cell digest itself completely? The dm³ answer is the basin of attraction. The autophagic flux limit cycle Γ is stable within the basin defined by the Gronwall bound ε₀ = 1/3 (symmetric analytical bound, machine-verified) and the numerical inner boundary r* = 0.77594. Within that basin, the system converges to Γ: a regulated, self-sustaining cycle that recycles damaged organelles and proteins at a rate matched to the cell's regenerative capacity. Outside the inner boundary — in severely ATP-depleted or genetically damaged cells — the system escapes. Autophagy becomes autophagic cell death, just as a stellar core that cannot establish the helium-burning limit cycle collapses rather than expanding.</p>
 
 <h2 id="figures">Figures and Interactive Diagrams</h2>
 
@@ -286,7 +286,7 @@
     <label><input type="checkbox" id="ph-escape" checked> Escape paths</label>
   </div>
   <div class="fig-caption">
-    Contact normal form (ρ, θ). <span style="color:#c9a84c;">Gold = Γ (r=1), the shared attractor.</span> Dashed = Gronwall basin ε₀=1/3 and inner boundary r*≈0.80. <span style="color:#58a6ff;">Blue = converging.</span> <span style="color:#ff6b6b;">Red = escaping.</span> Both autophagy and triple-alpha map to this same portrait — only the axis labels differ. The contact morphism f<sub>auto→star</sub> is visible: same geometry, different domain.
+    Contact normal form (ρ, θ). <span style="color:#c9a84c;">Gold = Γ (r=1), the shared attractor.</span> Dashed = Gronwall basin ε₀=1/3 and inner boundary r*≈0.77594. <span style="color:#58a6ff;">Blue = converging.</span> <span style="color:#ff6b6b;">Red = escaping.</span> Both autophagy and triple-alpha map to this same portrait — only the axis labels differ. The contact morphism f<sub>auto→star</sub> is visible: same geometry, different domain.
   </div>
 </div>
 
@@ -339,7 +339,7 @@
 
 <div class="falsifiability">
   <strong>Falsifiability A.1 — Autophagic Basin Geometry</strong>
-  The dm³ construction predicts that the transition from regulated autophagy to autophagic cell death follows the contact normal form's inner boundary at r* ≈ 0.80 (in normalised mTORC1 activity coordinates). Cells driven below ρ ≈ 0.12 should show irreversible autophagic flux — escape trajectories — rather than convergence to the regulated limit cycle. If careful titration of mTORC1 inhibitors shows reversible flux below ρ* ≈ 0.15 without a sharp inner boundary, the contact normal form assignment must be revised.
+  The dm³ construction predicts that the transition from regulated autophagy to autophagic cell death follows the contact normal form's inner boundary at r* = 0.77594 (in normalised mTORC1 activity coordinates). Cells driven below ρ ≈ 0.12 should show irreversible autophagic flux — escape trajectories — rather than convergence to the regulated limit cycle. If careful titration of mTORC1 inhibitors shows reversible flux below ρ* ≈ 0.12 without a sharp inner boundary, the contact normal form assignment must be revised.
 </div>
 
 <div class="falsifiability">
@@ -434,7 +434,7 @@
 <span class="kw">theorem</span> <span class="id">gronwall_radius</span> :
     (<span class="nu">2</span> : ℝ) / (<span class="nu">2</span> * (<span class="nu">1</span> + <span class="nu">2</span>)) = <span class="nu">1</span> / <span class="nu">3</span> := <span class="kw">by</span> norm_num
 
-<span class="cm">/-- Basin asymmetry: ε₀ = 1/3 < r* ≈ 4/5 = 0.80 -/</span>
+<span class="cm">/-- Basin asymmetry: ε₀ = 1/3 < 2/3 < r* = 0.77594 -/</span>
 <span class="kw">theorem</span> <span class="id">basin_asymmetry</span> :
     (<span class="nu">1</span> : ℝ) / <span class="nu">3</span> &lt; <span class="nu">4</span> / <span class="nu">5</span> := <span class="kw">by</span> norm_num</pre>
 </div>
@@ -611,7 +611,7 @@
     }
     cx.font='9px Courier New';cx.fillStyle='rgba(201,168,76,.5)';cx.textAlign='left';
     cx.fillText('ε₀=1/3',tX(0.33,0)+4,tY(0.33,0));
-    cx.fillText('r*≈0.80',tX(0.80,0)+4,tY(0.80,0));
+    cx.fillText('r*≈0.77594',tX(0.77594,0)+4,tY(0.77594,0));
     cx.fillStyle='#c9a84c';cx.fillText('Γ (r=1)',tX(1.0,0)+5,tY(1.0,0));
     const dL={auto:['AUTOPHAGY — X_auto','ρ=mTORC1·θ=autophagic phase'],
               star:['TRIPLE-ALPHA — X_star','ρ=T/T*·θ=pulsation phase'],
