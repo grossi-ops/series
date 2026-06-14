@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Second River Pilot — HVEH Build Spec · G6 LLC</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1a1c22;--ink2:#2d3142;--paper:#f7f4ee;--paper2:#ede9e0;--paper3:#e4dfd4;
+  --accent:#8b3a0f;--accent2:#1a4d6e;--accent3:#3d6b3f;
+  --teal:#0f6e56;--teal2:#1d9e75;
+  --rule:#c8c0b0;--dim:#7a7060;
+  --serif:'EB Garamond',Georgia,serif;--mono:'JetBrains Mono','Courier New',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--paper);color:var(--ink);font-family:var(--serif);font-size:19px;line-height:1.72;}
+
+.rh{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(247,244,238,0.97);backdrop-filter:blur(6px);border-bottom:1px solid var(--rule);padding:.35rem 2rem;display:flex;justify-content:space-between;align-items:center;font-family:var(--mono);font-size:.58rem;letter-spacing:.1em;color:var(--dim);}
+.rh a{color:var(--dim);text-decoration:none;padding:.2rem .6rem;border:1px solid var(--rule);border-radius:2px;transition:all .15s;}
+.rh a:hover{color:var(--teal);border-color:var(--teal);}
+
+.hero{padding:5.5rem 2rem 3rem;border-bottom:2px solid var(--rule);max-width:860px;margin:0 auto;}
+.hero-tag{font-family:var(--mono);font-size:.6rem;letter-spacing:.28em;text-transform:uppercase;color:var(--teal);margin-bottom:.8rem;}
+.hero h1{font-size:clamp(2rem,5vw,3.2rem);font-weight:400;line-height:1.15;margin-bottom:.4rem;}
+.hero-sub{font-size:1rem;color:var(--dim);font-style:italic;margin-bottom:2rem;}
+.hero-meta{display:grid;grid-template-columns:auto 1fr;gap:.2rem 1.5rem;font-family:var(--mono);font-size:.63rem;letter-spacing:.05em;color:var(--dim);}
+.hero-meta .k{color:var(--ink2);font-weight:700;}
+
+.content{max-width:860px;margin:0 auto;padding:3rem 2rem 5rem;}
+.sec-num{font-family:var(--mono);font-size:.6rem;letter-spacing:.2em;color:var(--teal);text-transform:uppercase;display:block;margin-bottom:.3rem;opacity:.9;}
+h2{font-size:1.5rem;font-weight:400;color:var(--ink);margin:3.2rem 0 .8rem;border-bottom:1px solid var(--rule);padding-bottom:.3rem;}
+h3{font-size:1.1rem;font-weight:600;color:var(--ink2);margin:2rem 0 .5rem;}
+p{margin-bottom:1rem;}
+strong{font-weight:600;}
+em{font-style:italic;}
+hr.rule{border:none;border-top:1px solid var(--rule);margin:2.5rem 0;}
+
+/* WHY EASY banner */
+.easy-banner{background:var(--paper2);border:1px solid var(--rule);border-left:4px solid var(--teal2);padding:1.2rem 1.6rem;margin:2rem 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:.8rem 1.5rem;}
+.easy-item .ei-label{font-family:var(--mono);font-size:.58rem;letter-spacing:.15em;text-transform:uppercase;color:var(--teal);margin-bottom:.25rem;}
+.easy-item .ei-val{font-size:.9rem;color:var(--ink2);line-height:1.45;}
+
+/* BOXES */
+.box{border-left:4px solid;padding:1.1rem 1.5rem;margin:1.8rem 0;border-radius:0 4px 4px 0;}
+.box-label{font-family:var(--mono);font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;margin-bottom:.4rem;display:block;}
+.box.note{border-color:var(--teal2);background:rgba(29,158,117,.05);}
+.box.note .box-label{color:var(--teal);}
+.box.warn{border-color:var(--accent);background:rgba(139,58,15,.05);}
+.box.warn .box-label{color:var(--accent);}
+.box.code{border-color:var(--ink2);background:rgba(45,49,66,.04);font-family:var(--mono);font-size:.8rem;line-height:1.75;}
+.box.code .box-label{color:var(--ink2);}
+
+/* TIMELINE */
+.timeline{margin:1.8rem 0;border-left:2px solid var(--teal);padding-left:1.6rem;}
+.tl-item{position:relative;margin-bottom:1.4rem;}
+.tl-item::before{content:'';position:absolute;left:-1.95rem;top:.38rem;width:.65rem;height:.65rem;background:var(--teal);border-radius:50%;}
+.tl-head{font-family:var(--mono);font-size:.65rem;letter-spacing:.1em;color:var(--teal);margin-bottom:.2rem;}
+.tl-body{font-size:.9rem;color:var(--ink2);line-height:1.55;}
+
+/* TABLES */
+.table-wrap{overflow-x:auto;margin:1.5rem 0;}
+table{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:.71rem;}
+th{padding:.5rem .7rem;text-align:left;border:1px solid var(--rule);font-size:.62rem;letter-spacing:.07em;text-transform:uppercase;color:var(--ink2);background:var(--paper2);}
+td{padding:.45rem .7rem;border:1px solid var(--rule);color:var(--ink);vertical-align:top;line-height:1.5;}
+tr:hover td{background:var(--paper3);}
+.td-go{color:var(--teal);font-weight:700;}
+.td-ok{color:var(--accent3);}
+.td-flag{color:var(--accent);}
+.total-row td{background:var(--paper2);font-weight:600;border-top:2px solid var(--rule);}
+
+/* CHECKLIST */
+.checklist{list-style:none;margin:1rem 0 1rem 0;}
+.checklist li{padding:.35rem 0 .35rem 1.8rem;position:relative;font-size:.93rem;border-bottom:1px solid rgba(200,192,176,.4);line-height:1.5;}
+.checklist li::before{position:absolute;left:0;font-family:var(--mono);font-size:.75rem;top:.4rem;}
+.checklist li.done::before{content:'✓';color:var(--teal);}
+.checklist li.todo::before{content:'○';color:var(--dim);}
+.checklist li.flag::before{content:'!';color:var(--accent);}
+
+/* STEP BLOCKS */
+.steps{counter-reset:step;}
+.step{counter-increment:step;position:relative;padding:1.2rem 1.4rem 1.2rem 3.2rem;border:1px solid var(--rule);border-top:none;background:var(--paper);}
+.step:first-child{border-top:1px solid var(--rule);border-radius:4px 4px 0 0;}
+.step:last-child{border-radius:0 0 4px 4px;}
+.step::before{content:counter(step);position:absolute;left:.9rem;top:1.1rem;font-family:var(--mono);font-size:1.1rem;font-weight:700;color:var(--teal);opacity:.5;}
+.step-head{font-family:var(--mono);font-size:.67rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink2);margin-bottom:.4rem;}
+.step-body{font-size:.92rem;color:var(--ink);line-height:1.6;}
+.step-time{display:inline-block;font-family:var(--mono);font-size:.58rem;letter-spacing:.1em;color:var(--teal);background:rgba(29,158,117,.1);padding:.1rem .5rem;border-radius:2px;margin-left:.6rem;vertical-align:middle;}
+
+/* NAV */
+.ch-nav{border-top:1px solid var(--rule);padding:1.4rem 2rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;font-family:var(--mono);font-size:.6rem;max-width:860px;margin:0 auto;}
+.ch-nav a{color:var(--dim);text-decoration:none;padding:.3rem .8rem;border:1px solid var(--rule);transition:all .2s;}
+.ch-nav a:hover{color:var(--teal);border-color:var(--teal);}
+
+footer{text-align:center;padding:2rem;font-family:var(--mono);font-size:.57rem;letter-spacing:.08em;color:var(--dim);border-top:1px solid var(--rule);}
+footer a{color:var(--accent3);text-decoration:none;}
+</style>
+</head>
+<body>
+
+<div class="rh">
+  <span>HVEH · G6 LLC · Newark NJ · 2026</span>
+  <span>Second River Pilot · Build Specification</span>
+  <div style="display:flex;gap:.6rem">
+    <a href="ch09.html">← Ch 9 · Belleville</a>
+    <a href="chHALO.html">HALO Chapter</a>
+    <a href="index.html">Index</a>
+  </div>
+</div>
+
+<div class="hero">
+  <div class="hero-tag">HVEH · Pilot Build · Second River / Watsessing · Belleville NJ</div>
+  <h1>Second River Pilot<br><em style="font-size:.7em;color:var(--dim)">Build Specification — 3 Modules</em></h1>
+  <p class="hero-sub">The corridor's simplest site — the confluence already does the work</p>
+  <div class="hero-meta">
+    <span class="k">Site</span><span>Second River / Watsessing confluence, Belleville NJ</span>
+    <span class="k">Modules</span><span>3 medium units · ~10–20 kW continuous each · ~$98k per unit</span>
+    <span class="k">Total cost</span><span>~$295k (vs. $450k full-civil estimate) — channel geometry pre-existing</span>
+    <span class="k">Permit lane</span><span>NJDEP N.J.A.C. 7:13 small hydro — no FERC, no USACE</span>
+    <span class="k">Mode</span><span>Continuous (mill mode) + storm-peak amplification</span>
+    <span class="k">Timeline</span><span>~10 months survey to power-on</span>
+  </div>
+</div>
+
+<div class="content">
+
+<!-- Why Easy -->
+<span class="section-num">§ 1</span>
+<h2>Why This Site Is Easy</h2>
+
+<p>Most HVEH sites need an engineered basin: a concrete channel built to force stormwater into a tangential intake and hold the initial radius above the attractor threshold r* ≈ 0.773. The Second River / Watsessing confluence already does this for free. Two flows meeting at a natural junction provide the rotational component the helical attractor requires — no channel construction needed, just a guide-vane structure to direct the confluence entry and a rotor to sit in the vortex axis.</p>
+
+<div class="easy-banner">
+  <div class="easy-item">
+    <div class="ei-label">Channel geometry</div>
+    <div class="ei-val">Pre-existing natural confluence. No concrete basin required.</div>
+  </div>
+  <div class="easy-item">
+    <div class="ei-label">Permitting</div>
+    <div class="ei-val">NJDEP small hydro only. No FERC. No USACE 404.</div>
+  </div>
+  <div class="easy-item">
+    <div class="ei-label">Flow mode</div>
+    <div class="ei-val">Continuous — runs on normal river flow, storms amplify.</div>
+  </div>
+  <div class="easy-item">
+    <div class="ei-label">Scale</div>
+    <div class="ei-val">3 × sub-100 kW. Smallest, fastest permitting lane.</div>
+  </div>
+  <div class="easy-item">
+    <div class="ei-label">Municipality</div>
+    <div class="ei-val">Belleville already in HVEH plan. DPW relationship established.</div>
+  </div>
+  <div class="easy-item">
+    <div class="ei-label">Proof of concept</div>
+    <div class="ei-val">First live instance of continuous mill mode in the corridor.</div>
+  </div>
+</div>
+
+<!-- What you're building -->
+<span class="section-num">§ 2</span>
+<h2>What You're Actually Building</h2>
+
+<p>Three identical modular installations, one at the confluence and two upstream on the Second River reach. Each module has four physical parts:</p>
+
+<h3>1 · Guide Vane Structure (the K element)</h3>
+<p>A low-profile concrete or steel deflector — essentially a shaped sill — set at the confluence entry point. Its job is to angle the two incoming flows into a tangential spiral entry rather than a direct head-on collision. This is the K operator (curvature gate): it must be installed and stable before the turbine is lowered. Dimensions: roughly 2–4 m span across the channel, 0.3–0.6 m above low-water level. No excavation; anchored to existing channel bed.</p>
+
+<div class="box note">
+  <span class="box-label">K-before-F at the Second River</span>
+  The guide vane (K) is set in concrete first. The rotor (F — fold amplifier, vortex tightening) is not lowered until the guide vane has been in place and the flow pattern has stabilised over at least one full tide/flow cycle. This is the physical implementation of the K-before-F commissioning protocol. It is not optional — reversed order (rotor first, vanes after) produces chaotic flow and zero generation.
+</div>
+
+<h3>2 · Vertical-Axis Rotor</h3>
+<p>A custom helical rotor, ~0.8–1.2 m diameter, suspended vertically at the vortex axis on a mild-steel A-frame above water level. The blades are swept to match the contact-geometric spiral — this is the novel piece and the longest-lead item. Blade pitch and sweep angle are derived from the channel geometry measured in the hydraulic survey (§3). Not an off-shelf turbine: needs to be fabricated.</p>
+
+<p>Target flow range for the Second River: 0.3–1.0 m/s normal flow, up to 2.5 m/s storm peak. Rotor design must extract useful torque across this range — wider than a typical micro-hydro turbine optimised for a single design flow.</p>
+
+<h3>3 · Generator + Frame</h3>
+<p>Permanent magnet generator (PMG), ~15–25 kW rated, mounted above water on the A-frame. Direct-drive preferred (no gearbox = lower maintenance). Off-shelf low-head PMG class — several manufacturers (e.g. Ginlong/Solis, Enercon small-wind class) produce suitable units that can be adapted. The generator sits dry; only the rotor enters the water.</p>
+
+<h3>4 · Controls + Grid Tie</h3>
+<p>Off-shelf PLC control cabinet with K-before-F interlock (software prevents rotor spin-up until K-element confirmation signal). Grid tie inverter + disconnect. Cable to nearest Belleville utility distribution point — the Second River corridor has JCP&L distribution infrastructure within ~200 m of the confluence. Net metering agreement with JCP&L for sub-100 kW.</p>
+
+<!-- Hydraulic survey -->
+<span class="section-num">§ 3</span>
+<h2>Step 0 — Hydraulic Survey (First)</h2>
+
+<p>Before any design work, you need measured flow data at the specific confluence point. Two weeks of field work with an ADCP (acoustic Doppler current profiler) — rentable — plus a total station for channel geometry. This determines:</p>
+
+<ul style="margin:1rem 0 1rem 2rem;line-height:2.1;">
+  <li>Actual flow velocity at low, normal, and storm conditions</li>
+  <li>Confluence angle and rotational component already present</li>
+  <li>Whether r(0) is above r* ≈ 0.773 at normal flow — confirming mill mode viability</li>
+  <li>Channel cross-section for rotor sizing</li>
+  <li>Sediment load estimate (Second River drains a developed basin — expect some sediment management)</li>
+</ul>
+
+<div class="box note">
+  <span class="box-label">USGS StreamStats shortcut</span>
+  Run USGS StreamStats (streamstats.usgs.gov) for the Second River at the Watsessing gauge before the field survey. It gives drainage area, mean annual flow, and 2/10/50/100-year design flows for free. This pre-screens whether the site clears the threshold before paying for survey days.
+</div>
+
+<p>If the StreamStats data confirms the flow range, field survey confirms the geometry, and r(0) > r* checks out — you move to rotor design. If r(0) is marginal at low flow, the guide vane can be adjusted to compensate (smaller entry angle, tighter spiral). If r(0) is consistently below r* even at normal flow, this site is storm-event-only, not continuous-mode.</p>
+
+<!-- Build steps -->
+<span class="section-num">§ 4</span>
+<h2>Build Sequence</h2>
+
+<div class="steps">
+  <div class="step">
+    <div class="step-head">USGS StreamStats pre-screen <span class="step-time">Day 1 — free</span></div>
+    <div class="step-body">Pull drainage area, mean annual flow, design flows for Second River at Watsessing Avenue. Confirm flow range overlaps the rotor design window (0.3–2.5 m/s). Takes one afternoon online.</div>
+  </div>
+  <div class="step">
+    <div class="step-head">Hydraulic field survey <span class="step-time">Weeks 1–2</span></div>
+    <div class="step-body">ADCP deployment at confluence. Measure velocity profiles, confirm confluence angle, assess sediment load. Rent ADCP from SonTek or Teledyne (~$1.5k/week). Two technicians. Delivers: channel cross-section drawing, flow velocity table by condition, sediment estimate.</div>
+  </div>
+  <div class="step">
+    <div class="step-head">Rotor design + CFD <span class="step-time">Months 1–4</span></div>
+    <div class="step-body">Translate measured channel geometry + contact-geometric blade equations into mechanical drawings. CFD validation in OpenFOAM (open-source, no license cost) on the measured cross-section. Output: fabrication drawings for the helical rotor. This is the only genuinely novel engineering task in the build — everything else is standard. Engage a hydraulic engineering firm or university partner with turbomachinery CFD capability.</div>
+  </div>
+  <div class="step">
+    <div class="step-head">NJDEP permit applications <span class="step-time">Months 2–8 — parallel to design</span></div>
+    <div class="step-body">File simultaneously: (1) NJDEP Flood Hazard Area / stream encroachment (N.J.A.C. 7:13); (2) NJDEP Freshwater Wetlands Individual Permit if the confluence footprint falls within a wetlands buffer — check NJ GeoWeb first, may be Letter of Interpretation only; (3) NJDEP Division of Fish and Wildlife coordination letter (fish screen requirement for Second River). Belleville construction permit runs in parallel. No FERC filing needed. Estimated agency fees: ~$2k total.</div>
+  </div>
+  <div class="step">
+    <div class="step-head">Rotor fabrication <span class="step-time">Months 4–7</span></div>
+    <div class="step-body">Machine shop fabrication of 3 rotors from drawings. Mild steel or 316 stainless for underwater portion. Three identical units — batch fabrication brings cost down ~25% vs. one-off. Target: ~$18k per rotor at batch of 3 (vs. ~$25k single unit).</div>
+  </div>
+  <div class="step">
+    <div class="step-head">Guide vane installation (K element) <span class="step-time">Month 8</span></div>
+    <div class="step-body">Set concrete anchor points on channel bed. Install guide vane deflectors at each of the 3 sites. Allow 2 weeks for concrete cure and flow pattern stabilisation before any rotor installation. This is the K step — must precede F. Belleville DPW stream access permit required for in-channel work.</div>
+  </div>
+  <div class="step">
+    <div class="step-head">A-frame + generator installation <span class="step-time">Month 9</span></div>
+    <div class="step-body">Erect steel A-frames above each guide vane. Mount PMG generators. Run cable to control cabinet. No in-channel work at this stage — everything is above waterline. One crane day per site (~$800/day). Control cabinet commissioning: load K-before-F interlock logic, test inhibit function.</div>
+  </div>
+  <div class="step">
+    <div class="step-head">Rotor lowering + commissioning <span class="step-time">Month 10</span></div>
+    <div class="step-body">Lower rotors onto shafts. Confirm K-element flow pattern is stable (visual + ADCP spot check). Release K-before-F interlock. Spin-up under no load first — measure vortex coherence (P_ON acceptance test: vortex must be coherent and stable within 5 turnover times before turbine load is applied). Connect to grid. Site 1 commissioning observed before proceeding to sites 2 and 3.</div>
+  </div>
+</div>
+
+<!-- Cost breakdown -->
+<span class="section-num">§ 5</span>
+<h2>Cost Breakdown — 3 Units</h2>
+
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr><th>Item</th><th>Per unit</th><th>3 units</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Hydraulic survey + StreamStats</td><td>—</td><td class="td-go">~$8k</td><td>Shared across all 3 units; ADCP rental + 2 technicians × 2 weeks</td></tr>
+    <tr><td>Rotor design + CFD</td><td>—</td><td class="td-go">~$18k</td><td>One design applies to all 3 (same channel geometry); university partner may reduce to ~$8k</td></tr>
+    <tr><td>Guide vane structure (K element)</td><td>~$6k</td><td>~$18k</td><td>Concrete anchor + steel vane; no excavation; local contractor</td></tr>
+    <tr><td>Rotor fabrication (batch of 3)</td><td>~$18k</td><td>~$54k</td><td>316SS underwater portion; batch discount vs. single-unit</td></tr>
+    <tr><td>A-frame + shaft + bearings</td><td>~$4k</td><td>~$12k</td><td>Standard mild steel fabrication</td></tr>
+    <tr><td>PMG generator (15–25 kW)</td><td>~$14k</td><td>~$42k</td><td>Off-shelf low-head PMG; Ginlong or equivalent</td></tr>
+    <tr><td>Control cabinet + interlock</td><td>~$6k</td><td>~$18k</td><td>Off-shelf PLC + K-before-F interlock logic</td></tr>
+    <tr><td>Grid tie inverter + disconnect</td><td>~$5k</td><td>~$15k</td><td>JCP&L net metering sub-100 kW; inverter + disconnect switch</td></tr>
+    <tr><td>Cable + electrical connection</td><td>~$4k</td><td>~$12k</td><td>~200 m to nearest JCP&L distribution point</td></tr>
+    <tr><td>Fish screen (NJDEP requirement)</td><td>~$2k</td><td>~$6k</td><td>Bar screen at intake; standard NJDEP DFW specification</td></tr>
+    <tr><td>Sediment trap / cleanout</td><td>~$2k</td><td>~$6k</td><td>Pre-intake sediment trap; Second River carries developed-basin load</td></tr>
+    <tr><td>Permitting fees + legal</td><td>—</td><td>~$8k</td><td>NJDEP fees (~$2k) + attorney for FHA application (~$6k)</td></tr>
+    <tr><td>Installation labour + crane</td><td>~$7k</td><td>~$21k</td><td>3 crane days + installation crew</td></tr>
+    <tr><td>Contingency (15%)</td><td>—</td><td>~$35k</td><td></td></tr>
+    <tr class="total-row"><td><strong>Total</strong></td><td><strong>~$98k</strong></td><td><strong>~$293k</strong></td><td>vs. $450k full-civil estimate in Ch 9</td></tr>
+  </tbody>
+</table>
+</div>
+
+<p>The cost reduction relative to the Chapter 9 estimate (~$450k for 3 medium units) comes entirely from eliminating the engineered concrete basin — the confluence does that work for free. The civil cost drops from ~$55k per unit (full basin) to ~$6k (guide vane only). Everything else is the same.</p>
+
+<!-- Permits checklist -->
+<span class="section-num">§ 6</span>
+<h2>Permit Checklist</h2>
+
+<ul class="checklist">
+  <li class="todo">USGS StreamStats pre-screen — free, Day 1</li>
+  <li class="todo">NJ GeoWeb wetlands check — confirm if confluence is in FW1/FW2 buffer or upland; determines permit type (Letter of Interpretation vs. Individual Permit)</li>
+  <li class="todo">NJDEP Flood Hazard Area Individual Permit — N.J.A.C. 7:13; primary permit; ~$800 fee; 6–9 month typical timeline</li>
+  <li class="todo">NJDEP Freshwater Wetlands — Letter of Interpretation first; Individual Permit if within 150 ft buffer</li>
+  <li class="todo">NJDEP Division of Fish and Wildlife — coordination letter; fish screen specification for Second River (American eel, potential anadromous species)</li>
+  <li class="todo">Belleville DPW — stream access permit for in-channel K-element installation; construction permit for above-grade A-frame and electrical</li>
+  <li class="todo">JCP&L net metering application — sub-100 kW residential/commercial; standard form; 30–60 day review</li>
+  <li class="done">No FERC license required — non-navigable waterway, below 100 kW per unit</li>
+  <li class="done">No USACE Section 404 — no dredge or fill of navigable waters (guide vane is above bed; confirm with site survey)</li>
+  <li class="flag">Essex County — confirm no county easement on Second River corridor at Watsessing; deed search</li>
+  <li class="flag">Belleville sewer authority — Second River corridor may have combined sewer infrastructure nearby; confirm no conflicts with CSO outfall locations</li>
+</ul>
+
+<!-- Timeline -->
+<span class="section-num">§ 7</span>
+<h2>Timeline — Survey to Power-On</h2>
+
+<div class="timeline">
+  <div class="tl-item">
+    <div class="tl-head">Week 1–2 — Survey</div>
+    <div class="tl-body">StreamStats pre-screen (Day 1). ADCP field survey. NJ GeoWeb wetlands check. Deed search for county easements.</div>
+  </div>
+  <div class="tl-item">
+    <div class="tl-head">Month 1–2 — Design kick-off + permit filing</div>
+    <div class="tl-body">Rotor design contract executed (CFD firm or university partner). NJDEP FHA permit application filed. NJDEP DFW coordination letter sent. Belleville DPW pre-application meeting.</div>
+  </div>
+  <div class="tl-item">
+    <div class="tl-head">Month 2–4 — Rotor CFD</div>
+    <div class="tl-body">CFD on measured channel geometry. Blade geometry finalised. Fabrication drawings issued. PMG generator ordered (8–12 week lead time; order early).</div>
+  </div>
+  <div class="tl-item">
+    <div class="tl-head">Month 4–7 — Fabrication + permit processing</div>
+    <div class="tl-body">Batch rotor fabrication. A-frames fabricated. Control cabinets built and programmed. NJDEP FHA permit typically issues in this window if filed in month 1–2.</div>
+  </div>
+  <div class="tl-item">
+    <div class="tl-head">Month 7–8 — Permits in hand · Procurement complete</div>
+    <div class="tl-body">All permits received. All equipment on-site. Schedule crane days and installation crew.</div>
+  </div>
+  <div class="tl-item">
+    <div class="tl-head">Month 8 — Guide vane installation (K element)</div>
+    <div class="tl-body">In-channel work: set anchor bolts, install guide vanes. 1 week per site. Allow 2-week cure + flow stabilisation before rotor lowering.</div>
+  </div>
+  <div class="tl-item">
+    <div class="tl-head">Month 9 — A-frame + generator</div>
+    <div class="tl-body">Above-grade installation. Crane day per site. Electrical connection to grid. Control cabinet commissioning.</div>
+  </div>
+  <div class="tl-item">
+    <div class="tl-head">Month 10 — Rotor lowering + commissioning</div>
+    <div class="tl-body">K-before-F sequence. Vortex coherence acceptance test (P_ON ≥ 0.85 within 5 T*). Load connection. Site 1 first, observe 48 hours, then sites 2 and 3. Power on.</div>
+  </div>
+</div>
+
+<!-- The one hard thing -->
+<span class="section-num">§ 8</span>
+<h2>The One Hard Thing</h2>
+
+<p>Everything in this build is standard procurement except the rotor. The guide vane is a shaped concrete deflector — any civil contractor can build it. The A-frame is mild-steel fabrication. The generator is off-shelf. The permitting is the NJDEP small hydro lane, which exists and is well-defined.</p>
+
+<p>The rotor is novel. A helical vortex turbine that extracts rotational kinetic energy — not axial flow — at 0.3–1.0 m/s in a 3–6 m wide channel does not exist as a catalogue item. The blade geometry must be derived from the contact-geometric analysis (the same analysis that produced r* ≈ 0.773 and the K-before-F protocol) and validated by CFD before fabrication. This takes 3–4 months and is the critical path item that determines the whole timeline.</p>
+
+<div class="box warn">
+  <span class="box-label">The shortcut that isn't one</span>
+  It is tempting to substitute an off-shelf Darrieus or H-rotor cross-flow turbine. These are available and inexpensive. They will not work at the Second River confluence — they extract axial momentum, not the rotational component that the helical attractor produces. Installing an H-rotor at the Watsessing confluence is equivalent to the F-before-K error: you get turbulence, not a coherent vortex, and zero net generation. The rotor geometry must follow from the mathematics.
+</div>
+
+<h3>Route to rotor design</h3>
+<p>Three options, in order of cost and speed:</p>
+<ol style="margin:1rem 0 1rem 2rem;line-height:2.2;">
+  <li><strong>University partnership</strong> — NJIT, Rutgers, or Stevens Institute of Technology hydraulic engineering programmes. Graduate student + faculty supervisor. Cost: ~$8–15k in research support, 4–6 month timeline. Produces peer-reviewable results. Best option for the first unit; strengthens grant applications.</li>
+  <li><strong>Hydraulic engineering consulting firm</strong> — e.g. Stantec, Kleinfelder, or a boutique turbomachinery firm. Cost: ~$18–25k for CFD study and fabrication drawings. Faster (2–3 months) but more expensive. Best option if grant timeline is tight.</li>
+  <li><strong>In-house with OpenFOAM</strong> — Open-source CFD, no license cost. Requires someone with CFD experience. Cost: staff time only, but slower and higher risk if not an existing capability. Only viable if G6 LLC has or hires a CFD engineer.</li>
+</ol>
+
+<!-- What you need right now -->
+<span class="section-num">§ 9</span>
+<h2>What You Need Right Now — Next Three Actions</h2>
+
+<div class="steps">
+  <div class="step">
+    <div class="step-head">Run StreamStats today</div>
+    <div class="step-body">Go to streamstats.usgs.gov. Enter the Second River at or near the Watsessing Avenue crossing, Belleville NJ. Pull drainage area, mean annual flow, Q2/Q10/Q100 design flows. If mean annual flow suggests velocities above 0.3 m/s at the confluence — which it almost certainly does — the site clears the pre-screen. Free, takes 30 minutes.</div>
+  </div>
+  <div class="step">
+    <div class="step-head">Contact NJIT or Rutgers Civil Engineering</div>
+    <div class="step-body">Send a one-page project description to the hydraulic engineering or fluid mechanics group at NJIT (Newark campus — adjacent to the project area) or Rutgers Civil &amp; Environmental Engineering. Ask about a funded research partnership for rotor CFD design. NJIT specifically has a water resources group and is within 2 miles of the project site — they may have existing Second River flow data.</div>
+  </div>
+  <div class="step">
+    <div class="step-head">File Resilient NJ Phase 1 grant (deadline Jul 7)</div>
+    <div class="step-body">The Resilient NJ planning grant covers exactly this phase — site engineering, hydraulic survey, and preliminary design. The Second River pilot is the natural first deliverable. City of Newark as Prime Grantee; Belleville as partner municipality; G6 LLC as technical lead. The $293k build cost is well within FEMA BRIC and Resilient NJ pilot ranges. Planning grant funds the survey and rotor design; construction follows in Phase 2.</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════
+     §10 · Rotor Design Specification — Contact-Geometric Blueprint
+     ══════════════════════════════════════════════════════════════════ -->
+<span class="sec-num">§ 10</span>
+<h2>Rotor Design Specification — Contact-Geometric Blueprint</h2>
+
+<p>The helical rotor is the novel piece. Every other component in this build — guide vanes, A-frame, PMG generator, control cabinet — is standard procurement. Only the rotor blade geometry does not exist in any catalogue. This section specifies it completely: the mathematics, the dimensional parameters, the CFD pass criteria, and the CAM output format. A Python script (<code>rotor_geometry.py</code>) generates the 3D surface point cloud directly from these equations.</p>
+
+<!-- Phase 1 — Contact Geometry ──────────────────────────────────────── -->
+<h3>Phase 1 · Contact-Geometric Blade Profile</h3>
+
+<p><strong>Coordinate system.</strong> Normalised cylindrical coordinates (r, θ, z), r ∈ [0, 1], z ∈ ℝ. The vortex outer radius R<sub>outer</sub> = 0.60 m (rotor diameter 1.2 m). Physical radius ρ = r × R<sub>outer</sub>.</p>
+
+<p><strong>Zoning.</strong> The rotor has two zones separated by the attractor boundary r* ≈ 0.773:</p>
+<ul style="margin:.6rem 0 1rem 2rem;line-height:2;">
+  <li><strong>Core zone 0 ≤ r &lt; r*</strong> — no blades. Free slip. The Rankine vortex core and the Reeb orbit live here; any blade inside this radius disrupts the vortex coherence that drives generation.</li>
+  <li><strong>Active extraction zone r* ≤ r ≤ 1.0</strong> — rotor blade span. Rotational kinetic energy is extracted here via torque T<sub>z</sub>.</li>
+</ul>
+
+<p><strong>Pitch equation — the core result.</strong> The contact form on the vortex manifold is α = dz − r²dθ. A blade surface that annihilates α at every point (i.e., lies in the kernel of α) must satisfy:</p>
+
+<div class="box code">
+  <span class="box-label">Contact-geometric pitch condition</span>
+  dz = r² dθ &nbsp; at fixed r  &nbsp;→&nbsp; tan φ(r) = dz/(r dθ) = r<br><br>
+  φ(r) = arctan(r)<br><br>
+  At r* = 0.773:  φ(r*) = arctan(0.773) = 37.7°<br>
+  At r  = 1.000:  φ(1)  = arctan(1)     = 45.0°
+</div>
+
+<p>This pitch range — 37.7° at the inner blade edge rising to 45° at the tip — is the invariant condition. Blades cut to any other pitch angle break the contact alignment and introduce destructive axial lift or turbulence in the core zone. The equations are exact; CFD validates them, not adjusts them.</p>
+
+<p><strong>Chord scaling.</strong> C(r) = C<sub>tip</sub> × R<sub>outer</sub> / r. Chord widens inward proportional to 1/r, maintaining approximately constant spanwise solidity. At tip: C = 60 mm. At r*: C ≈ 78 mm.</p>
+
+<p><strong>Axial scale.</strong> Integrating dz = r²dθ from θ = 0 to θ<sub>sweep</sub>:</p>
+
+<div class="box code">
+  <span class="box-label">Physical axial position</span>
+  Z(r, θ) = r² × θ × R_z<br><br>
+  R_z = L_axial / θ_sweep = 0.90 m / π  ≈  0.2865 m/rad<br><br>
+  At θ_sweep = π (180°):<br>
+  &nbsp;&nbsp;Z at tip (r=1):  0.900 m<br>
+  &nbsp;&nbsp;Z at r*  (0.773): 0.538 m
+</div>
+
+<p><strong>Profile.</strong> NACA 0012 symmetric (zero camber, 12% thickness ratio). Symmetric profile essential — any camber introduces an axial lift component that pushes flow along the vortex axis, degrading the rotational extraction and loading the thrust bearing asymmetrically.</p>
+
+<p><strong>Blade count: 3 blades, 120° stagger.</strong> Two blades produce torque ripple at 10–30 RPM in the 0.3–1.0 m/s flow range. Five blades increase blockage in the extraction zone and risk core breakdown at low flow. Three blades with helical stagger produce smooth torque distribution and reliable self-starting from rest as flow rises from zero.</p>
+
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr><th>Parameter</th><th>Value</th><th>Basis</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Outer radius R<sub>outer</sub></td><td class="td-go">600 mm</td><td>Channel geometry — fits 3 m minimum width with clearance</td></tr>
+    <tr><td>Inner blade boundary r*</td><td class="td-go">0.773 normalised = 464 mm</td><td>Helical attractor boundary (contact-geometric fixed point)</td></tr>
+    <tr><td>Blade count</td><td class="td-go">3 blades, 120° stagger</td><td>Torque smoothness vs. blockage trade-off; optimal for 10–30 RPM</td></tr>
+    <tr><td>Helical sweep θ<sub>sweep</sub></td><td class="td-go">180° (π rad)</td><td>Axial span target L = 0.9 m; one half-turn</td></tr>
+    <tr><td>Axial span at tip</td><td class="td-go">900 mm</td><td>Fits 1.0–1.2 m water depth at normal Second River flow</td></tr>
+    <tr><td>Axial span at r*</td><td class="td-go">538 mm</td><td>Computed from Z = r*² × π × R_z</td></tr>
+    <tr><td>Pitch at r*</td><td class="td-go">37.7°</td><td>arctan(0.773); contact-geometric</td></tr>
+    <tr><td>Pitch at tip</td><td class="td-go">45.0°</td><td>arctan(1.0); contact-geometric</td></tr>
+    <tr><td>Chord at tip</td><td class="td-go">60 mm</td><td>10% of R<sub>outer</sub>; 1/r scaling inward</td></tr>
+    <tr><td>Chord at r*</td><td class="td-go">78 mm</td><td>C_tip / r* = 60 / 0.773</td></tr>
+    <tr><td>Hydrofoil profile</td><td class="td-go">NACA 0012</td><td>Symmetric — zero camber avoids axial lift</td></tr>
+    <tr><td>Design flow range</td><td>0.3–1.0 m/s normal · up to 2.5 m/s storm</td><td>Second River measured range (USGS StreamStats)</td></tr>
+  </tbody>
+</table>
+</div>
+
+<!-- Phase 2 — CFD ─────────────────────────────────────────────────────── -->
+<h3>Phase 2 · CFD Validation — Pass Criteria</h3>
+
+<p>CFD does not adjust the blade geometry — the contact-geometric equations are exact. CFD validates that the blade, as designed, satisfies three physical conditions at the Second River flow range before fabrication drawings are issued.</p>
+
+<div class="box note">
+  <span class="box-label">CFD setup (OpenFOAM pimpleFoam or Ansys Fluent transient)</span>
+  Inlet: pure axial inflow U<sub>z</sub> = 0.3–1.0 m/s. Upstream guide vanes induce Rankine-like vortex peaking at r ≈ 0.773. Rotor in AMI / Sliding Mesh zone. Turbulence: SST k-ω with curvature correction (Spalart–Shur). Output: resolved torque T<sub>z</sub>, axial thrust F<sub>z</sub>, downstream tangential velocity profile, core vorticity at r &lt; r*.
+</div>
+
+<p><strong>Pass gate 1 — torque dominates:</strong> T<sub>z</sub> · ω / (F<sub>z</sub> · U<sub>z</sub>) ≫ 1. The rotor must produce substantially more rotational power than axial thrust power. If this ratio approaches 1, camber or pitch is wrong.</p>
+
+<p><strong>Pass gate 2 — energy extracted in active zone:</strong> Tangential velocity V<sub>θ</sub> must collapse toward zero in the annular region 0.773 ≤ r ≤ 1.0 downstream of the rotor. Non-zero residual V<sub>θ</sub> here means the blade is not extracting the rotational energy (profile misalignment or insufficient blade count).</p>
+
+<p><strong>Pass gate 3 — core coherence preserved:</strong> No vortex core breakdown at r &lt; 0.773. The Rankine core must remain coherent through the rotor disk. Core breakdown at low flow (&lt; 0.3 m/s) is acceptable — that is the cut-in condition.</p>
+
+<!-- Phase 3 — Hardware ────────────────────────────────────────────────── -->
+<h3>Phase 3 · Hardware and Fabrication</h3>
+
+<p><strong>Material.</strong> Primary candidates are 5083 aluminium alloy (marine grade, corrosion resistant, 2.66 g/cm³, easily machined) or carbon-fibre reinforced polymer (CFRP, lower density, superior fatigue life but higher unit cost). For the first three units, 5083 aluminium is recommended — machine shops in the Newark/Jersey City corridor have 5-axis capability for this alloy, and repair is simpler than CFRP in the field.</p>
+
+<p><strong>Structural.</strong> No central shaft through the core zone — a central cantilever would require the hub to penetrate r &lt; r*, disrupting the Rankine core. Two options: (a) outer shroud ring connecting blade tips to the shaft above water, or (b) neutral-profile struts connecting at 0.85 r, positioned at blade trailing edges to minimise flow interference. Option (a) is preferred for the first prototype as it simplifies balancing and bearing design.</p>
+
+<p><strong>CAM output.</strong> The <code>rotor_geometry.py</code> script generates a 3D point cloud (CSV format, ~330 k surface points for the full 3-blade assembly at the default resolution). Import into FreeCAD → Surface Workbench → BSpline Surface to fit a G³-continuous NURBS surface per blade. Export as STEP for 5-axis CAM. The NURBS fitting should preserve G³ continuity (position, first, second, and third derivative matching at blade-to-shroud junctions) — G² is acceptable for the aerodynamic surfaces; G³ is required only at the structural joints.</p>
+
+<!-- Python code block ─────────────────────────────────────────────────── -->
+<h3>Python Geometry Generator</h3>
+
+<p>File <code>rotor_geometry.py</code> (included in this repository) generates the full 3-blade surface point cloud from the contact-geometric equations above. Run with Python 3.9+ and NumPy:</p>
+
+<div class="box code">
+  <span class="box-label">Run the geometry generator</span>
+  # from the HVEH/ directory:<br>
+  python rotor_geometry.py<br>
+  # → writes rotor_cloud.csv  (~330 k points, 7 columns)<br>
+  # columns: x_m, y_m, z_m, blade, r_norm, x_chord, side<br><br>
+  # Custom output path:<br>
+  python rotor_geometry.py /path/to/output.csv
+</div>
+
+<div class="box code">
+  <span class="box-label">Expected console output</span>
+  Generating contact-geometric rotor surface...<br>
+  &nbsp;&nbsp;blade 0  (θ-offset 0°)   → 110,208 surface points<br>
+  &nbsp;&nbsp;blade 1  (θ-offset 120°) → 110,208 surface points<br>
+  &nbsp;&nbsp;blade 2  (θ-offset 240°) → 110,208 surface points<br><br>
+  &nbsp;&nbsp;HVEH Second River · Contact-Geometric Helical Rotor<br>
+  &nbsp;&nbsp;──────────────────────────────────────────────────<br>
+  &nbsp;&nbsp;Blades           : 3 × 120° stagger<br>
+  &nbsp;&nbsp;Outer diameter   : 1200 mm  (R_outer = 600 mm)<br>
+  &nbsp;&nbsp;Core boundary    : r* = 0.773  → ρ* = 463.8 mm<br>
+  &nbsp;&nbsp;Blade pitch r*   : φ(r*) = 37.72°<br>
+  &nbsp;&nbsp;Blade pitch tip  : φ(1)  = 45.00°<br>
+  &nbsp;&nbsp;Axial span tip   : 900.0 mm  (θ_sweep = 180°)<br>
+  &nbsp;&nbsp;Axial span r*    : 538.2 mm<br>
+  &nbsp;&nbsp;Chord at tip     : 60 mm<br>
+  &nbsp;&nbsp;Chord at r*      : 77.6 mm<br>
+  &nbsp;&nbsp;Profile          : NACA 0012  (t/c = 12%, zero camber)<br>
+  &nbsp;&nbsp;Total points     : 330,624<br><br>
+  &nbsp;&nbsp;Saved → rotor_cloud.csv
+</div>
+
+<div class="box warn">
+  <span class="box-label">Do not modify blade pitch to "tune" performance</span>
+  The pitch equation φ(r) = arctan(r) is derived from the contact form — it is not a design parameter to be adjusted in CFD iteration. If CFD shows insufficient torque, the cause is upstream (guide vane angle, vortex induction radius) or downstream (back-pressure from the shroud). Adjusting blade pitch away from arctan(r) breaks the contact alignment and degrades performance faster than it helps.
+</div>
+
+</div>
+
+<nav class="ch-nav">
+  <a href="ch09.html">← Ch 9 · Belleville</a>
+  <span style="font-family:var(--mono);font-size:.58rem;color:var(--dim);letter-spacing:.1em;">SECOND RIVER PILOT · BUILD SPEC</span>
+  <a href="chHALO.html">HALO Chapter →</a>
+</nav>
+
+<footer>
+  HVEH · Second River Pilot Build Specification ·
+  G6 LLC · Newark NJ · EIN 33-2880433 ·
+  <a href="https://orcid.org/0009-0000-6496-2186">ORCID 0009-0000-6496-2186</a> ·
+  <a href="https://doi.org/10.5281/zenodo.19117400">doi:10.5281/zenodo.19117400</a> · 2026<br><br>
+  <em>Cost estimates are illustrative. Permit timelines based on NJDEP published review periods. Professional engineering, legal, and environmental review required before construction. Fish passage requirements subject to NJDEP Division of Fish and Wildlife determination.</em>
+</footer>
+
+</body>
+</html>

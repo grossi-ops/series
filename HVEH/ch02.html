@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter 2 — Extended Phase Space · Principia Orthogona</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #1a1c22;
+  --ink2: #2d3142;
+  --paper: #f7f4ee;
+  --paper2: #ede9e0;
+  --paper3: #e4dfd4;
+  --accent: #8b3a0f;
+  --accent2: #1a4d6e;
+  --accent3: #3d6b3f;
+  --rule: #c8c0b0;
+  --dim: #7a7060;
+  --serif: 'EB Garamond', Georgia, serif;
+  --mono: 'JetBrains Mono', 'Courier New', monospace;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body { background:var(--paper); color:var(--ink); font-family:var(--serif); font-size:19px; line-height:1.72; counter-reset:figure theorem; }
+
+/* RUNNING HEAD */
+.rh { position:fixed; top:0; left:0; right:0; z-index:100; background:rgba(247,244,238,0.93); backdrop-filter:blur(8px); border-bottom:1px solid var(--rule); padding:0.5rem 2.5rem; display:flex; justify-content:space-between; font-family:var(--mono); font-size:0.63rem; color:var(--dim); letter-spacing:0.07em; }
+.rh a { color:var(--accent); text-decoration:none; }
+
+/* CHAPTER OPEN */
+.ch-open { max-width:960px; margin:0 auto; padding:7rem 3rem 3rem; border-bottom:2px solid var(--ink2); }
+.ch-num { font-family:var(--mono); font-size:0.68rem; letter-spacing:0.18em; color:var(--dim); text-transform:uppercase; margin-bottom:1rem; }
+.ch-title { font-size:clamp(2rem,4.5vw,3.6rem); font-weight:500; line-height:1.1; color:var(--ink2); max-width:800px; margin-bottom:1.5rem; }
+.ch-title em { font-style:italic; color:var(--accent); }
+.ch-meta { display:flex; gap:2rem; flex-wrap:wrap; padding:1rem 0; border-top:1px solid var(--rule); border-bottom:1px solid var(--rule); margin-bottom:1.5rem; }
+.meta { font-family:var(--mono); font-size:0.62rem; color:var(--dim); letter-spacing:0.06em; }
+.meta strong { color:var(--ink); font-weight:500; }
+.ch-abs { max-width:640px; font-size:0.96rem; color:var(--ink2); line-height:1.68; padding:1.25rem 1.25rem 1.25rem 1.5rem; border-left:3px solid var(--accent); background:var(--paper2); font-style:italic; }
+
+/* TOC */
+.toc-wrap { padding:2rem 3rem 0; max-width:960px; margin:0 auto; }
+.toc-wrap h4 { font-family:var(--mono); font-size:0.62rem; letter-spacing:0.14em; color:var(--dim); text-transform:uppercase; margin-bottom:0.6rem; }
+.toc { list-style:none; counter-reset:toc; }
+.toc li { counter-increment:toc; display:flex; gap:0.5rem; padding:0.18rem 0; font-size:0.88rem; }
+.toc li::before { content:counter(toc)"."; font-family:var(--mono); font-size:0.6rem; color:var(--accent); min-width:1.4rem; padding-top:0.15em; }
+.toc a { color:var(--ink2); text-decoration:none; border-bottom:1px dotted var(--rule); }
+.toc a:hover { color:var(--accent); }
+
+/* BODY GRID */
+.body-wrap { max-width:960px; margin:0 auto; padding:3rem 3rem 5rem; display:grid; grid-template-columns:1fr 240px; gap:0 3.5rem; }
+.main { min-width:0; }
+.side { position:sticky; top:3.5rem; font-size:0.8rem; align-self:start; }
+
+/* HEADINGS */
+.sec-num { font-family:var(--mono); font-size:0.6rem; color:var(--accent); letter-spacing:0.14em; text-transform:uppercase; margin-top:3.5rem; margin-bottom:0.25rem; }
+h2.sec { font-size:1.5rem; font-weight:500; color:var(--ink2); border-bottom:1px solid var(--rule); padding-bottom:0.35rem; margin-bottom:1rem; }
+h3.sub { font-size:1.1rem; font-weight:500; font-style:italic; color:var(--ink2); margin:1.8rem 0 0.6rem; }
+p { margin-bottom:0.95rem; }
+p+p { text-indent:1.4em; }
+
+/* MATH */
+.eq { font-family:var(--mono); font-size:0.86rem; background:var(--paper2); border:1px solid var(--rule); border-left:3px solid var(--accent2); padding:1rem 1.4rem; margin:1.4rem 0; overflow-x:auto; line-height:2.1; color:var(--accent2); }
+.eq .cm { color:var(--dim); font-size:0.75rem; }
+
+/* ENVIRONMENTS */
+.env { border:1px solid var(--rule); padding:1.1rem 1.4rem; margin:1.6rem 0; background:var(--paper2); }
+.env::before { display:block; font-family:var(--mono); font-size:0.6rem; letter-spacing:0.11em; text-transform:uppercase; margin-bottom:0.55rem; counter-increment:theorem; }
+.thm::before { content:"Theorem "counter(theorem); color:var(--accent); }
+.dfn::before { content:"Definition "counter(theorem); color:var(--accent2); }
+.rem::before { content:"Remark "counter(theorem); color:var(--accent3); }
+.cor::before { content:"Correction "counter(theorem); color:#8b3a0f; }
+.env p { font-style:italic; margin-bottom:0; }
+.env p+p { text-indent:0; margin-top:0.45rem; }
+.pf { font-family:var(--mono); font-size:0.6rem; color:var(--dim); letter-spacing:0.07em; text-transform:uppercase; margin:1.2rem 0 0.35rem; }
+
+/* FIGURES */
+.fig { margin:2.2rem 0; counter-increment:figure; }
+.fig.wide { margin-left:-0.5rem; margin-right:-0.5rem; }
+.fig-inner { background:var(--paper2); border:1px solid var(--rule); padding:1.25rem; display:flex; justify-content:center; align-items:center; }
+.fig-cap { margin-top:0.5rem; font-size:0.83rem; color:var(--dim); line-height:1.5; }
+.fig-cap b { font-family:var(--mono); font-size:0.67rem; color:var(--ink2); }
+.fig-cap b::before { content:"Figure "counter(figure)". "; }
+
+/* TABLE */
+.dtab { width:100%; border-collapse:collapse; margin:1.4rem 0; font-size:0.83rem; }
+.dtab th { font-family:var(--mono); font-size:0.6rem; letter-spacing:0.07em; text-transform:uppercase; color:var(--accent2); padding:0.45rem 0.7rem; border-bottom:2px solid var(--ink2); text-align:left; }
+.dtab td { padding:0.4rem 0.7rem; border-bottom:1px solid var(--rule); font-family:var(--mono); font-size:0.78rem; color:var(--ink2); }
+.dtab tr:hover td { background:var(--paper2); }
+.dtab td:first-child { color:var(--accent); }
+
+/* SIDENOTES */
+.sn { border-left:2px solid var(--rule); padding:0.7rem 0 0.7rem 0.9rem; margin-bottom:1.3rem; color:var(--dim); font-size:0.78rem; line-height:1.5; }
+.sn strong { font-family:var(--mono); font-size:0.67rem; color:var(--ink); display:block; margin-bottom:0.25rem; letter-spacing:0.04em; }
+.sn a { color:var(--accent2); text-decoration:none; }
+
+/* SIM SECTION */
+.sim-sec { background:var(--ink2); color:#c0c8d8; padding:4rem 3rem; }
+.sim-wrap { max-width:960px; margin:0 auto; }
+.sim-label { font-family:var(--mono); font-size:0.63rem; letter-spacing:0.14em; color:#6eb8c8; text-transform:uppercase; margin-bottom:0.4rem; }
+.sim-h { font-family:var(--serif); font-size:1.75rem; font-weight:400; color:#eef0f5; margin-bottom:0.4rem; }
+.sim-sub { font-size:0.88rem; color:#5a6080; margin-bottom:1.75rem; }
+.sim-grid { display:grid; grid-template-columns:1fr 270px; gap:1.5px; background:rgba(255,255,255,0.04); }
+.sim-canvas-wrap { background:#060810; min-height:380px; }
+canvas#sc { display:block; width:100%; height:380px; }
+.sim-panel { background:#0e1018; padding:1.4rem; display:flex; flex-direction:column; gap:1rem; }
+.ctrl label { display:flex; justify-content:space-between; font-family:var(--mono); font-size:0.6rem; color:#5a6080; letter-spacing:0.05em; text-transform:uppercase; margin-bottom:0.35rem; }
+.ctrl input[type=range] { width:100%; accent-color:#c8a96e; cursor:pointer; }
+.sim-btns { display:flex; gap:0.5rem; }
+.sb { flex:1; font-family:var(--mono); font-size:0.6rem; letter-spacing:0.07em; text-transform:uppercase; padding:0.4rem; background:transparent; border:1px solid rgba(255,255,255,0.08); color:#5a6080; cursor:pointer; transition:all .15s; }
+.sb:hover,.sb.on { border-color:#6eb8c8; color:#6eb8c8; }
+.sim-legend { font-family:var(--mono); font-size:0.57rem; color:#3a4050; line-height:1.9; border-top:1px solid rgba(255,255,255,0.04); padding-top:0.7rem; margin-top:auto; }
+.sim-legend .c1{color:#6eb8c8;} .sim-legend .c2{color:#c86e8a;} .sim-legend .c3{color:#c8a96e;}
+.sim-out { display:grid; grid-template-columns:repeat(4,1fr); gap:1.5px; background:rgba(255,255,255,0.04); }
+.out-box { background:#0e1018; padding:0.7rem 1rem; }
+.out-l { font-family:var(--mono); font-size:0.57rem; color:#3a4050; letter-spacing:0.05em; text-transform:uppercase; }
+.out-v { font-family:var(--mono); font-size:0.95rem; color:#6eb8c8; margin-top:0.15rem; }
+
+/* EXERCISE */
+.task-box { border:1px solid var(--rule); border-left:3px solid var(--accent3); background:var(--paper2); padding:1.2rem 1.4rem; margin:1.6rem 0; }
+.task-box .task-hd { font-family:var(--mono); font-size:0.6rem; letter-spacing:0.11em; text-transform:uppercase; color:var(--accent3); margin-bottom:0.55rem; }
+.task-box p { font-style:italic; font-size:0.92rem; margin-bottom:0; }
+.task-copy { font-family:var(--mono); font-size:0.6rem; letter-spacing:0.07em; text-transform:uppercase; padding:0.35rem 0.8rem; margin-top:0.9rem; background:transparent; border:1px solid var(--rule); color:var(--ink2); cursor:pointer; transition:all .15s; }
+.task-copy:hover { border-color:var(--accent3); color:var(--accent3); }
+
+/* BOOKS */
+.books { background:var(--paper3); border-top:2px solid var(--ink2); border-bottom:2px solid var(--ink2); padding:3.5rem 3rem; }
+.books-in { max-width:960px; margin:0 auto; }
+.books-hd { display:flex; justify-content:space-between; align-items:baseline; border-bottom:1px solid var(--rule); padding-bottom:0.65rem; margin-bottom:1.75rem; }
+.books-hd h2 { font-size:1.25rem; font-weight:500; }
+.books-hd a { font-family:var(--mono); font-size:0.63rem; color:var(--accent); text-decoration:none; }
+.bg { display:grid; grid-template-columns:repeat(5,1fr); gap:1.5px; background:var(--rule); margin-bottom:1.5px; }
+.bk { background:var(--paper); padding:1.1rem 0.9rem; display:flex; flex-direction:column; }
+.bk .g { font-family:var(--mono); font-size:0.58rem; color:var(--accent); letter-spacing:0.1em; margin-bottom:0.3rem; }
+.bk h4 { font-size:0.85rem; font-weight:500; margin-bottom:0.35rem; flex:1; line-height:1.3; }
+.bk p { font-size:0.72rem; color:var(--dim); line-height:1.4; margin-bottom:0.6rem; }
+.bk .isbn { font-family:var(--mono); font-size:0.56rem; color:var(--dim); margin-bottom:0.4rem; }
+.bk .pr { font-family:var(--mono); font-size:1rem; color:var(--accent); margin-bottom:0.6rem; }
+.bk a { font-family:var(--mono); font-size:0.58rem; letter-spacing:0.07em; text-transform:uppercase; padding:0.3rem 0.65rem; border:1px solid var(--rule); color:var(--ink2); text-decoration:none; display:inline-block; transition:all .15s; }
+.bk a:hover { border-color:var(--accent); color:var(--accent); }
+.bk.ft { background:var(--ink2); }
+.bk.ft .g { color:#c8a96e; } .bk.ft h4,.bk.ft { color:var(--paper); } .bk.ft p { color:#5a6080; } .bk.ft .isbn { color:#3a4050; } .bk.ft .pr { color:#c8a96e; } .bk.ft a { border-color:#c8a96e; color:#c8a96e; } .bk.ft a:hover { background:#c8a96e; color:var(--ink2); }
+.bundle { background:var(--ink2); color:var(--paper); padding:1.4rem 2rem; display:flex; justify-content:space-between; align-items:center; gap:2rem; }
+.bundle h3 { font-size:1.05rem; font-weight:400; }
+.bundle p { font-size:0.78rem; color:#5a6080; margin-top:0.2rem; }
+.bundle .bpr { font-family:var(--mono); font-size:1.7rem; color:#c8a96e; white-space:nowrap; }
+.bundle a { font-family:var(--mono); font-size:0.62rem; letter-spacing:0.08em; text-transform:uppercase; padding:0.55rem 1.3rem; border:1px solid #c8a96e; color:#c8a96e; text-decoration:none; white-space:nowrap; transition:all .15s; display:inline-block; margin-top:0.4rem; }
+.bundle a:hover { background:#c8a96e; color:var(--ink2); }
+
+/* FOOTER */
+footer { background:var(--ink2); color:#5a6080; padding:3rem; }
+.ft-grid { max-width:960px; margin:0 auto; display:grid; grid-template-columns:2fr 1fr 1fr; gap:3rem; padding-bottom:2rem; border-bottom:1px solid rgba(255,255,255,0.06); margin-bottom:1.4rem; }
+footer h4 { font-family:var(--mono); font-size:0.6rem; letter-spacing:0.12em; text-transform:uppercase; color:#c8a96e; margin-bottom:0.7rem; }
+footer p { line-height:1.75; margin-bottom:0.2rem; font-size:0.82rem; }
+footer a { color:#5a6080; text-decoration:none; display:block; margin-bottom:0.2rem; font-size:0.82rem; transition:color .15s; }
+footer a:hover { color:#c8a96e; }
+.ft-copy { max-width:960px; margin:0 auto; display:flex; justify-content:space-between; font-family:var(--mono); font-size:0.58rem; color:#2d3040; letter-spacing:0.04em; }
+
+/* FADE */
+.f { opacity:0; transform:translateY(12px); transition:opacity .6s ease,transform .6s ease; }
+.f.in { opacity:1; transform:translateY(0); }
+
+/* RESPONSIVE */
+@media(max-width:860px){ .body-wrap{grid-template-columns:1fr;} .side{position:static;} .sim-grid{grid-template-columns:1fr;} .bg{grid-template-columns:1fr 1fr;} .ft-grid{grid-template-columns:1fr;gap:1.5rem;} .bundle{flex-direction:column;} .ch-open,.toc-wrap,.body-wrap,.books,.sim-sec,.footer{padding-left:1.5rem;padding-right:1.5rem;} }
+@media(max-width:520px){ body{font-size:17px;} .bg{grid-template-columns:1fr;} .sim-out{grid-template-columns:repeat(2,1fr);} .ft-copy{flex-direction:column;gap:0.3rem;} }
+
+/* Overflow: wide equations/code scroll inside boxes */
+.eq, pre, code, .table-wrap { overflow-x:auto; }
+table { min-width:max-content; }
+.table-wrap { overflow-x:auto; }
+</style>
+</head>
+<body>
+
+<!-- RUNNING HEAD -->
+<div class="rh">
+  <span><a href="https://totogt.github.io/AXLE">Principia Orthogona</a> · G6 LLC · 2026</span>
+  <span>Chapter 2 · Extended Phase Space · <a href="ch01.html">← Ch 1</a> · <a href="ch03.html">Ch 3 →</a> · <a href="https://github.com/TOTOGT/GTCT">GitHub →</a></span>
+</div>
+
+<!-- CHAPTER OPEN -->
+<div class="ch-open">
+  <div class="ch-num">Principia Orthogona · Volume IV · Chapter 2 · Dimension Ladder · 2D+t</div>
+  <h1 class="ch-title">Extended Phase Space:<br><em>Where Time Becomes a Direction</em></h1>
+  <div class="ch-meta">
+    <div class="meta"><strong>Author</strong><br>Pablo Nogueira Grossi</div>
+    <div class="meta"><strong>Affiliation</strong><br>G6 LLC · Newark, New Jersey</div>
+    <div class="meta"><strong>Series</strong><br>Principia Orthogona, Vol. IV (GTCT T1)</div>
+    <div class="meta"><strong>Ladder Step</strong><br>2D + t = ℝ³ · contact structure born</div>
+    <div class="meta"><strong>License</strong><br>MIT · © 2026 Pablo Nogueira Grossi — G6 LLC</div>
+  </div>
+  <div class="ch-abs">
+    Chapter 1 gave us one variable evolving in time: ẋ = f(x). Now the state is a pair (x, y) with time t running alongside. The moment we stop treating t as a background clock and promote it to a third coordinate axis, the geometry of the ODE crystallises into a single differential 1-form — the contact form α = dy − f(x, y) dx, with non-integrability condition α ∧ dα ≠ 0. We trace the construction, lift the harmonic oscillator from circles to helices, and show that the operator chain G = U ∘ F ∘ K ∘ C reappears intact in the geometry of α. Everything in Books 3 and 4 lives inside this form.
+  </div>
+  <div class="toc-wrap" style="padding-left:0;padding-right:0;">
+    <h4>Contents</h4>
+    <ol class="toc">
+      <li><a href="#s1">From One Variable to Two</a></li>
+      <li><a href="#s2">Promoting Time to a Coordinate</a></li>
+      <li><a href="#s3">The Contact Form</a></li>
+      <li><a href="#s4">Why 2D+t Is Really 3D</a></li>
+      <li><a href="#s5">Worked Example: The Linear Oscillator</a></li>
+      <li><a href="#s6">Interactive Simulation</a></li>
+      <li><a href="#s7">The G-Chain in 2D+t</a></li>
+      <li><a href="#s8">Toward Chapter 3</a></li>
+      <li><a href="#s9">Exercise &amp; References</a></li>
+    </ol>
+  </div>
+</div>
+
+<!-- BODY 1 -->
+<div class="body-wrap">
+  <div class="main">
+
+    <div class="sec-num" id="s1">§ 1</div>
+    <h2 class="sec">From One Variable to Two</h2>
+    <p>In Chapter 1 the state of the system was a single number <em>x</em> ∈ ℝ. The ODE ẋ = f(x) told us how that number changed. The phase portrait was a line — a 1-dimensional picture with arrows pointing left or right depending on the sign of <em>f</em>.</p>
+    <p>Now suppose the system requires <strong>two</strong> numbers to describe its state: (x, y) ∈ ℝ². Think of a pendulum: <em>x</em> is the angle, <em>y</em> is the angular velocity. Or an electrical circuit: <em>x</em> is charge, <em>y</em> is current. The ODE becomes a pair:</p>
+
+    <div class="eq f">
+      ẋ = f(x, y) &nbsp;&nbsp;&nbsp;&nbsp; ẏ = g(x, y) <span class="cm">// System (2.1) — planar ODE</span>
+    </div>
+
+    <p>The phase portrait is now a 2-dimensional picture — the <strong>phase plane</strong>. Each point (x, y) has an arrow attached to it, pointing in the direction (f, g). A solution is a curve in this plane that is everywhere tangent to those arrows.</p>
+    <p>This is already richer than 1D. Limit cycles can exist. Spirals can wind in or out. Two fixed points can be connected by a special curve — a <em>heteroclinic orbit</em> — that takes infinite time to traverse. But we are not stopping at the phase plane. We are adding <em>t</em>.</p>
+
+    <div class="sec-num" id="s2">§ 2</div>
+    <h2 class="sec">Promoting Time to a Coordinate</h2>
+    <p>In System (2.1), time <em>t</em> is invisible. It is the parameter along the solution curves, but it does not appear as an axis. The phase plane only shows <em>where</em> the system goes, not <em>when</em>.</p>
+    <p>The <strong>extended phase space</strong> makes time visible. We add a third axis and consider the space ℝ³ with coordinates (x, y, t). A solution of System (2.1) is now a curve in this 3-dimensional space — it traces out a path (x(t), y(t), t) that moves upward in <em>t</em> as time advances.</p>
+
+    <div class="rem env f">
+      <p>The phase plane tells you the <em>shape</em> of the dynamics. The extended phase space tells you the <em>shape and the timing</em> simultaneously. Nothing is lost; everything is made explicit.</p>
+    </div>
+
+    <p>The projection of an extended-phase-space curve back onto the (x, y) plane recovers the usual phase portrait. But the lift to (x, y, t) space carries strictly more information: two solutions that pass through the same point (x₀, y₀) in the phase plane but at different times are now <em>distinct curves</em> in the extended space.</p>
+
+    <div class="fig f">
+      <div class="fig-inner">
+        <svg viewBox="0 0 640 280" width="100%" style="max-width:640px" xmlns="http://www.w3.org/2000/svg" font-family="JetBrains Mono, monospace">
+          <!-- left: phase plane -->
+          <g transform="translate(60,30)">
+            <rect x="0" y="0" width="200" height="200" fill="none" stroke="#c8c0b0"/>
+            <line x1="0" y1="100" x2="200" y2="100" stroke="#c8c0b0" stroke-dasharray="3 4"/>
+            <line x1="100" y1="0" x2="100" y2="200" stroke="#c8c0b0" stroke-dasharray="3 4"/>
+            <circle cx="100" cy="100" r="58" fill="none" stroke="#1a4d6e" stroke-width="1.8"/>
+            <polygon points="158,96 152,108 165,106" fill="#1a4d6e"/>
+            <circle cx="100" cy="42" r="3" fill="#8b3a0f"/>
+            <text x="100" y="225" font-size="10" fill="#7a7060" text-anchor="middle">phase plane (x, y) — where</text>
+          </g>
+          <!-- arrow -->
+          <g>
+            <line x1="290" y1="130" x2="345" y2="130" stroke="#8b3a0f" stroke-width="1.4"/>
+            <polygon points="345,130 336,125 336,135" fill="#8b3a0f"/>
+            <text x="318" y="118" font-size="9" fill="#8b3a0f" text-anchor="middle">lift</text>
+          </g>
+          <!-- right: extended phase space -->
+          <g transform="translate(380,20)">
+            <line x1="40" y1="220" x2="40" y2="10" stroke="#7a7060" stroke-width="1.2"/>
+            <polygon points="40,10 36,20 44,20" fill="#7a7060"/>
+            <text x="50" y="18" font-size="10" fill="#7a7060">t</text>
+            <line x1="40" y1="220" x2="200" y2="220" stroke="#c8c0b0"/>
+            <text x="206" y="224" font-size="10" fill="#7a7060">x</text>
+            <line x1="40" y1="220" x2="10" y2="248" stroke="#c8c0b0"/>
+            <text x="2" y="260" font-size="10" fill="#7a7060">y</text>
+            <path id="helix1" d="" fill="none" stroke="#1a4d6e" stroke-width="1.8"/>
+            <circle id="helixdot" cx="0" cy="0" r="3" fill="#8b3a0f" opacity="0"/>
+            <text x="120" y="252" font-size="10" fill="#7a7060" text-anchor="middle">extended phase space (x, y, t) — where and when</text>
+          </g>
+        </svg>
+      </div>
+      <div class="fig-cap"><b></b>A periodic orbit in the phase plane (left) lifts to a helix in the extended phase space (right). The projection back onto (x, y) forgets the timing; the lift remembers it.</div>
+    </div>
+
+    <div class="sec-num" id="s3">§ 3</div>
+    <h2 class="sec">The Contact Form</h2>
+    <p>Here is where the geometry becomes beautiful. A first-order ODE ẋ = f(x, y) — or equivalently dy/dx = f(x, y) — defines, at every point of the extended space (x, y, t), a <strong>preferred direction</strong>: the tangent to any solution through that point. A collection of preferred directions is called a <em>distribution</em>. We can encode this distribution as the kernel of a differential 1-form:</p>
+
+    <div class="dfn env f">
+      <p>The <strong>contact form (prototype)</strong> associated to the ODE is α = dy − f(x, y) dx. A curve γ is a solution of the ODE if and only if it is tangent to the kernel of α — that is, α(γ̇) = 0 along γ.</p>
+    </div>
+
+    <div class="eq f">
+      α = dy − f(x, y) dx <span class="cm">// solutions ⇔ α(γ̇) = 0</span>
+    </div>
+
+    <p>The 1-form α lives naturally on the 3-dimensional extended phase space (x, y, t) — or, when the ODE depends on <em>t</em>, on the jet space J⁰(ℝ, ℝ) = ℝ³. The structure it defines has a name:</p>
+
+    <div class="dfn env f">
+      <p>A <strong>contact structure</strong> on a 3-manifold M is a maximally non-integrable smooth 2-plane field ξ = ker(α), where α is a 1-form satisfying α ∧ dα ≠ 0 everywhere. The prototype: M = ℝ³, α = dy − y′ dx, where y′ = dy/dx is the slope coordinate in the 1-jet space J¹(ℝ, ℝ).</p>
+    </div>
+
+    <p>The condition α ∧ dα ≠ 0 is the <strong>non-integrability condition</strong>. It says the 2-plane field ξ cannot be tangent to any surface — not even locally. This is what makes contact geometry different from foliation theory, and what makes it the right language for ODEs: a solution touching two points of the plane field cannot "rest" in a surface between them; it must twist. That twist <em>is</em> the geometry of the ODE.</p>
+
+    <div class="sec-num" id="s4">§ 4</div>
+    <h2 class="sec">Why 2D+t Is Really 3D</h2>
+    <p>Let us be explicit about the dimension count. The state lives in ℝ² (two degrees of freedom: <em>x</em> and <em>y</em>). Time is one additional dimension. So the extended phase space is ℝ² × ℝ = ℝ³.</p>
+    <p>This is precisely the 3-dimensional contact manifold where Book 3 was set — and the arena of Chapter 10 of this volume. The helical attractor of <a href="ch10.html" style="color:var(--accent2);text-decoration:none;border-bottom:1px dotted var(--rule);">Chapter 10</a> — with its three coordinates (r, θ, z) — is the same structure: a 2-dimensional state (radius <em>r</em>, angle <em>θ</em>) evolving in a time-like direction <em>z</em>. Book 3 arrived at the contact 3-manifold from biology. Book 4 arrives at it from the ODE. Same room, two doors.</p>
+
+    <div class="rem env f">
+      <p><strong>The staircase.</strong> The dimensional ladder of this book is not an escalator — each step changes the geometry, not just the number of axes. Going from 2D to 2D+t (= 3D) introduces contact structure (this chapter, made global in Chapter 3). Going from 3D to 4D introduces the symplectic leaf. Going from 4D to 5D enters jet space J¹. Adding t again at 5D reaches the 6D arena where GTCT acts. Each transition has a name and a theorem.</p>
+    </div>
+
+    <div class="sec-num" id="s5">§ 5</div>
+    <h2 class="sec">Worked Example: The Linear Oscillator</h2>
+    <p>Take the simplest 2D system: the harmonic oscillator.</p>
+
+    <div class="eq f">
+      ẋ = y &nbsp;&nbsp;&nbsp;&nbsp; ẏ = −x <span class="cm">// System (2.2) — harmonic oscillator</span>
+    </div>
+
+    <p>In the phase plane, the solutions are circles centred at the origin: (x(t), y(t)) = (cos t, −sin t), or any rotation thereof. Every solution is periodic; there are no fixed points except (0, 0), and it is a centre — neither attracting nor repelling.</p>
+    <p>In the extended phase space (x, y, t), each circular orbit lifts to a <strong>helix</strong>: γ(t) = (cos t, −sin t, t). The helix winds around the t-axis, advancing one full turn per period 2π.</p>
+    <p>The contact certificate for this system is cleanest in the rescaled form. Along solutions, dy/dx = ẏ/ẋ = −x/y, so the prototype form is α = dy + (x/y) dx; multiplying by <em>y</em> gives the equivalent form α̃ = x dx + y dy, with the same kernel away from y = 0. The verification is one line:</p>
+
+    <div class="eq f">
+      α̃(γ̇) = x ẋ + y ẏ = x·y + y·(−x) = 0 <span class="cm">// the certificate: γ is a solution</span><br>
+      α̃ = ½ d(x² + y²) = ½ d(r²) <span class="cm">// kernel = circles of constant radius</span>
+    </div>
+
+    <p>The geometry is transparent: α̃ is half the differential of r², so its kernel consists of directions along which the radius does not change — exactly the circular orbits. The contact form is the certificate that the curve is a solution; the helical lift carries that certificate into three dimensions, where the timing of the motion becomes part of the picture.</p>
+
+  </div>
+
+  <div class="side">
+    <div class="sn f">
+      <strong>OPERATOR CHAIN</strong>
+      C → K → F → U<br>
+      Compress · Curvature · Fold · Unfold<br>
+      The contact form α is C applied to the ODE: everything inessential discarded, the constraint kept.
+    </div>
+    <div class="sn f">
+      <strong>KEY OBJECTS</strong>
+      α = dy − f(x, y) dx<br>
+      ξ = ker(α)<br>
+      α ∧ dα ≠ 0 (non-integrability)<br>
+      J¹(ℝ, ℝ) — 1-jet space<br>
+      Darboux: α = dz − y dx
+    </div>
+    <div class="sn f">
+      <strong>DIMENSION LADDER</strong>
+      1D — the ODE (Ch 1)<br>
+      2D+t = 3D — contact (here)<br>
+      4D — symplectic leaf<br>
+      5D — jet space J¹<br>
+      5D+t = 6D — GTCT arena
+    </div>
+    <div class="sn f">
+      <strong>NAVIGATION</strong>
+      <a href="ch01.html">← Ch 1 · The ODE</a><br>
+      <a href="ch03.html">Ch 3 · Contact 3-Manifold →</a><br>
+      <a href="ch10.html">Ch 10 · Helical Attractors</a><br>
+      <a href="../ch10-lyapunov.html">Book 3 · The Mini-Beast</a>
+    </div>
+  </div>
+</div>
+
+<!-- SIM -->
+<div class="sim-sec" id="s6">
+  <div class="sim-wrap">
+    <div class="sim-label">§ 6 · Interactive · Real-time Integration</div>
+    <div class="sim-h">From Circles to Helices</div>
+    <div class="sim-sub">The harmonic oscillator ẋ = y, ẏ = −x. Left: phase plane orbits. Right: their lifts to extended phase space (x, y, t). Click the left panel to seed a new orbit.</div>
+    <div class="sim-grid">
+      <div class="sim-canvas-wrap"><canvas id="sc"></canvas></div>
+      <div class="sim-panel">
+        <div class="ctrl">
+          <label><span>speed</span><span id="v-spd">1.0×</span></label>
+          <input type="range" id="spd" min="0" max="30" value="10">
+        </div>
+        <div class="ctrl">
+          <label><span>trail length</span><span id="v-trl">2.5 T</span></label>
+          <input type="range" id="trl" min="2" max="60" value="25">
+        </div>
+        <div class="ctrl">
+          <label><span>orbits N</span><span id="v-num">6</span></label>
+          <input type="range" id="num" min="1" max="14" value="6">
+        </div>
+        <div class="sim-btns">
+          <button class="sb" id="b-pause">⏸ Pause</button>
+          <button class="sb" id="b-reset">↺ Reset</button>
+        </div>
+        <div class="sim-legend">
+          <span class="c1">■</span> orbit / helical lift<br>
+          <span class="c2">■</span> seeded orbit (your click)<br>
+          <span class="c3">■</span> current state (x, y, t)
+        </div>
+      </div>
+    </div>
+    <div class="sim-out">
+      <div class="out-box"><div class="out-l">t</div><div class="out-v" id="o-t">0.00</div></div>
+      <div class="out-box"><div class="out-l">period T</div><div class="out-v">2π ≈ 6.283</div></div>
+      <div class="out-box"><div class="out-l">orbits</div><div class="out-v" id="o-n">6</div></div>
+      <div class="out-box"><div class="out-l">last seed r</div><div class="out-v" id="o-r">—</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- BODY 2 -->
+<div class="body-wrap">
+  <div class="main">
+
+    <div class="sec-num" id="s7">§ 7</div>
+    <h2 class="sec">The G-Chain in 2D+t</h2>
+    <p>The operator chain G = U ∘ F ∘ K ∘ C from Book 3 does not disappear when we add a time axis — it reappears in the geometry of the contact form.</p>
+    <p><strong>C (Compression)</strong> is the reduction to the 1-form α: from the full ODE to the kernel distribution, discarding everything except the essential constraint. <strong>K (Threshold)</strong> is the non-integrability condition α ∧ dα ≠ 0: the moment the distribution refuses to integrate into a surface — the critical curvature κ* of contact geometry. <strong>F (Fold)</strong> is the solution: the curve tangent to ker(α), building the trajectory that respects the constraint. <strong>U (Unfolding)</strong> is the projection back: from the helix in extended phase space down to the orbit in the phase plane — the visible output of the dynamics.</p>
+    <p>The same four operations that describe how a circadian clock keeps time (Book 3, Chapter 3) describe how an ODE generates its solutions in extended phase space. The contact form is the single object that makes this correspondence precise.</p>
+
+    <div class="thm env f">
+      <p><strong>Darboux's theorem (local form).</strong> Near any point of a contact 3-manifold (M, ker α), there exist local coordinates (x, y, z) such that α = dz − y dx.</p>
+    </div>
+
+    <p>The consequence is sharp: all contact 3-manifolds look the same <em>locally</em>. The only interesting geometry is global. This is why the helical attractor of <a href="ch10.html" style="color:var(--accent2);text-decoration:none;border-bottom:1px dotted var(--rule);">Chapter 10</a> is a genuinely 3-dimensional result — it is a global statement about the manifold and its Reeb dynamics, not reducible to local coordinates.</p>
+
+    <div class="sec-num" id="s8">§ 8</div>
+    <h2 class="sec">Toward Chapter 3</h2>
+    <p>We have the extended phase space ℝ³ with a contact structure. Chapter 3 makes the manifold <em>curved</em> — instead of flat ℝ³, the state space wraps into a genuine 3-manifold (the one from Book 3). The contact form gains curvature. Fixed points become Reeb orbits. The ODE becomes a flow on the manifold — the Reeb flow — and the attractor theorem, proved as a toy ODE study in Chapter 10, becomes a theorem about that flow.</p>
+    <p>We are not repeating Book 3. We are re-entering it from below, having built the floor it stands on.</p>
+
+    <div class="sec-num" id="s9">§ 9</div>
+    <h2 class="sec">Exercise &amp; References</h2>
+
+    <div class="task-box f">
+      <div class="task-hd">Student Task · Chapter 2</div>
+      <p id="task-text">Take a second 2D system of your choice (not the harmonic oscillator — try a damped oscillator, a predator-prey system, or a nonlinear pendulum). Write three paragraphs: (1) the system in the phase plane and its qualitative behaviour; (2) what its lift to extended phase space (x, y, t) looks like — describe the 3D curve geometrically; (3) what the contact form α is for this system, and verify that the lifted solution satisfies α(γ̇) = 0. Use the notation and language of this chapter.</p>
+      <button class="task-copy" id="task-copy">Copy Prompt</button>
+    </div>
+
+    <p style="margin-top:1.6rem">
+      [1] Grossi, P. N. (2026). <em>Principia Orthogona, Vol. I.</em> G6 LLC. ISBN 979-8-9954416-2-5. <a href="https://doi.org/10.5281/zenodo.19117400" style="color:var(--accent2);text-decoration:none;">doi:10.5281/zenodo.19117400</a><br>
+      [2] Grossi, P. N. (2026). <em>Principia Orthogona, Vol. II.</em> G6 LLC. ISBN 979-8-9954416-4-9. <a href="https://doi.org/10.5281/zenodo.19379473" style="color:var(--accent2);text-decoration:none;">doi:10.5281/zenodo.19379473</a><br>
+      [3] AXLE v6.1 formal verification. <a href="https://totogt.github.io/AXLE" style="color:var(--accent2);text-decoration:none;">totogt.github.io/AXLE</a> · <a href="https://github.com/TOTOGT/GTCT" style="color:var(--accent2);text-decoration:none;">github.com/TOTOGT/GTCT</a><br>
+      [4] Arnold, V. I. (1992). <em>Ordinary Differential Equations.</em> Springer.<br>
+      [5] Geiges, H. (2008). <em>An Introduction to Contact Topology.</em> Cambridge University Press.<br>
+      [6] Hartman, P. (1982). <em>Ordinary Differential Equations.</em> SIAM.
+    </p>
+
+  </div>
+
+  <div class="side">
+    <div class="sn f">
+      <strong>CHAPTER IN SERIES</strong>
+      Vol. IV (GTCT T1 — IMPA Edition). Bilingual PT/EN. Chapter 2 of the dimension ladder: the step where contact structure is born.
+    </div>
+    <div class="sn f">
+      <strong>FORWARD POINTERS</strong>
+      Ch 3 — the contact 3-manifold made global and curved.<br>
+      Ch 10 — helical attractors: the toy ODE study on this manifold.
+    </div>
+    <div class="sn f">
+      <strong>CITE THIS CHAPTER</strong>
+      Grossi, P.N. (2026). Extended Phase Space: Where Time Becomes a Direction. <em>Principia Orthogona</em>, Vol. IV. G6 LLC.
+    </div>
+  </div>
+</div>
+
+<!-- BOOKS -->
+<div class="books">
+  <div class="books-in">
+    <div class="books-hd">
+      <h2>Principia Orthogona — The Complete Series</h2>
+      <a href="https://brodanova6.gumroad.com/l/soundworks">All volumes →</a>
+    </div>
+    <div class="bg">
+      <div class="bk">
+        <div class="g">G¹ · Vol. I</div>
+        <h4>The Orthogonal Operator Framework</h4>
+        <p>Abstract operator algebra. G = U∘F∘K∘C defined and proved. Series foundation.</p>
+        <div class="isbn">979-8-9954416-2-5</div>
+        <div class="pr">$47</div>
+        <a href="https://brodanova6.gumroad.com/l/soundworks">Buy on Gumroad</a>
+      </div>
+      <div class="bk">
+        <div class="g">G² · Vol. II</div>
+        <h4>TOGT: Applications Across Domains</h4>
+        <p>Contact geometry realised across physics, biology, linguistics. g₃₃ = 33.</p>
+        <div class="isbn">979-8-9954416-4-9</div>
+        <div class="pr">$47</div>
+        <a href="https://brodanova6.gumroad.com/l/soundworks">Buy on Gumroad</a>
+      </div>
+      <div class="bk">
+        <div class="g">G³ · Vol. III · ENTRADA</div>
+        <h4>The Mini-Beast: Biological Instantiations</h4>
+        <p>C1→C2 English for researchers. The cajueiro principle. Ponto de entrada — eBook disponível.</p>
+        <div class="isbn">979-8-9954416-6-3</div>
+        <div class="pr">$19.99 eBook</div>
+        <a href="https://brodanova6.gumroad.com/l/soundworks">Buy on Gumroad →</a>
+      </div>
+      <div class="bk ft">
+        <div class="g">G⁴ · Vol. IV</div>
+        <h4>GTCT T1 — The IMPA Edition</h4>
+        <p>This volume. Bilingual EN/PT. Submitted to IMPA. Science + language from Day 21.</p>
+        <div class="isbn">Included in bundle</div>
+        <div class="pr">—</div>
+        <a href="https://brodanova6.gumroad.com/l/soundworks">Complete Series</a>
+      </div>
+      <div class="bk">
+        <div class="g">G⁵ · Vol. V + AXLE</div>
+        <h4>The Seed — Complete Completeness</h4>
+        <p>Banach Fixed Point. AXLE v6.1. 0 axioms beyond Mathlib4. Series proves itself.</p>
+        <div class="isbn">979-8-9954416-5-6</div>
+        <div class="pr">$47</div>
+        <a href="https://brodanova6.gumroad.com/l/soundworks">Buy on Gumroad</a>
+      </div>
+    </div>
+    <div class="bundle">
+      <div>
+        <h3>Complete Series — G¹ through G⁵</h3>
+        <p>Five volumes · AXLE v6.1 · Lean 4 verified · Brasil é o mercado primário</p>
+      </div>
+      <div style="text-align:right">
+        <div class="bpr">$199.99 eBook · $247 hardcover</div>
+        <a href="https://brodanova6.gumroad.com/l/soundworks">Buy on Gumroad — Vols I–VI Living Access →</a><br>
+        <a href="https://www.paypal.com/paypalme/pgrossi/213.24">Pay eBook via PayPal (incl. NJ tax) →</a>
+        <a href="https://www.paypal.com/paypalme/pgrossi/263.36">Pay Hardcover via PayPal (incl. NJ tax) →</a>
+        <a href="https://totogt.github.io/AXLE/impa-portal.html">Tax-exempt / other rate → IMPA Portal</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="ft-grid">
+    <div>
+      <h4>Principia Orthogona · Chapter 2</h4>
+      <p>Extended Phase Space — Where Time Becomes a Direction</p>
+      <p>Principia Orthogona Vol. IV · G6 LLC · Newark, NJ · 2026</p>
+      <p>© 2026 Pablo Nogueira Grossi — G6 LLC<br>MIT License · ORCID: 0009-0000-6496-2186</p>
+    </div>
+    <div>
+      <h4>Links</h4>
+      <a href="https://totogt.github.io/AXLE">Principia Orthogona →</a>
+      <a href="https://github.com/TOTOGT/GTCT">github.com/TOTOGT/GTCT →</a>
+      <a href="ch01.html">← Ch 1 · The ODE</a>
+      <a href="ch03.html">Ch 3 · Contact 3-Manifold →</a>
+      <a href="ch10.html">Ch 10 · Helical Attractors</a>
+      <a href="https://doi.org/10.5281/zenodo.19117400">Zenodo Vol. I</a>
+      <a href="https://doi.org/10.5281/zenodo.19379473">Zenodo Vol. II</a>
+      <a href="https://totogt.github.io/AXLE/portal.html">Student Portal</a>
+      <a href="https://totogt.github.io/AXLE/impa-portal.html">IMPA Portal</a>
+    </div>
+    <div>
+      <h4>Citation</h4>
+      <p style="font-family:var(--mono);font-size:0.68rem;line-height:1.8;">@incollection{grossi2026po4ch2,<br>author={Grossi, Pablo N.},<br>title={Extended Phase Space},<br>booktitle={Principia Orthogona},<br>volume={IV},year={2026},<br>publisher={G6 LLC}}</p>
+    </div>
+  </div>
+  <div class="ft-copy">
+    <span>© 2026 Pablo Nogueira Grossi — G6 LLC · MIT License</span>
+    <span>totogt.github.io/GTCT · github.com/TOTOGT/GTCT · totogt.github.io/AXLE</span>
+  </div>
+</footer>
+
+<script>
+/* ── fade-in ── */
+(function(){
+  var io = new IntersectionObserver(function(es){
+    es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.f').forEach(function(el){ io.observe(el); });
+})();
+
+/* ── Figure 1 helix path ── */
+(function(){
+  var p = document.getElementById('helix1');
+  if(!p) return;
+  var pts = [];
+  var cx = 120, base = 215, R = 55, rise = 16, ky = 0.32;
+  for(var i = 0; i <= 240; i++){
+    var th = i * 0.052;
+    var x = cx + R * Math.sin(th);
+    var y = base - th * rise / (2 * Math.PI) * 2 - R * ky * Math.cos(th);
+    pts.push((i ? 'L' : 'M') + x.toFixed(1) + ',' + y.toFixed(1));
+  }
+  p.setAttribute('d', pts.join(' '));
+  var dot = document.getElementById('helixdot');
+  var thd = 240 * 0.052;
+  dot.setAttribute('cx', (cx + R * Math.sin(thd)).toFixed(1));
+  dot.setAttribute('cy', (base - thd * rise / (2 * Math.PI) * 2 - R * ky * Math.cos(thd)).toFixed(1));
+  dot.setAttribute('opacity', '1');
+})();
+
+/* ── copy prompt ── */
+(function(){
+  var b = document.getElementById('task-copy');
+  if(!b) return;
+  b.addEventListener('click', function(){
+    var txt = document.getElementById('task-text').innerText;
+    if(navigator.clipboard){ navigator.clipboard.writeText(txt); }
+    b.textContent = 'Copied ✓';
+    setTimeout(function(){ b.textContent = 'Copy Prompt'; }, 1600);
+  });
+})();
+
+/* ── simulation: circles → helices ── */
+(function(){
+  var cv = document.getElementById('sc');
+  if(!cv) return;
+  var ctx = cv.getContext('2d');
+  var W = 0, H = 0, dpr = window.devicePixelRatio || 1;
+  function fit(){
+    W = cv.clientWidth; H = cv.clientHeight || 380;
+    cv.width = W * dpr; cv.height = H * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  window.addEventListener('resize', fit);
+
+  var TAU = Math.PI * 2;
+  var orbits = [];
+  var t = 0, speed = 1.0, trailT = 2.5 * TAU, paused = false, lastSeedR = null;
+
+  function seed(n){
+    orbits = [];
+    for(var i = 0; i < n; i++){
+      orbits.push({ A: 0.22 + 1.0 * (i + Math.random() * 0.7) / n, phi: Math.random() * TAU, seeded: false });
+    }
+  }
+
+  var elSpd = document.getElementById('spd'), elTrl = document.getElementById('trl'), elNum = document.getElementById('num');
+  var vSpd = document.getElementById('v-spd'), vTrl = document.getElementById('v-trl'), vNum = document.getElementById('v-num');
+  var oT = document.getElementById('o-t'), oN = document.getElementById('o-n'), oR = document.getElementById('o-r');
+  var bPause = document.getElementById('b-pause'), bReset = document.getElementById('b-reset');
+
+  elSpd.addEventListener('input', function(){ speed = elSpd.value / 10; vSpd.textContent = speed.toFixed(1) + '×'; });
+  elTrl.addEventListener('input', function(){ trailT = elTrl.value / 10 * TAU; vTrl.textContent = (elTrl.value / 10).toFixed(1) + ' T'; });
+  elNum.addEventListener('input', function(){ vNum.textContent = elNum.value; seed(+elNum.value); oN.textContent = orbits.length; });
+  bPause.addEventListener('click', function(){ paused = !paused; bPause.textContent = paused ? '▶ Resume' : '⏸ Pause'; bPause.classList.toggle('on', paused); });
+  bReset.addEventListener('click', function(){ t = 0; lastSeedR = null; oR.textContent = '—'; seed(+elNum.value); oN.textContent = orbits.length; });
+
+  /* geometry of the two panels */
+  function leftGeom(){ var s = Math.min(W * 0.46, H) * 0.36; return { cx: W * 0.26, cy: H * 0.5, s: s }; }
+  function rightGeom(){ return { cx: W * 0.74, top: 34, span: H - 70, s: Math.min(W * 0.46, H) * 0.20 }; }
+
+  cv.addEventListener('click', function(ev){
+    var r = cv.getBoundingClientRect();
+    var mx = ev.clientX - r.left, my = ev.clientY - r.top;
+    if(mx > W * 0.5) return;
+    var g = leftGeom();
+    var x = (mx - g.cx) / g.s, y = -(my - g.cy) / g.s;
+    var A = Math.sqrt(x * x + y * y);
+    if(A < 0.05 || A > 1.55) return;
+    /* z0 e^{-it}: at time t the angle is phi - t, so phi = angle + t */
+    orbits.push({ A: A, phi: Math.atan2(y, x) + t, seeded: true });
+    lastSeedR = A;
+    oR.textContent = A.toFixed(2);
+    oN.textContent = orbits.length;
+  });
+
+  function pos(o, tau){
+    var th = o.phi - tau;       /* clockwise rotation */
+    return { x: o.A * Math.cos(th), y: o.A * Math.sin(th) };
+  }
+
+  function draw(){
+    ctx.clearRect(0, 0, W, H);
+    var gl = leftGeom(), gr = rightGeom();
+
+    /* divider */
+    ctx.strokeStyle = 'rgba(255,255,255,0.05)';
+    ctx.beginPath(); ctx.moveTo(W * 0.5, 12); ctx.lineTo(W * 0.5, H - 12); ctx.stroke();
+
+    /* left panel: axes + unit circle */
+    ctx.strokeStyle = 'rgba(255,255,255,0.07)';
+    ctx.beginPath(); ctx.moveTo(gl.cx - gl.s * 1.5, gl.cy); ctx.lineTo(gl.cx + gl.s * 1.5, gl.cy); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(gl.cx, gl.cy - gl.s * 1.5); ctx.lineTo(gl.cx, gl.cy + gl.s * 1.5); ctx.stroke();
+    ctx.strokeStyle = 'rgba(200,169,110,0.18)';
+    ctx.setLineDash([3, 5]);
+    ctx.beginPath(); ctx.arc(gl.cx, gl.cy, gl.s, 0, TAU); ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle = 'rgba(255,255,255,0.18)';
+    ctx.font = '9px JetBrains Mono, monospace';
+    ctx.fillText('phase plane (x, y)', gl.cx - 44, H - 14);
+    ctx.fillText('extended (x, y, t)', gr.cx - 44, H - 14);
+
+    /* right panel: t-axis */
+    ctx.strokeStyle = 'rgba(255,255,255,0.07)';
+    ctx.beginPath(); ctx.moveTo(gr.cx, gr.top); ctx.lineTo(gr.cx, gr.top + gr.span); ctx.stroke();
+
+    var steps = 90;
+    orbits.forEach(function(o){
+      var col = o.seeded ? '200,110,138' : '110,184,200';
+      /* left: trail */
+      ctx.lineWidth = 1.4;
+      for(var i = 0; i < steps; i++){
+        var tau0 = t - trailT * (i + 1) / steps, tau1 = t - trailT * i / steps;
+        if(tau1 <= 0) continue;
+        if(tau0 < 0) tau0 = 0;
+        var p0 = pos(o, tau0), p1 = pos(o, tau1);
+        ctx.strokeStyle = 'rgba(' + col + ',' + (0.75 * (1 - i / steps) + 0.04).toFixed(3) + ')';
+        ctx.beginPath();
+        ctx.moveTo(gl.cx + p0.x * gl.s, gl.cy - p0.y * gl.s);
+        ctx.lineTo(gl.cx + p1.x * gl.s, gl.cy - p1.y * gl.s);
+        ctx.stroke();
+      }
+      /* left: current point */
+      var pc = pos(o, t);
+      ctx.fillStyle = '#c8a96e';
+      ctx.beginPath(); ctx.arc(gl.cx + pc.x * gl.s, gl.cy - pc.y * gl.s, 2.6, 0, TAU); ctx.fill();
+
+      /* right: helical lift over window [t - trailT, t]; newest at top */
+      for(var j = 0; j < steps; j++){
+        var ta = t - trailT * (j + 1) / steps, tb = t - trailT * j / steps;
+        if(tb <= 0) continue;
+        if(ta < 0) ta = 0;
+        var qa = pos(o, ta), qb = pos(o, tb);
+        var ya = gr.top + ((t - ta) / trailT) * gr.span;
+        var yb = gr.top + ((t - tb) / trailT) * gr.span;
+        ctx.strokeStyle = 'rgba(' + col + ',' + (0.8 * (1 - j / steps) + 0.05).toFixed(3) + ')';
+        ctx.beginPath();
+        ctx.moveTo(gr.cx + qa.x * gr.s - qa.y * gr.s * 0.35, ya - qa.y * gr.s * 0.18);
+        ctx.lineTo(gr.cx + qb.x * gr.s - qb.y * gr.s * 0.35, yb - qb.y * gr.s * 0.18);
+        ctx.stroke();
+      }
+      /* right: current point */
+      ctx.fillStyle = '#c8a96e';
+      ctx.beginPath();
+      ctx.arc(gr.cx + pc.x * gr.s - pc.y * gr.s * 0.35, gr.top - pc.y * gr.s * 0.18, 2.6, 0, TAU);
+      ctx.fill();
+    });
+  }
+
+  var last = null;
+  function loop(ts){
+    if(last === null) last = ts;
+    var dt = Math.min((ts - last) / 1000, 0.05);
+    last = ts;
+    if(!paused){ t += dt * speed * 1.6; oT.textContent = t.toFixed(2); }
+    if(W !== cv.clientWidth) fit();
+    draw();
+    requestAnimationFrame(loop);
+  }
+
+  fit();
+  seed(6);
+  requestAnimationFrame(loop);
+})();
+</script>
+
+</body>
+</html>
