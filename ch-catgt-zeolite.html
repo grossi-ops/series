@@ -140,7 +140,7 @@ footer a{color:var(--gold);text-decoration:none;}
 
   <p>Zeolites are crystalline aluminosilicate frameworks with nanometre-scale pores. They are the workhorses of the petrochemical industry: fluid catalytic cracking (FCC), methanol-to-olefins (MTO), and ethanol dehydration all run in zeolite beds. The selectivity &mdash; which products come out &mdash; was thought to be determined primarily by pore size and Brønsted acidity (the density of Al-substituted sites that donate protons).</p>
 
-  <p>Sousa et al. (2014, 2023) broke this picture. HZSM-5 (pore: 5.6 &Aring; 10-ring channels, MFI topology) and HMCM-22 (pore: 7.1 &Aring; supercage + 4.0 &Aring; 10-ring exits, MWW topology) were given the same ethanol feed under matched conditions. Similar Brønsted acidity. Different outcome: HZSM-5 produced mainly aromatics; HMCM-22 produced mainly light olefins (ethylene, propylene). The selectivity was <em>reversed</em>.</p>
+  <p>Zilacleide de Sousa et al. (2014, 2023) broke this picture. HZSM-5 (pore: 5.6 &Aring; 10-ring channels, MFI topology) and HMCM-22 (pore: 7.1 &Aring; supercage + 4.0 &Aring; 10-ring exits, MWW topology) were given the same ethanol feed under matched conditions. Similar Brønsted acidity. Different outcome: HZSM-5 produced mainly aromatics; HMCM-22 produced mainly light olefins (ethylene, propylene). The selectivity was <em>reversed</em>.</p>
 
   <div class="pull">
     "Pore-size arguments alone cannot explain the Sousa contrast. CatGT explains it as a difference in operator firing order: the same four operators fire in different sequences."
@@ -410,6 +410,30 @@ theorem dnls_norm_conservation_ideal ... := by admit</code>
   </span>
   <a href="ch-turing-morphogenesis.html" class="btn btn-gold">Turing &middot; Morphogenesis &#x2192;</a>
 </div>
+
+<!-- ACKNOWLEDGMENT -->
+<section style="background:var(--smoke);padding:3rem 2rem;">
+<div class="section-inner">
+  <div class="section-label">Acknowledgment</div>
+  <div class="def-box" style="font-size:.92rem;line-height:1.9;">
+    The empirical foundation of CatGT rests on the work of <strong>Zilacleide de Sousa</strong> and co-workers. Her 2014 study (with Cesar, Henriques, and Teixeira da Silva) and 2023 study (with Henriques) documented the reversed product distributions between HZSM-5 and HMCM-22 that pore-size arguments could not explain. That contrast is the data CatGT was built to explain. The theoretical framework — contact geometry, operator non-commutativity [K, F] ≠ 0, Lean 4 mechanisation — is Grossi's; the experimental evidence that made it necessary is Sousa's. Without her careful catalytic work, there would be nothing to theorise.
+  </div>
+</div>
+</section>
+
+<!-- REFERENCES -->
+<section style="background:var(--cream);padding:2.5rem 2rem;">
+<div class="section-inner">
+  <div class="section-label">References</div>
+  <ol style="padding-left:1.5rem;line-height:2.1;font-size:.88rem;color:var(--text);">
+    <li>Sousa, Z.S.B., Cesar, D.V., Henriques, C.A., Teixeira da Silva, V. &ldquo;Ethanol conversion over HZSM-5 and HMCM-22.&rdquo; <em>Catalysis Today</em> 234: 182&ndash;191, 2014. <a href="https://doi.org/10.1016/j.cattod.2014.03.023" style="color:var(--gold);">doi:10.1016/j.cattod.2014.03.023</a></li>
+    <li>Sousa, Z.S.B., Henriques, C.A. &ldquo;Ethanol conversion catalyzed by MCM-22 forms.&rdquo; <em>Journal of the Brazilian Chemical Society</em> 34: 1154&ndash;1167, 2023. <a href="https://doi.org/10.21577/0103-5053.20230008" style="color:var(--gold);">doi:10.21577/0103-5053.20230008</a></li>
+    <li>Grossi, P.N. &ldquo;CatGT: Catalytic Generative Theory &mdash; operator non-commutativity as the mechanistic principle of zeolite shape selectivity.&rdquo; <em>Catalysis Today</em>, submitted May 2026. Zenodo: <a href="https://doi.org/10.5281/zenodo.19117399" style="color:var(--gold);">10.5281/zenodo.19117399</a></li>
+    <li>Csicsery, S.M. &ldquo;Shape-selective catalysis in zeolites.&rdquo; <em>Zeolites</em> 4: 202&ndash;213, 1984.</li>
+    <li>Avnir, D., Farin, D., Pfeifer, P. &ldquo;Surface geometric irregularity of particulate materials: the fractal approach.&rdquo; <em>Journal of Colloid and Interface Science</em> 103: 112&ndash;123, 1985.</li>
+  </ol>
+</div>
+</section>
 
 <footer>
   G = U &#x2218; F &#x2218; K &#x2218; C &nbsp;&middot;&nbsp; Principia Orthogona G1&ndash;G9 &nbsp;&middot;&nbsp;
